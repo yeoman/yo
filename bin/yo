@@ -89,8 +89,7 @@ if (!process.env.yeoman_test && opts.insight !== false) {
     return;
   }
   // only track the two first subcommands
-  // TODO: Enable this before release
-  //insight.track.apply(insight, args.slice(0, 2));
+  insight.track.apply(insight, args.slice(0, 2));
 }
 
 // TODO: Update docs to flag `--no-update-notifier`
