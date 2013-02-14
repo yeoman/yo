@@ -27,9 +27,9 @@
     "test": "mocha test/test-*.js"
   },
   "dependencies": {
-    "yeoman-generator": "https://github.com/yeoman/generator/archive/master.tar.gz",
-    "generator-webapp": "https://github.com/yeoman/generator-webapp/archive/master.tar.gz",
-    "generator-mocha": "http://github.com/yeoman/generator-mocha/archive/master.tar.gz",
+    "yeoman-generator": "~0.10.0",
+    "generator-webapp": "~0.1.0",
+    "generator-mocha": "~0.1.0",
     "colors": "~0.6.0",
     "nopt": "~2.1.1",
     "lodash": "~1.0.0-rc.3",
