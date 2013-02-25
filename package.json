@@ -27,19 +27,19 @@
     "test": "mocha test/test-*.js"
   },
   "dependencies": {
-    "yeoman-generator": "~0.10.0",
-    "generator-webapp": "~0.1.0",
+    "yeoman-generator": "~0.10.2",
+    "generator-webapp": "~0.1.5",
     "generator-mocha": "~0.1.0",
     "colors": "~0.6.0",
     "nopt": "~2.1.1",
-    "lodash": "~1.0.0-rc.3",
+    "lodash": "~1.0.0",
     "update-notifier": "~0.1.2",
     "insight": "~0.1.0"
   },
   "devDependencies": {
     "mocha": "~1.8.1",
     "ronn": "~0.3.8",
-    "grunt": "~0.4.0rc7"
+    "grunt": "~0.4.0"
   },
   "engines": {
     "node": ">=0.8.0"
