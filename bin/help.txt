@@ -45,7 +45,7 @@ Usage: <%= 'yo'.bold.red %> <%= '<generator>'.yellow %> [arguments] [--help]
 The <%= 'webapp'.yellow %> generator is bundled, while others can be installed with <%= 'npm install <generator-name>'.bold %>
 
 Officially supported generators:
-<%= 'webapp angular ember backbone chromeapp chrome-extension bootstrap mocha jasmine testacular'.yellow %>
+<%= 'webapp angular bootstrap mocha testacular'.yellow %>
 
 See a list of all available generators with <%= 'npm search yeoman-generator'.bold %>
 
