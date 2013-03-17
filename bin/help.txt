@@ -40,7 +40,6 @@
     [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [0m [48;5;232m [48;5;232m [48;5;232m [48;5;232m [48;5;232m [48;5;232m [48;5;214m [48;5;214m [48;5;214m [48;5;232m [48;5;232m [48;5;232m [48;5;232m [48;5;232m [48;5;214m [48;5;214m [48;5;214m [48;5;232m [48;5;232m [48;5;232m [0m
     [0m
 
-Usage: <%= 'yo'.bold.red %> <%= '<generator>'.yellow %> [arguments] [--help]
 
 The <%= 'webapp'.yellow %> generator is bundled, while others can be installed with <%= 'npm install <generator-name>'.bold %>
 
@@ -48,5 +47,3 @@ Officially supported generators:
 <%= 'webapp angular bootstrap mocha testacular'.yellow %>
 
 See a list of all available generators with <%= 'npm search yeoman-generator'.bold %>
-
-Now just run <%= 'yo'.bold.red %> <%= 'webapp'.yellow %> and have a great day :)

@@ -74,7 +74,8 @@ function pre() {
   }
 
   if (!cmd) {
-    return console.log(helpScreen());
+    console.log(helpScreen());
+    opts.help = true;
   }
 
   init();
