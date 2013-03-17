@@ -48,12 +48,12 @@ function init() {
   // lookup for every namespaces, within the environments.paths and lookups
   env.lookup('*:*');
 
-  if (opts.help) {
+  if (!cmd && opts.help) {
     return console.log(env.help('yo'));
   }
 
   env.on('end', function () {
-    console.log('done running sir');
+    console.log('Done running sir');
   });
 
   env.on('error', function (err) {
