@@ -5,7 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var spawn = require('child_process').spawn;
 var assert = require('assert');
-var pkg = require(path.join(__dirname, '../package.json'));
+var pkg = require('../package.json');
 var eol = require('os').EOL;
 
 describe('bin', function () {
