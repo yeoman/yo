@@ -1,7 +1,7 @@
 {
   "name": "yo",
   "version": "1.0.0-beta.3",
-  "description": "Yo is a CLI tool for scaffolding out Yeoman projects",
+  "description": "CLI tool for scaffolding out Yeoman projects",
   "keywords": [
     "front-end",
     "development",
@@ -27,19 +27,19 @@
     "test": "mocha test/test.js"
   },
   "dependencies": {
-    "yeoman-generator": "~0.10.2",
-    "generator-webapp": "~0.1.5",
-    "generator-mocha": "~0.1.0",
+    "yeoman-generator": "~0.10.4",
+    "generator-webapp": "~0.1.6",
+    "generator-mocha": "~0.1.1",
     "colors": "~0.6.0",
     "nopt": "~2.1.1",
-    "lodash": "~1.0.0",
-    "update-notifier": "~0.1.2",
+    "lodash": "~1.1.1",
+    "update-notifier": "~0.1.3",
     "insight": "~0.1.0"
   },
   "devDependencies": {
-    "mocha": "~1.8.1",
-    "ronn": "~0.3.8",
-    "grunt": "~0.4.0"
+    "mocha": "~1.9.0",
+    "ronn": "~0.4.0",
+    "grunt": "~0.4.1"
   },
   "engines": {
     "node": ">=0.8.0"
