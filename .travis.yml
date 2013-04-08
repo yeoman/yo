@@ -1,9 +1,4 @@
 language: node_js
 node_js:
-  - 0.8
-notifications:
-  irc:
-    channels:
-      - "irc.freenode.org#yeoman"
-    template:
-      - "%{repository}: %{message} -- %{build_url}"
+  - '0.10'
+  - '0.8'
