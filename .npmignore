@@ -3,4 +3,5 @@
 .jshintrc
 .gitattributes
 test
+contributing.md
 Gruntfile.js
