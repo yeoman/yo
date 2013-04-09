@@ -41,9 +41,5 @@
     [0m
 
 
-The <%= 'webapp'.yellow %> generator is bundled, while others can be installed with <%= 'npm install <generator-name>'.bold %>
 
-Officially supported generators:
-<%= 'webapp angular backbone bbb ember chromeapp chrome-extension bootstrap mocha karma'.yellow %>
-
-See a list of all available generators with <%= 'npm search yeoman-generator'.bold %>
+See a list of all available generators with <%= 'npm search yeoman-generator'.bold %>. Install generators with <%= 'npm install <generator-name>'.bold %>
