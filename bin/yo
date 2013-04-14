@@ -10,14 +10,16 @@ var pkg = require('../package.json');
 var updateNotifier = require('update-notifier');
 var Insight = require('insight');
 
-var helpScreen = _.template(fs.readFileSync(path.join(__dirname, 'help.txt'), 'utf8'));
 var opts = nopt({
   help: Boolean
 }, {
   h: '--help'
 });
+
 var args = opts.argv.remain;
 var cmd = args[0];
+
+var helpScreen = _.template(fs.readFileSync(path.join(__dirname, 'help.txt'), 'utf8'));
 
 var insight = new Insight({
   trackingCode: 'UA-31537568-1',
@@ -74,11 +76,15 @@ function pre() {
   }
 
   if (!cmd) {
-    console.log(helpScreen());
+    console.log(helpScreen({color: opts.color}));
     opts.help = true;
   }
 
   init();
+}
+
+if (opts.color === false) {
+  colors.mode = 'none';
 }
 
 if (!process.env.yeoman_test && opts.insight !== false) {

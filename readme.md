@@ -5,6 +5,11 @@ CLI tool for scaffolding out [Yeoman](https://github.com/yeoman/yeoman) projects
 ## [Documentation](https://github.com/yeoman/yeoman/wiki)
 
 
+## Options
+
+Use the `--no-color` flag to disable colors.
+
+
 ## Contribute
 
 See the [contributing docs](https://github.com/yeoman/yeoman/blob/master/contributing.md)
