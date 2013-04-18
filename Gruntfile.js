@@ -1,7 +1,7 @@
 var util = require('util');
 var path = require('path');
 
-module.exports = function( grunt ) {
+module.exports = function (grunt) {
   'use strict';
 
   grunt.initConfig({
@@ -31,5 +31,5 @@ module.exports = function( grunt ) {
   });
 
   // Disable lint for now until we upgrade to latest grunt with latest jshint
-  grunt.registerTask( 'default', 'lint' );
+  grunt.registerTask('default', 'lint');
 };
