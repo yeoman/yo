@@ -56,10 +56,6 @@ function init() {
     return console.log(env.help('yo'));
   }
   
-  if (!cmd && opts.version) {
-    return console.log(pkg.version);
-  }
-
   env.on('end', function () {
     console.log('Done running sir');
   });
