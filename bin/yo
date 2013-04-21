@@ -11,9 +11,11 @@ var updateNotifier = require('update-notifier');
 var Insight = require('insight');
 
 var opts = nopt({
-  help: Boolean
+  help: Boolean,
+  version: Boolean
 }, {
-  h: '--help'
+  h: '--help',
+  v: '--version'
 });
 
 var args = opts.argv.remain;
@@ -52,6 +54,10 @@ function init() {
 
   if (!cmd && opts.help) {
     return console.log(env.help('yo'));
+  }
+  
+  if (!cmd && opts.version) {
+    return console.log(pkg.version);
   }
 
   env.on('end', function () {
