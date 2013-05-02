@@ -38,7 +38,7 @@
   },
   "peerDependencies": {
     "grunt-cli": "~0.1.7",
-    "bower": "~0.8.6"
+    "bower": "~0.9.2"
   },
   "devDependencies": {
     "mocha": "~1.9.0",
