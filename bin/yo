@@ -55,7 +55,7 @@ function init() {
   if (!cmd && opts.help) {
     return console.log(env.help('yo'));
   }
-  
+
   env.on('end', function () {
     console.log('Done running sir');
   });
