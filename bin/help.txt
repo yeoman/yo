@@ -41,5 +41,5 @@
     [0m
 
 <% } %>
-
-See a list of all available generators with <%= 'npm search yeoman-generator'.bold %>. Install generators with <%= 'npm install <generator-name>'.bold %>
+See a list of available generators with <%= 'npm search yeoman-generator'.bold.yellow %>
+Install generators with <%= 'npm install <generator-name>'.bold.yellow %>
