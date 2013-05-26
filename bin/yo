@@ -29,6 +29,12 @@ var insight = new Insight({
   packageVersion: pkg.version
 });
 
+if(opts.insight == false){
+  insight.config.set('optOut',true);
+} else if(opts.insight){
+  insight.config.set('optOut',false);
+}
+
 /*jshint multistr:true */
 var insightMsg = '\
 =========================================================================='.grey + '\n\
@@ -91,7 +97,7 @@ if (opts.color === false) {
 
 if (!process.env.yeoman_test && opts.insight !== false) {
   if (insight.optOut === undefined) {
-    insight.optOut = false;
+    insight.optOut = insight.config.get('optOut');
     insight.track('downloaded');
     insight.askPermission(insightMsg, pre);
     return;
