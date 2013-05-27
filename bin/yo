@@ -2,7 +2,6 @@
 'use strict';
 var fs = require('fs');
 var path = require('path');
-var execFile = require('child_process').execFile;
 var nopt = require('nopt');
 var colors = require('colors');
 var _ = require('lodash');
