@@ -28,10 +28,10 @@ var insight = new Insight({
   packageVersion: pkg.version
 });
 
-if(opts.insight === false){
-  insight.config.set('optOut',true);
-} else if(opts.insight){
-  insight.config.set('optOut',false);
+if (opts.insight === false) {
+  insight.config.set('optOut', true);
+} else if(opts.insight) {
+  insight.config.set('optOut',  false);
 }
 
 /*jshint multistr:true */
