@@ -2,7 +2,6 @@
 'use strict';
 var fs = require('fs');
 var path = require('path');
-var execFile = require('child_process').execFile;
 var nopt = require('nopt');
 var colors = require('colors');
 var _ = require('lodash');
@@ -28,6 +27,12 @@ var insight = new Insight({
   packageName: pkg.name,
   packageVersion: pkg.version
 });
+
+if (opts.insight === false) {
+  insight.config.set('optOut', true);
+} else if (opts.insight) {
+  insight.config.set('optOut', false);
+}
 
 /*jshint multistr:true */
 var insightMsg = '\
@@ -91,7 +96,7 @@ if (opts.color === false) {
 
 if (!process.env.yeoman_test && opts.insight !== false) {
   if (insight.optOut === undefined) {
-    insight.optOut = false;
+    insight.optOut = insight.config.get('optOut');
     insight.track('downloaded');
     insight.askPermission(insightMsg, pre);
     return;
