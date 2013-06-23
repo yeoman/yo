@@ -7,6 +7,7 @@ var colors = require('colors');
 var _ = require('lodash');
 var pkg = require('../package.json');
 var updateNotifier = require('update-notifier');
+var sudoBlock = require('sudo-block');
 var Insight = require('insight');
 
 var opts = nopt({
@@ -42,6 +43,15 @@ May we anonymously report usage statistics to improve the tool over time? \n\
 More info: yeoman.io/insight.html & http://yeoman.io'.yellow + '\n\
 =========================================================================='.grey;
 
+
+function rootCheck() {
+  var msg = ('Easy with the "sudo"; Yeoman is the master around here.').red + '\n\
+Since yo is a user command, there is no need to execute it with superuser \n\
+permissions. Bla, bla, learn how to set up npm correctly:\n\
+\n\
+https://gist.github.com/isaacs/579814';
+  sudoBlock({ message: msg });
+}
 
 function init() {
   var env = require('yeoman-generator')();
@@ -115,4 +125,5 @@ if (!process.env.yeoman_test && opts['update-notifier'] !== false) {
   }
 }
 
+rootCheck();
 pre();
