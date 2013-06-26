@@ -46,10 +46,13 @@ More info: yeoman.io/insight.html & http://yeoman.io'.yellow + '\n\
 
 function rootCheck() {
   var msg = ('Easy with the "sudo"; Yeoman is the master around here.').red + '\n\
-Since yo is a user command, there is no need to execute it with superuser \n\
-permissions. Bla, bla, learn how to set up npm correctly:\n\
-\n\
-https://gist.github.com/isaacs/579814';
+Since yo is a user command, there is no need to execute it with superuser\n\
+permissions. If you\'re having permission errors when using yo without sudo,\n\
+please spend a few minutes learning more about how your system should work\n\
+and make any necessary repairs.\n\n\
+http://www.joyent.com/blog/installing-node-and-npm\n\
+https://gist.github.com/isaacs/579814\n';
+
   sudoBlock({ message: msg });
 }
 
