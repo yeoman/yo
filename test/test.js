@@ -8,15 +8,6 @@ var pkg = require('../package.json');
 var eol = require('os').EOL;
 
 describe('bin', function () {
-  it('should exit with status 0 if there were no errors', function (cb) {
-    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin.yo)]);
-
-    cp.on('exit', function (code) {
-      assert.equal(code, 0);
-      cb();
-    });
-  });
-
   it('should exit with status 1 if there were errors', function (cb) {
     var cp = execFile('node', [path.join(__dirname, '../', pkg.bin.yo), 'notexisting']);
 

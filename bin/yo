@@ -70,6 +70,10 @@ function init() {
   // lookup for every namespaces, within the environments.paths and lookups
   env.lookup('*:*');
 
+  if (!cmd) {
+    return require('./yoyo')(env);
+  }
+
   if (!cmd && opts.help) {
     return console.log(env.help('yo'));
   }
