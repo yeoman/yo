@@ -1,6 +1,6 @@
 {
   "name": "yo",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-rc.1",
   "description": "CLI tool for scaffolding out Yeoman projects",
   "keywords": [
     "front-end",
@@ -27,7 +27,7 @@
     "test": "mocha"
   },
   "dependencies": {
-    "yeoman-generator": "~0.12.0",
+    "yeoman-generator": "~0.12.2",
     "colors": "~0.6.0",
     "nopt": "~2.1.1",
     "lodash": "~1.1.1",
