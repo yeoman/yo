@@ -41,5 +41,8 @@
     [0m
 
 <% } %>
-See a list of available generators with <%= 'npm search yeoman-generator'.bold.yellow %>
-Install generators with <%= 'npm install <generator-name>'.bold.yellow %>
+Yeoman is a mask worn by the following members of the open-source community:
+
+  Paul Irish, Addy Osmani, Mickael Daniel, Sindre Sorhus, Eric Bidelman,
+  Frederick Ros, Brian Ford, Pascal Hartig, Stephen Sawchuk, and countless
+  other contributors.
