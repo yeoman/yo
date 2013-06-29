@@ -3,6 +3,7 @@ var async = require('async');
 var open = require('open');
 var generator = require('yeoman-generator');
 var util = require('util');
+var path = require('path');
 
 
 // The `yo yo` generator provides users with a few common, helpful commands.
@@ -30,7 +31,10 @@ yoyo.prototype._findGenerators = function findGenerators() {
     var generatorPath = generator.resolved.replace(/(\/.*generator[^\/]*)\/.*/, '$1/package.json');
 
     return function (next) {
-      if (resolvedGenerators.indexOf(generatorPath) > -1 || !fs.existsSync(generatorPath)) {
+      var alreadyResolved = resolvedGenerators.indexOf(generatorPath) > -1;
+      var isPackageJSON = path.basename(generatorPath) === 'package.json';
+
+      if (alreadyResolved || !isPackageJSON || !fs.existsSync(generatorPath)) {
         return next();
       }
 
