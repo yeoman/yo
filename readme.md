@@ -9,7 +9,7 @@ CLI tool for scaffolding out [Yeoman](https://github.com/yeoman/yeoman) projects
 
 - `--no-color` flag to disable colors.
 
-- `--no-insight`/`--insight` to toggle anonymous [Insight](https://github.com/yeoman/insightb) tracking which helps us improve Yeoman. Using either of these flags on the first run will prevent you from being prompted about it interactively. The flags can also be used to change it later on.
+- `--no-insight`/`--insight` to toggle anonymous [Insight](https://github.com/yeoman/insight) tracking which helps us improve Yeoman. Using either of these flags on the first run will prevent you from being prompted about it interactively. The flags can also be used to change it later on.
 
 
 ## Contribute
