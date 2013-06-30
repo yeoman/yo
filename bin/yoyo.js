@@ -26,12 +26,13 @@ yoyo.prototype._findGenerators = function findGenerators() {
   var self = this;
   self.pkgs = {};
 
-  var resolvedGenerators = [];
+  // This should be a Set with ES6.
+  var resolvedGenerators = {};
   var resolveGenerators = function (generator) {
     var generatorPath = generator.resolved.replace(/(\/.*generator[^\/]*)\/.*/, '$1/package.json');
 
     return function (next) {
-      var alreadyResolved = resolvedGenerators.indexOf(generatorPath) > -1;
+      var alreadyResolved = generatorPath in resolvedGenerators;
       var isPackageJSON = path.basename(generatorPath) === 'package.json';
 
       if (alreadyResolved || !isPackageJSON || !fs.existsSync(generatorPath)) {
@@ -41,7 +42,7 @@ yoyo.prototype._findGenerators = function findGenerators() {
       var pkg = JSON.parse(self.readFileAsString(generatorPath));
       self.pkgs[pkg.name] = pkg;
 
-      resolvedGenerators.push(generatorPath);
+      resolvedGenerators[generatorPath] = true;
     };
   };
 
