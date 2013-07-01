@@ -70,14 +70,6 @@ function init() {
   // lookup for every namespaces, within the environments.paths and lookups
   env.lookup('*:*');
 
-  if (!cmd) {
-    return require('./yoyo')(env);
-  }
-
-  if (!cmd && opts.help) {
-    return console.log(env.help('yo'));
-  }
-
   env.on('end', function () {
     console.log('Done running sir');
   });
@@ -87,6 +79,17 @@ function init() {
     console.error(opts.debug ? err.stack : err.message);
     process.exit(err.code || 1);
   });
+
+  // Register the `yo yo` generator.
+  if (!cmd) {
+    env.register(require('./yoyo'), 'yo');
+    args = ['yo'];
+    opts = {};
+  }
+
+  if (!cmd && opts.help) {
+    return console.log(env.help('yo'));
+  }
 
   // Note: at some point, nopt needs to know about the generator options, the
   // one that will be triggered by the below args. Maybe the nopt parsing
