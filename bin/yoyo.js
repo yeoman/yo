@@ -70,7 +70,24 @@ yoyo.prototype.home = function home(options) {
     console.log('\n' + options.message.cyan + '\n');
   }
 
-  var generators = this._.chain(this.env.generators).map(function (generator) {
+  var defaultChoices = [{
+    name: 'Install a generator',
+    value: {
+      method: 'installGenerator'
+    }
+  }, {
+    name: 'Find some help',
+    value: {
+      method: 'findHelp'
+    }
+  }, {
+    name: 'Get me out of here!',
+    value: {
+      method: 'exit'
+    }
+  }];
+
+  var generatorList = this._.chain(this.env.generators).map(function (generator) {
     var namespace = generator.namespace;
     var prettyName;
 
@@ -87,31 +104,20 @@ yoyo.prototype.home = function home(options) {
     }
   }).compact().value();
 
-  this.prompt([{
-    name: 'whatNext',
-    type: 'list',
-    message: 'What would you like to do?',
-    choices: this._.union(generators, [{
+  if (generatorList.length) {
+    defaultChoices.unshift({
       name: 'Update your generators',
       value: {
         method: 'updateGenerators'
       }
-    }, {
-      name: 'Install a generator',
-      value: {
-        method: 'installGenerator'
-      }
-    }, {
-      name: 'Find some help',
-      value: {
-        method: 'findHelp'
-      }
-    }, {
-      name: 'Get me out of here!',
-      value: {
-        method: 'exit'
-      }
-    }])
+    });
+  }
+
+  this.prompt([{
+    name: 'whatNext',
+    type: 'list',
+    message: 'What would you like to do?',
+    choices: this._.union(generatorList, defaultChoices)
   }], function (answer) {
     this[answer.whatNext.method](answer.whatNext.args);
   }.bind(this));
