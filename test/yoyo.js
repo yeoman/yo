@@ -5,58 +5,31 @@ var helpers = require(path.join(path.dirname(require.resolve('yeoman-generator')
 var assert = require('assert');
 var env = generator();
 
-var yoyo;
-var yo;
-
-var register = function (overrideEnv) {
-  (overrideEnv || env).register(yoyo, 'yo');
-  return function () {
-    env.create('yo');
-  };
+var yoyo = require('../bin/yoyo');
+var yo = function () {
+  env.run('yo');
 };
-
-require('../bin/yoyo')({
-  register: function (fn, name) {
-    yoyo = fn;
-    yo = register();
-    return {
-      create: function (name) {}
-    };
-  }
-});
+env.register(yoyo, 'yo');
 
 function Phoenix() {
   generator.Base.apply(this, arguments);
 }
 util.inherits(Phoenix, generator.Base);
-
 env.register(Phoenix, 'phoenix:app');
 
 describe('yo yo', function () {
   afterEach(helpers.restore);
 
-  it('should find generators', function () {
-    var resolved = false;
-
-    helpers.stub(yoyo.prototype, '_findGenerators', function () {
-      resolved = true;
-    });
+  it('should find generators', function (cb) {
+    helpers.stub(yoyo.prototype, 'findGenerators', cb);
 
     yo();
-
-    assert.ok(resolved);
   });
 
-  it('should send the user to the home screen', function () {
-    var resolved = false;
-
-    helpers.stub(yoyo.prototype, 'home', function () {
-      resolved = true;
-    });
+  it('should send the user to the home screen', function (cb) {
+    helpers.stub(yoyo.prototype, 'home', cb);
 
     yo();
-
-    assert.ok(resolved);
   });
 
   describe('home', function () {
@@ -69,7 +42,7 @@ describe('yo yo', function () {
       before(function () {
         helpers.stub(yoyo.prototype, 'prompt', function (prompts) {
           prompts[0].choices.forEach(function (choice) {
-            if (choice.value.method === 'initGenerator') {
+            if (choice.value && choice.value.method === '_initGenerator') {
               choices.generators.push(choice.value.args);
             } else {
               choices.methods.push(choice.value.method);
@@ -86,23 +59,23 @@ describe('yo yo', function () {
       });
 
       it('should allow an option to exit', function () {
-        assert.ok(choices.methods.indexOf('exit') > -1);
+        assert.ok(choices.methods.indexOf('_exit') > -1);
       });
     });
   });
 
   describe('updateGenerators', function () {
     var pkgs = yoyo.prototype.pkgs;
-    yoyo.prototype.pkgs = [{
-      name: 'generator-unicorn'
-    }, {
-      name: 'generator-phoenix'
-    }];
-
     var updatedGenerators = [];
     var sentHome = false;
 
     beforeEach(function () {
+      yoyo.prototype.pkgs = [{
+        name: 'generator-unicorn'
+      }, {
+        name: 'generator-phoenix'
+      }];
+
       helpers.stub(yoyo.prototype, 'spawnCommand', function spawnCommand(cmd, args) {
         if (args) {
           updatedGenerators.push(args[args.length - 1]);
@@ -123,8 +96,7 @@ describe('yo yo', function () {
         sentHome = true;
       });
 
-      yo();
-      yoyo.prototype.updateGenerators();
+      yoyo.prototype._updateGenerators();
     });
 
     after(function () {
@@ -142,22 +114,10 @@ describe('yo yo', function () {
   });
 
   describe('initGenerator', function () {
-    var installedGenerator;
-    var fakeGenerator = 'generator-unicorn';
+    it('should .run() desired generator', function (done) {
+      helpers.stub(yoyo.prototype.env = {}, 'run', done);
 
-    before(function () {
-      helpers.stub(yoyo.prototype, 'spawnCommand', function (cmd, args) {
-        if (args) {
-          installedGenerator = args[args.length - 1];
-        }
-      });
-
-      yo();
-      yoyo.prototype.initGenerator(fakeGenerator);
-    });
-
-    it('should spawn `yo _generator_` command', function () {
-      assert.equal(installedGenerator, fakeGenerator);
+      yoyo.prototype._initGenerator();
     });
   });
 
@@ -188,8 +148,7 @@ describe('yo yo', function () {
           };
         });
 
-        yo();
-        yoyo.prototype.installGenerator(fakeGenerator);
+        yoyo.prototype._installGenerator(fakeGenerator);
       });
 
       it('should install a generator', function () {
@@ -208,7 +167,7 @@ describe('yo yo', function () {
       before(function () {
         helpers.stub(yoyo.prototype, 'home');
 
-        helpers.stub(yoyo.prototype, 'searchNpm', function () {
+        helpers.stub(yoyo.prototype, '_searchNpm', function () {
           searchNpmCalled = true;
         });
 
@@ -217,8 +176,7 @@ describe('yo yo', function () {
           callback();
         });
 
-        yo();
-        yoyo.prototype.installGenerator();
+        yoyo.prototype._installGenerator();
       });
 
       it('should prompt for a search term if argument wasn\'t supplied', function () {
@@ -284,7 +242,7 @@ describe('yo yo', function () {
 
     beforeEach(function () {
       // Pretend we have generator-unicorn installed. I mean, why wouldn't we?
-      yoyo.prototype.pkgs = { 'generator-unicorn' : 'awesome' };
+      yoyo.prototype.pkgs = { 'generator-unicorn': 'awesome' };
 
       yoyo.prototype.npmGenerators = fakeResponse;
 
@@ -310,7 +268,7 @@ describe('yo yo', function () {
         called = true;
       });
 
-      yoyo.prototype.searchNpm({
+      yoyo.prototype._searchNpm({
         searchTerm: 'unicorn'
       });
 
@@ -319,7 +277,7 @@ describe('yo yo', function () {
     });
 
     it('should prompt user with generators that match the term', function () {
-      yoyo.prototype.searchNpm({
+      yoyo.prototype._searchNpm({
         searchTerm: 'generator'
       });
 
@@ -328,7 +286,7 @@ describe('yo yo', function () {
     });
 
     it('should not show already installed generators', function () {
-      yoyo.prototype.searchNpm({
+      yoyo.prototype._searchNpm({
         searchTerm: 'unicorn'
       });
 
@@ -337,15 +295,15 @@ describe('yo yo', function () {
     });
 
     it('should allow the user to search again', function () {
-      yoyo.prototype.searchNpm({
+      yoyo.prototype._searchNpm({
         searchTerm: 'unicorn'
       });
 
-      assert.ok(choices.indexOf('installGenerator') > -1);
+      assert.ok(choices.indexOf('_installGenerator') > -1);
     });
 
     it('should allow the user to return home', function () {
-      yoyo.prototype.searchNpm({
+      yoyo.prototype._searchNpm({
         searchTerm: 'unicorn'
       });
 
@@ -361,7 +319,7 @@ describe('yo yo', function () {
         choices = prompts[0].choices;
       });
 
-      yoyo.prototype.findHelp();
+      yoyo.prototype._findHelp();
     });
 
     it('should only allow URLs and existing methods', function () {
