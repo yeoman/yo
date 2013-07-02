@@ -9,6 +9,8 @@ var path = require('path');
 // The `yo yo` generator provides users with a few common, helpful commands.
 var yoyo = module.exports = function yoyo() {
   generator.Base.apply(this, arguments);
+
+  process.on('exit', this._exit);
 };
 
 util.inherits(yoyo, generator.Base);
@@ -192,6 +194,10 @@ yoyo.prototype._exit = function _exit() {
 };
 
 
+// I'm sorry...
+yoyo.prototype._noop = function _noop() {};
+
+
 // Rolls through all of the generators provided by `env.generators`, finding
 // their `package.json` files, then storing them internally in `this.pkgs`.
 yoyo.prototype.findGenerators = function findGenerators() {
@@ -257,7 +263,7 @@ yoyo.prototype.home = function home(options) {
   }, {
     name: 'Get me out of here!',
     value: {
-      method: '_exit'
+      method: '_noop'
     }
   }];
 
