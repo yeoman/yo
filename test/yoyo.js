@@ -59,7 +59,8 @@ describe('yo yo', function () {
       });
 
       it('should allow an option to exit', function () {
-        assert.ok(choices.methods.indexOf('_exit') > -1);
+        console.log('mthoooods', choices.methods)
+        assert.ok(choices.methods.indexOf('_noop') > -1);
       });
     });
   });
