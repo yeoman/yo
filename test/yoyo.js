@@ -40,6 +40,13 @@ describe('yo yo', function () {
       };
 
       before(function () {
+        yoyo.prototype.pkgs = {
+          phoenix: {
+            version: '0.0.0',
+            namespace: 'phoenix:app'
+          }
+        };
+        helpers.stub(yoyo.prototype, 'findGenerators');
         helpers.stub(yoyo.prototype, 'prompt', function (prompts) {
           prompts[0].choices.forEach(function (choice) {
             if (choice.value && choice.value.method === '_initGenerator') {

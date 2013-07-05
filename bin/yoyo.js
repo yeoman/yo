@@ -218,6 +218,7 @@ yoyo.prototype.findGenerators = function findGenerators() {
       }
 
       var pkg = JSON.parse(self.readFileAsString(generatorPath));
+      pkg.namespace = generator.namespace;
       self.pkgs[pkg.name] = pkg;
 
       resolvedGenerators[generatorPath] = true;
@@ -267,7 +268,7 @@ yoyo.prototype.home = function home(options) {
     }
   }];
 
-  var generatorList = this._.chain(this.env.generators).map(function (generator) {
+  var generatorList = this._.chain(this.pkgs).map(function (generator) {
     var namespace = generator.namespace;
     var prettyName;
 
@@ -275,7 +276,7 @@ yoyo.prototype.home = function home(options) {
       prettyName = namespace.replace(':app', '');
       prettyName = prettyName.charAt(0).toUpperCase() + prettyName.slice(1);
       return {
-        name: 'Run the ' + prettyName + ' generator',
+        name: 'Run the ' + prettyName + ' generator ' + ('(' + generator.version + ')').grey,
         value: {
           method: '_initGenerator',
           args: namespace
