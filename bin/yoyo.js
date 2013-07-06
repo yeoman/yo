@@ -10,7 +10,7 @@ var path = require('path');
 var yoyo = module.exports = function yoyo() {
   generator.Base.apply(this, arguments);
 
-  process.on('exit', this._exit);
+  process.once('exit', this._exit);
 };
 
 util.inherits(yoyo, generator.Base);
