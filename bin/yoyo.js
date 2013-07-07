@@ -90,8 +90,11 @@ yoyo.prototype._findAllNpmGenerators = function _findAllNpmGenerators(term, cb) 
     if (err) {
       return this.emit('error', err);
     }
-
-    this.npmGenerators = JSON.parse(body);
+    try {
+      this.npmGenerators = JSON.parse(body);
+    } catch (err) {
+      return this.emit('error', new Error('A problem occurred contacting the registry.\n Unable to parse response: not valid JSON.'.bold));
+    }
     cb(term);
   }.bind(this));
 };
