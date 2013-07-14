@@ -43,6 +43,7 @@ describe('yo yo', function () {
         yoyo.prototype.pkgs = {
           phoenix: {
             version: '0.0.0',
+            appGenerator: true,
             namespace: 'phoenix:app'
           }
         };
