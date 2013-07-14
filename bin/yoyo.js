@@ -4,6 +4,7 @@ var open = require('open');
 var generator = require('yeoman-generator');
 var util = require('util');
 var path = require('path');
+var updateNotifier = require('update-notifier');
 
 
 // The `yo yo` generator provides users with a few common, helpful commands.
@@ -207,6 +208,8 @@ yoyo.prototype.findGenerators = function findGenerators() {
   var self = this;
   self.pkgs = {};
 
+  var done = this.async();
+
   // This should be a Set with ES6.
   var resolvedGenerators = {};
   var resolveGenerators = function (generator) {
@@ -221,10 +224,27 @@ yoyo.prototype.findGenerators = function findGenerators() {
       }
 
       var pkg = JSON.parse(self.readFileAsString(generatorPath));
-      pkg.namespace = generator.namespace;
+
+      if (/[app|all]/.test(generator.namespace)) {
+        pkg.appGenerator = true;
+        pkg.prettyName = generator.namespace.replace(/(\w+):\w+/, '$1');
+        pkg.prettyName = pkg.prettyName.charAt(0).toUpperCase() + pkg.prettyName.slice(1);
+
+        pkg.update = updateNotifier({
+          packageName: pkg.name,
+          packageVersion: pkg.version
+        }).update;
+
+        if (pkg.update && pkg.version !== pkg.update.latest) {
+          pkg.updateAvailable = true;
+        }
+      }
+
       self.pkgs[pkg.name] = pkg;
 
       resolvedGenerators[generatorPath] = true;
+
+      next();
     };
   };
 
@@ -232,6 +252,8 @@ yoyo.prototype.findGenerators = function findGenerators() {
     if (err) {
       return self.emit('error', err);
     }
+
+    done();
   });
 };
 
@@ -272,20 +294,23 @@ yoyo.prototype.home = function home(options) {
   }];
 
   var generatorList = this._.chain(this.pkgs).map(function (generator) {
-    var namespace = generator.namespace;
-    var prettyName;
-
-    if (namespace.substr(-4) === ':app') {
-      prettyName = namespace.replace(':app', '');
-      prettyName = prettyName.charAt(0).toUpperCase() + prettyName.slice(1);
-      return {
-        name: 'Run the ' + prettyName + ' generator ' + ('(' + generator.version + ')').grey,
-        value: {
-          method: '_initGenerator',
-          args: namespace
-        }
-      };
+    if (!generator.appGenerator) {
+      return;
     }
+
+    var versionInfo = ('(' + generator.version + ')').grey;
+
+    if (generator.updateAvailable) {
+      versionInfo += ' Update Available! '.yellow + ('(' + generator.update.latest + ')').red;
+    }
+
+    return {
+      name: 'Run the ' + generator.prettyName + ' generator ' + versionInfo,
+      value: {
+        method: '_initGenerator',
+        args: generator.namespace
+      }
+    };
   }).compact().value();
 
   if (generatorList.length) {
