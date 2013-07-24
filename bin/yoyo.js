@@ -285,7 +285,7 @@ yoyo.prototype.home = function home(options) {
     this.env.lookup('*:*');
   }
 
-  if (options.message ) {
+  if (options.message) {
     console.log('\n' + options.message.cyan + '\n');
   }
 
