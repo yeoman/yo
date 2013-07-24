@@ -123,9 +123,14 @@ describe('yo yo', function () {
 
   describe('initGenerator', function () {
     it('should .run() desired generator', function (done) {
-      helpers.stub(yoyo.prototype.env = {}, 'run', done);
+      var fakeGenerator = 'generator-phoenix';
 
-      yoyo.prototype._initGenerator();
+      helpers.stub(yoyo.prototype.env = {}, 'run', function (generator, done) {
+        assert.equal(generator, fakeGenerator);
+        done();
+      });
+
+      yoyo.prototype._initGenerator(fakeGenerator, done);
     });
   });
 
