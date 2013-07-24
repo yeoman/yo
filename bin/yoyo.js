@@ -35,7 +35,11 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
     }
 
     self.home({
-      message: 'You\'re all set! Is there anything else I can get you?'
+      message:
+        'I\'ve just updated all of your generators. Remember, you can update'
+        + '\na specific generator with npm by running:'
+        + '\n'
+        + '\n    npm update -g generator-_______'.magenta
     });
   });
 };
@@ -45,11 +49,15 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
 //
 // - generator - (string) The generator to initialize.
 yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
-  console.log((
-    '\nBefore you create a new application, be sure you are running this command'
-    + '\nfrom the directory you wish your application to be dropped into.'
+  console.log(
+    ('\nBefore you create a new application, be sure you are in the directory you'
+    + '\nwish your application to be dropped into.'
     + '\n'
-  ).yellow);
+    + '\nYou may also run the following command to initiate this generator:'
+    + '\n').yellow
+    + ('\n    yo ' + generator.split(':')[0]).magenta
+    + '\n'
+  );
 
   this.env.run(generator, done);
 };
@@ -68,7 +76,11 @@ yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
       }.bind(this))
       .on('exit', function () {
         this.home({
-          refresh: true
+          refresh: true,
+          message:
+            '\nI just used npm to run:'
+            + '\n'
+            + ('\n    npm install -g ' + pkgName).magenta
         });
       }.bind(this));
   }
@@ -272,7 +284,7 @@ yoyo.prototype.home = function home(options) {
     return this.spawnCommand('yo');
   }
 
-  if (options.message) {
+  if (options.message ) {
     console.log('\n' + options.message.cyan + '\n');
   }
 
