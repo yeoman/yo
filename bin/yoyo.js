@@ -281,7 +281,7 @@ yoyo.prototype.home = function home(options) {
   options = options || {};
 
   if (options.refresh) {
-    return this.spawnCommand('yo');
+    this.env.lookup('*:*');
   }
 
   if (options.message ) {
