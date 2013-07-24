@@ -236,6 +236,7 @@ yoyo.prototype.findGenerators = function findGenerators() {
       }
 
       var pkg = JSON.parse(self.readFileAsString(generatorPath));
+      pkg.namespace = generator.namespace;
 
       if (/[app|all]/.test(generator.namespace)) {
         pkg.appGenerator = true;
