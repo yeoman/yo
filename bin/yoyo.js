@@ -78,7 +78,7 @@ yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
         this.home({
           refresh: true,
           message:
-            '\nI just used npm to run:'
+            '\nI just installed your generator by running:'
             + '\n'
             + ('\n    npm install -g ' + pkgName).magenta
         });
