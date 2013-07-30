@@ -21,7 +21,7 @@ var opts = nopt({
 var args = opts.argv.remain;
 var cmd = args[0];
 
-var helpScreen = _.template(fs.readFileSync(path.join(__dirname, 'help.txt'), 'utf8'));
+var intro = _.template(fs.readFileSync(path.join(__dirname, 'help.txt'), 'utf8'));
 
 var insight = new Insight({
   trackingCode: 'UA-31537568-1',
@@ -80,12 +80,12 @@ function init() {
     process.exit(err.code || 1);
   });
 
-  if (!cmd && opts.help) {
-    return console.log(env.help('yo'));
-  }
-
   // Register the `yo yo` generator.
   if (!cmd) {
+    if (opts.help) {
+      return console.log(env.help('yo'));
+    }
+
     env.register(require('./yoyo'), 'yo');
     args = ['yo'];
     opts = {};
@@ -103,8 +103,7 @@ function pre() {
   }
 
   if (!cmd) {
-    console.log(helpScreen({color: opts.color}));
-    opts.help = true;
+    console.log(intro({ color: opts.color }));
   }
 
   init();
