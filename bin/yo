@@ -3,7 +3,7 @@
 var fs = require('fs');
 var path = require('path');
 var nopt = require('nopt');
-var colors = require('colors');
+var chalk = require('chalk');
 var _ = require('lodash');
 var pkg = require('../package.json');
 var updateNotifier = require('update-notifier');
@@ -36,16 +36,16 @@ if (opts.insight === false) {
 }
 
 /*jshint multistr:true */
-var insightMsg = '\
-=========================================================================='.grey + '\n\
-We\'re constantly looking for ways to make '.yellow + pkg.name.bold.red + ' better! \n\
+var insightMsg = chalk.gray('\
+==========================================================================') + chalk.yellow('\n\
+We\'re constantly looking for ways to make ') + chalk.bold.red(pkg.name) + chalk.yellow(' better! \n\
 May we anonymously report usage statistics to improve the tool over time? \n\
-More info: yeoman.io/insight.html & http://yeoman.io'.yellow + '\n\
-=========================================================================='.grey;
+More info: yeoman.io/insight.html & http://yeoman.io') + chalk.gray('\n\
+==========================================================================');
 
 
 function rootCheck() {
-  var msg = ('Easy with the "sudo"; Yeoman is the master around here.').red + '\n\
+  var msg = chalk.red('Easy with the "sudo"; Yeoman is the master around here.') + '\n\
 Since yo is a user command, there is no need to execute it with superuser\n\
 permissions. If you\'re having permission errors when using yo without sudo,\n\
 please spend a few minutes learning more about how your system should work\n\
@@ -103,14 +103,10 @@ function pre() {
   }
 
   if (!cmd) {
-    console.log(intro({ color: opts.color }));
+    console.log(intro({ supportsColor: chalk.supportsColor }));
   }
 
   init();
-}
-
-if (opts.color === false) {
-  colors.mode = 'none';
 }
 
 if (!process.env.yeoman_test && opts.insight !== false) {
