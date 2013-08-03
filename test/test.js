@@ -49,7 +49,7 @@ describe('bin', function () {
   });
 
   it('should return the version', function (cb) {
-    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin.yo), '--version', '--no-insight']);
+    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin.yo), '--version', '--no-insight', '--no-update-notifier']);
     var expected = pkg.version + eol;
 
     cp.stdout.on('data', function (data) {
