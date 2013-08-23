@@ -40,7 +40,7 @@ var insightMsg = chalk.gray('\
 ==========================================================================') + chalk.yellow('\n\
 We\'re constantly looking for ways to make ') + chalk.bold.red(pkg.name) + chalk.yellow(' better! \n\
 May we anonymously report usage statistics to improve the tool over time? \n\
-More info: yeoman.io/insight.html & http://yeoman.io') + chalk.gray('\n\
+More info: https://github.com/yeoman/insight & http://yeoman.io') + chalk.gray('\n\
 ==========================================================================');
 
 
