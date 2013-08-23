@@ -1,3 +1,4 @@
+/*jshint multiline:true */
 var fs = require('fs');
 var async = require('async');
 var open = require('open');
@@ -40,7 +41,7 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
         'I\'ve just updated all of your generators. Remember, you can update'
         + '\na specific generator with npm by running:'
         + '\n'
-        + '\n    npm update -g generator-_______'.magenta
+        + chalk.magenta('\n    npm update -g generator-_______')
     });
   });
 };
@@ -81,7 +82,7 @@ yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
           message:
             '\nI just installed your generator by running:'
             + '\n'
-            + ('\n    npm install -g ' + pkgName).magenta
+            + chalk.magenta('\n    npm install -g ' + pkgName)
         });
       }.bind(this));
   }
@@ -107,7 +108,7 @@ yoyo.prototype._findAllNpmGenerators = function _findAllNpmGenerators(term, cb) 
     try {
       this.npmGenerators = JSON.parse(body);
     } catch (err) {
-      return this.emit('error', new Error('A problem occurred contacting the registry.\n Unable to parse response: not valid JSON.'.bold));
+      return this.emit('error', new Error(chalk.bold('A problem occurred contacting the registry.\n Unable to parse response: not valid JSON.')));
     }
     cb(term);
   }.bind(this));
