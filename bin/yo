@@ -86,7 +86,7 @@ function init() {
       return console.log(env.help('yo'));
     }
 
-    env.register(require('./yoyo'), 'yo');
+    env.register(path.resolve(__dirname, './yoyo'), 'yo');
     args = ['yo'];
     opts = {};
   }
