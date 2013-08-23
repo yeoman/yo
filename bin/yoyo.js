@@ -312,10 +312,10 @@ yoyo.prototype.home = function home(options) {
       return;
     }
 
-    var versionInfo = ('(' + generator.version + ')').grey;
+    var versionInfo = chalk.gray('(' + generator.version + ')');
 
     if (generator.updateAvailable) {
-      versionInfo += ' Update Available! '.yellow + ('(' + generator.update.latest + ')').red;
+      versionInfo += chalk.yellow(' Update Available! ') + chalk.red('(' + generator.update.latest + ')');
     }
 
     return {
