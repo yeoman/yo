@@ -5,6 +5,7 @@ var generator = require('yeoman-generator');
 var util = require('util');
 var path = require('path');
 var updateNotifier = require('update-notifier');
+var chalk = require('chalk');
 
 
 // The `yo yo` generator provides users with a few common, helpful commands.
@@ -50,12 +51,12 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
 // - generator - (string) The generator to initialize.
 yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
   console.log(
-    ('\nBefore you create a new application, be sure you are in the directory you'
+    chalk.yellow('\nBefore you create a new application, be sure you are in the directory you'
     + '\nwish your application to be dropped into.'
     + '\n'
     + '\nYou may also run the following command to initiate this generator:'
-    + '\n').yellow
-    + ('\n    yo ' + generator.split(':')[0]).magenta
+    + '\n')
+    + chalk.magenta('\n    yo ' + generator.split(':')[0])
     + '\n'
   );
 
@@ -197,15 +198,15 @@ yoyo.prototype._exit = function _exit() {
   console.log(
       '\nBye from us! Chat soon.'
     + '\n'
-    + '\n            Add' + 'y'.red.bold + ' Osmani'
-    + '\n          Sindr' + 'e'.red.bold + ' Sorhus'
-    + '\n        Brian F' + 'o'.red.bold + 'rd'
-    + '\n     Eric Bidel' + 'm'.red.bold + 'an'
-    + '\n              P' + 'a'.red.bold + 'ul Irish'
-    + '\n     Mickael Da' + 'n'.red.bold + 'iel'
-    + '\n          Pasca' + '1'.yellow.bold + ' Hartig'
-    + '\n      Stephen S' + '.'.cyan.bold + 'wchuk'
-    + '\n    Frederick R' + '0'.yellow.bold + 's'
+    + '\n            Add' + chalk.red.bold('y') + ' Osmani'
+    + '\n          Sindr' + chalk.red.bold('e') + ' Sorhus'
+    + '\n        Brian F' + chalk.red.bold('o') + 'rd'
+    + '\n     Eric Bidel' + chalk.red.bold('m') + 'an'
+    + '\n              P' + chalk.red.bold('a') + 'ul Irish'
+    + '\n     Mickael Da' + chalk.red.bold('n') + 'iel'
+    + '\n          Pasca' + chalk.yellow.bold('1') + ' Hartig'
+    + '\n      Stephen S' + chalk.cyan.bold('.') + 'wchuk'
+    + '\n    Frederick R' + chalk.yellow.bold('0') + 's'
     + '\n');
 };
 
@@ -286,7 +287,7 @@ yoyo.prototype.home = function home(options) {
   }
 
   if (options.message) {
-    console.log('\n' + options.message.cyan + '\n');
+    console.log('\n' + chalk.cyan(options.message) + '\n');
   }
 
   var defaultChoices = [{
