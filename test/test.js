@@ -3,6 +3,7 @@
 var fs = require('fs');
 var path = require('path');
 var execFile = require('child_process').execFile;
+var spawn = require('child_process').spawn;
 var assert = require('assert');
 var pkg = require('../package.json');
 var eol = require('os').EOL;
@@ -31,20 +32,11 @@ describe('bin', function () {
     });
 
     it('should exit with status 1 if there were errors', function (cb) {
-      var called = false;
-      process.exit = function (arg) {
-        if (called) {
-          // Exit can be called more than once.
-          return;
-        }
-
-        called = true;
-        assert(arg, 1, 'exit code should be 1');
+      var proc = spawn('node', [path.join(__dirname, '../', pkg.bin.yo), 'notexisting']);
+      proc.on('exit', function (code) {
+        assert(code, 1, 'exit code should be 1');
         cb();
-      };
-      process.argv = ['node', path.join(__dirname, '../', pkg.bin.yo), 'notexisting'];
-      this.env.lookup = function () { /* noop */ };
-      require('../bin/yo');
+      });
     });
   });
 
