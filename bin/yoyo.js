@@ -227,8 +227,10 @@ yoyo.prototype.findGenerators = function findGenerators() {
   // This should be a Set with ES6.
   var resolvedGenerators = {};
   var resolveGenerators = function (generator) {
-    var generatorPath = generator.resolved.replace(/(\/.*generator[^\/]*)\/.*/, '$1/package.json');
-
+	
+	  var regexp = !!process.platform.match(/^win/) ? /(\\.*generator-angular[^\\]*)\\.*/ : /(\/.*generator[^\/]*)\/.*/;
+	  var generatorPath = generator.resolved.replace(regexp, '$1/package.json');
+	
     return function (next) {
       var alreadyResolved = generatorPath in resolvedGenerators;
       var isPackageJSON = path.basename(generatorPath) === 'package.json';
