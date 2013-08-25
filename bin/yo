@@ -88,7 +88,8 @@ function init() {
 
     env.register(path.resolve(__dirname, './yoyo'), 'yo');
     args = ['yo'];
-    opts = {};
+    // make the insight instance available in `yoyo`
+    opts = { insight: insight };
   }
 
   // Note: at some point, nopt needs to know about the generator options, the
