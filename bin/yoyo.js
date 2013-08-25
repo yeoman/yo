@@ -10,10 +10,12 @@ var chalk = require('chalk');
 
 
 // The `yo yo` generator provides users with a few common, helpful commands.
-var yoyo = module.exports = function yoyo() {
+var yoyo = module.exports = function yoyo(args, options) {
   generator.Base.apply(this, arguments);
+  this.insight = options.insight;
 
-  process.once('exit', this._exit);
+  this.insight.track('yoyo', 'init');
+  process.once('exit', this._exit.bind(this));
 };
 
 util.inherits(yoyo, generator.Base);
@@ -31,11 +33,14 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
     };
   };
 
+  this.insight.track('yoyo', 'update');
   async.parallel(self._.map(self.pkgs, resolveGenerators), function (err) {
     if (err) {
+      this.insight.track('yoyo:err', 'update');
       return self.emit('error', err);
     }
 
+    this.insight.track('yoyo', 'updated');
     self.home({
       message:
         'I\'ve just updated all of your generators. Remember, you can update'
@@ -43,7 +48,7 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
         + '\n'
         + chalk.magenta('\n    npm update -g generator-_______')
     });
-  });
+  }.bind(this));
 };
 
 
@@ -61,6 +66,7 @@ yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
     + '\n'
   );
 
+  this.insight.track('yoyo', 'run', generator);
   this.env.run(generator, done);
 };
 
@@ -71,12 +77,15 @@ yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
 // - pkgName - (optional) A string that matches the NPM package name.
 yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
   if (this._.isString(pkgName)) {
+    this.insight.track('yoyo', 'install', pkgName);
     // We know what generator we want to install
     return this.spawnCommand('npm', ['install', '-g', pkgName])
       .on('error', function (err) {
+        this.insight.track('yoyo:err', 'install', pkgName);
         this.emit('error', err);
       }.bind(this))
       .on('exit', function () {
+        this.insight.track('yoyo', 'installed', pkgName);
         this.home({
           refresh: true,
           message:
@@ -87,6 +96,7 @@ yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
       }.bind(this));
   }
 
+  this.insight.track('yoyo', 'install');
   this.prompt([{
     name: 'searchTerm',
     message: 'Search NPM for generators'
@@ -161,6 +171,7 @@ yoyo.prototype._searchNpm = function _searchNpm(term) {
 
 // Prompts user with a few helpful resources, then opens it in their browser.
 yoyo.prototype._findHelp = function _findHelp() {
+  this.insight.track('yoyo', 'help');
   this.prompt([{
     name: 'whereTo',
     type: 'list',
@@ -185,6 +196,7 @@ yoyo.prototype._findHelp = function _findHelp() {
       }
     }]
   }], function (answer) {
+    this.insight.track('yoyo', 'help', answer);
     if (this._.isFunction(this[answer.whereTo.method])) {
       this[answer.whereTo.method](answer.whereTo.args);
     } else {
@@ -196,6 +208,7 @@ yoyo.prototype._findHelp = function _findHelp() {
 
 // Serves as a quick escape from the `yo yo` prompts.
 yoyo.prototype._exit = function _exit() {
+  this.insight.track('yoyo', 'exit');
   console.log(
       '\nBye from us! Chat soon.'
     + '\n'
@@ -337,6 +350,7 @@ yoyo.prototype.home = function home(options) {
     });
   }
 
+  this.insight.track('yoyo', 'home');
   this.prompt([{
     name: 'whatNext',
     type: 'list',
