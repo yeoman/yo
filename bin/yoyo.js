@@ -311,6 +311,7 @@ yoyo.prototype.home = function home(options) {
 
   if (options.refresh) {
     this.env.lookup('*:*');
+    this.findGenerators();
   }
 
   if (options.message) {
