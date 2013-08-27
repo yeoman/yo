@@ -1,6 +1,6 @@
 {
   "name": "yo",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CLI tool for scaffolding out Yeoman projects",
   "keywords": [
     "front-end",
