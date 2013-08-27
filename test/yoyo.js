@@ -56,10 +56,12 @@ describe('yo yo', function () {
         helpers.stub(yoyo.prototype, 'findGenerators');
         helpers.stub(yoyo.prototype, 'prompt', function (prompts) {
           prompts[0].choices.forEach(function (choice) {
-            if (choice.value && choice.value.method === '_initGenerator') {
-              choices.generators.push(choice.value.args);
-            } else {
-              choices.methods.push(choice.value.method);
+            if (choice.value && choice.value.method) {
+              if (choice.value.method === '_initGenerator') {
+                choices.generators.push(choice.value.args);
+              } else {
+                choices.methods.push(choice.value.method);
+              }
             }
           });
         });
