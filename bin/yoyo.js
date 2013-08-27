@@ -368,7 +368,7 @@ yoyo.prototype.home = function home(options) {
     name: 'whatNext',
     type: 'list',
     message: 'What would you like to do?',
-    choices: this._.union(generatorList, defaultChoices)
+    choices: this._.union(generatorList, new generator.inquirer.Separator(), defaultChoices)
   }], function (answer) {
     this[answer.whatNext.method](answer.whatNext.args, done);
   }.bind(this));
