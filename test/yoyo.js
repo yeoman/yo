@@ -5,11 +5,15 @@ var helpers = require(path.join(path.dirname(require.resolve('yeoman-generator')
 var assert = require('assert');
 var env = generator();
 
-var insightStub = { track: function() {} };
+var insightStub = {
+  track: function () {}
+};
 
 var yoyo = require('../bin/yoyo');
 var yo = function () {
-  env.run('yo', { insight: insightStub } );
+  env.run('yo', {
+    insight: insightStub
+  });
 };
 env.register(yoyo, 'yo');
 
@@ -85,6 +89,7 @@ describe('yo yo', function () {
       }, {
         name: 'generator-phoenix'
       }];
+
       yoyo.prototype.insight = insightStub;
 
       helpers.stub(yoyo.prototype, 'spawnCommand', function spawnCommand(cmd, args) {

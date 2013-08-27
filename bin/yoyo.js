@@ -33,14 +33,14 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
     };
   };
 
-  this.insight.track('yoyo', 'update');
+  self.insight.track('yoyo', 'update');
   async.parallel(self._.map(self.pkgs, resolveGenerators), function (err) {
     if (err) {
-      this.insight.track('yoyo:err', 'update');
+      self.insight.track('yoyo:err', 'update');
       return self.emit('error', err);
     }
 
-    this.insight.track('yoyo', 'updated');
+    self.insight.track('yoyo', 'updated');
     self.home({
       message:
         'I\'ve just updated all of your generators. Remember, you can update'
@@ -48,7 +48,7 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
         + '\n'
         + chalk.magenta('\n    npm update -g generator-_______')
     });
-  }.bind(this));
+  });
 };
 
 
@@ -78,6 +78,7 @@ yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
 yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
   if (this._.isString(pkgName)) {
     this.insight.track('yoyo', 'install', pkgName);
+
     // We know what generator we want to install
     return this.spawnCommand('npm', ['install', '-g', pkgName])
       .on('error', function (err) {
@@ -97,6 +98,7 @@ yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
   }
 
   this.insight.track('yoyo', 'install');
+
   this.prompt([{
     name: 'searchTerm',
     message: 'Search NPM for generators'
@@ -115,11 +117,16 @@ yoyo.prototype._findAllNpmGenerators = function _findAllNpmGenerators(term, cb) 
     if (err) {
       return this.emit('error', err);
     }
+
     try {
       this.npmGenerators = JSON.parse(body);
     } catch (err) {
-      return this.emit('error', new Error(chalk.bold('A problem occurred contacting the registry.\n Unable to parse response: not valid JSON.')));
+      return this.emit('error', new Error(chalk.bold(
+        'A problem occurred contacting the registry.'
+        + '\nUnable to parse response: not valid JSON.'
+      )));
     }
+
     cb(term);
   }.bind(this));
 };
@@ -149,7 +156,9 @@ yoyo.prototype._searchNpm = function _searchNpm(term) {
   var resultsPrompt = [{
     name: '_installGenerator',
     type: 'list',
-    message: choices.length > 0 ? 'Here\'s what I found. Install one?' : 'Sorry, nothing was found',
+    message: choices.length > 0
+      ? 'Here\'s what I found. Install one?'
+      : 'Sorry, nothing was found',
     choices: this._.union(choices, {
       name: 'Search again',
       value: '_installGenerator'
@@ -175,8 +184,10 @@ yoyo.prototype._findHelp = function _findHelp() {
   this.prompt([{
     name: 'whereTo',
     type: 'list',
-    message: 'Here are a few helpful resources.'
-      + '\n\nI will open the link you select in your browser for you',
+    message:
+      'Here are a few helpful resources.'
+      + '\n'
+      + '\nI will open the link you select in your browser for you',
     choices: [{
       name: 'Take me to the documentation',
       value: 'https://github.com/yeoman/yeoman/wiki'
@@ -197,6 +208,7 @@ yoyo.prototype._findHelp = function _findHelp() {
     }]
   }], function (answer) {
     this.insight.track('yoyo', 'help', answer);
+
     if (this._.isFunction(this[answer.whereTo.method])) {
       this[answer.whereTo.method](answer.whereTo.args);
     } else {
@@ -209,6 +221,7 @@ yoyo.prototype._findHelp = function _findHelp() {
 // Serves as a quick escape from the `yo yo` prompts.
 yoyo.prototype._exit = function _exit() {
   this.insight.track('yoyo', 'exit');
+
   console.log(
       '\nBye from us! Chat soon.'
     + '\n'
