@@ -13,8 +13,8 @@ module.exports = function (grunt) {
         }
       },
       grunt: [
-        'Gruntfile.js',
-        //'tasks/*.js',
+        'Gruntfile.js'//,
+        //'tasks/*.js'
       ],
       lib: [
         //'lib/{plugins,utils}/*.js',
