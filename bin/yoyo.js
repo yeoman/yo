@@ -1,4 +1,3 @@
-/*jshint multiline:true */
 var fs = require('fs');
 var async = require('async');
 var open = require('open');
