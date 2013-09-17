@@ -1,11 +1,9 @@
-/*global describe, it, beforeEach, afterEach */
 'use strict';
 var fs = require('fs');
 var path = require('path');
 var execFile = require('child_process').execFile;
 var assert = require('assert');
 var pkg = require('../package.json');
-var eol = require('os').EOL;
 var mockery = require('mockery');
 
 describe('bin', function () {
@@ -50,10 +48,10 @@ describe('bin', function () {
 
   it('should return the version', function (cb) {
     var cp = execFile('node', [path.join(__dirname, '../', pkg.bin.yo), '--version', '--no-insight', '--no-update-notifier']);
-    var expected = pkg.version + eol;
+    var expected = pkg.version;
 
     cp.stdout.on('data', function (data) {
-      assert.equal(data, expected);
+      assert.equal(data.replace(/\r\n|\n/g, ''), expected);
       cb();
     });
   });
