@@ -1,4 +1,7 @@
-# Yo [![Build Status](https://secure.travis-ci.org/yeoman/yo.png?branch=master)](http://travis-ci.org/yeoman/yo)
+# Yo 
+[![Build Status](https://secure.travis-ci.org/yeoman/yo.png?branch=master)](http://travis-ci.org/yeoman/yo)
+[![Dependency Status](https://david-dm.org/yeoman/yo.png)](https://david-dm.org/yeoman/yo)
+[![devDependency Status](https://david-dm.org/yeoman/yo/dev-status.png)](https://david-dm.org/yeoman/yo#info=devDependencies)
 
 CLI tool for scaffolding out [Yeoman](https://github.com/yeoman/yeoman) projects.
 
