@@ -15,13 +15,13 @@ var yo = function () {
     insight: insightStub
   });
 };
-env.register(yoyo, 'yo');
+env.register(path.join(__dirname, '../bin/yoyo'), 'yo');
 
 function Phoenix() {
   generator.Base.apply(this, arguments);
 }
 util.inherits(Phoenix, generator.Base);
-env.register(Phoenix, 'phoenix:app');
+env.registerStub(Phoenix, 'phoenix:app');
 
 describe('yo yo', function () {
   afterEach(helpers.restore);
