@@ -52,6 +52,7 @@
     "node": ">=0.8.0",
     "npm": ">=1.2.10"
   },
+  "engineStrict": true,
   "preferGlobal": true,
   "licenses": [
     {
