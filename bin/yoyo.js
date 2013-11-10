@@ -41,6 +41,7 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
 
     self.insight.track('yoyo', 'updated');
     self.home({
+      refresh: true,
       message:
         'I\'ve just updated all of your generators. Remember, you can update'
         + '\na specific generator with npm by running:'
