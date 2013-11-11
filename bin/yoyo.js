@@ -159,13 +159,13 @@ yoyo.prototype._searchNpm = function _searchNpm(term) {
     message: choices.length > 0
       ? 'Here\'s what I found. Install one?'
       : 'Sorry, nothing was found',
-    choices: this._.union(choices, {
+    choices: this._.union(choices, [{
       name: 'Search again',
       value: '_installGenerator'
     }, {
       name: 'Return home',
       value: 'home'
-    })
+    }])
   }];
 
   this.prompt(resultsPrompt, function (answer) {
