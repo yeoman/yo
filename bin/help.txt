@@ -41,8 +41,3 @@
     [0m
 
 <% } %>
-Yeoman is a mask worn by the following members of the open-source community:
-
-  Paul Irish, Addy Osmani, Mickael Daniel, Sindre Sorhus, Eric Bidelman,
-  Frederick Ros, Brian Ford, Pascal Hartig, Stephen Sawchuk, and countless
-  other contributors.
