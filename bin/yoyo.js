@@ -289,7 +289,7 @@ yoyo.prototype.findGenerators = function findGenerators() {
     };
   };
 
-  async.parallel(self._.map(self.env.generators, resolveGenerators), function (err) {
+  async.parallel(self._.map(this.env.getGeneratorsMeta(), resolveGenerators), function (err) {
     if (err) {
       return self.emit('error', err);
     }
