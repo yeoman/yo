@@ -120,7 +120,8 @@ if (!process.env.yeoman_test && opts.insight !== false) {
 
 if (!process.env.yeoman_test && opts['update-notifier'] !== false) {
   var notifier = updateNotifier({
-    packagePath: '../package'
+    packageName: pkg.name,
+    packageVersion: pkg.version
   });
 
   if (notifier.update) {
