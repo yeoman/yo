@@ -9,13 +9,13 @@ var insightStub = {
   track: function () {}
 };
 
-var yoyo = require('../bin/yoyo');
+var yoyo = require('../yoyo');
 var yo = function () {
   env.run('yo', {
     insight: insightStub
   });
 };
-env.register(path.join(__dirname, '../bin/yoyo'), 'yo');
+env.register(path.join(__dirname, '../yoyo'), 'yo');
 
 function Phoenix() {
   generator.Base.apply(this, arguments);
