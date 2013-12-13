@@ -59,9 +59,6 @@ https://gist.github.com/isaacs/579814\n';
 function init() {
   var env = require('yeoman-generator')();
 
-  // register each built-in generator individually
-  env.plugins('node_modules', __dirname);
-
   // alias any single namespace to `*:all` and `webapp` namespace specifically
   // to webapp:app.
   env.alias(/^([^:]+)$/, '$1:all');
