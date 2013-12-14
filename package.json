@@ -2,6 +2,25 @@
   "name": "yo",
   "version": "1.0.5",
   "description": "CLI tool for scaffolding out Yeoman projects",
+  "license": "MIT",
+  "bin": {
+    "yo": "cli.js"
+  },
+  "repository": "yeoman/yo",
+  "homepage": "http://yeoman.io",
+  "author": "Chrome Developer Relations",
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "files": [
+    "cli.js",
+    "yoyo.js",
+    "yeoman-ascii.txt"
+  ],
   "keywords": [
     "front-end",
     "development",
@@ -13,19 +32,6 @@
     "scaffold",
     "stack"
   ],
-  "homepage": "http://yeoman.io",
-  "bugs": "https://github.com/yeoman/yo/issues",
-  "author": "Chrome Developer Relations",
-  "bin": {
-    "yo": "cli.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/yeoman/yo.git"
-  },
-  "scripts": {
-    "test": "grunt"
-  },
   "dependencies": {
     "yeoman-generator": "~0.14.1",
     "nopt": "~2.1.1",
@@ -48,18 +54,6 @@
     "grunt-contrib-watch": "~0.5.3",
     "grunt-mocha-test": "~0.8.1"
   },
-  "engines": {
-    "node": ">=0.8.0",
-    "npm": ">=1.2.10"
-  },
   "engineStrict": true,
-  "preferGlobal": true,
-  "licenses": [
-    {
-      "type": "BSD"
-    }
-  ],
-  "files": [
-    "bin"
-  ]
+  "preferGlobal": true
 }
