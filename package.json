@@ -19,7 +19,7 @@
   "files": [
     "cli.js",
     "yoyo.js",
-    "yeoman-ascii.txt"
+    "yeoman.txt"
   ],
   "keywords": [
     "front-end",
