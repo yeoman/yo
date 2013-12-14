@@ -56,15 +56,7 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
 //
 // - generator - (string) The generator to initialize.
 yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
-  console.log(
-    chalk.yellow('\nBefore you create a new application, be sure you are in the directory you'
-    + '\nwish your application to be dropped into.'
-    + '\n'
-    + '\nYou may also run the following command to initiate this generator:'
-    + '\n')
-    + chalk.magenta('\n    yo ' + generator.split(':')[0])
-    + '\n'
-  );
+  console.log(chalk.yellow('\nMake sure you\'re in the directory you want to scaffold into.\n') + 'This generator can also be run with: ' + chalk.blue.bold('yo ' + generator.split(':')[0]));
 
   this.insight.track('yoyo', 'run', generator);
   this.env.run(generator, done);
@@ -92,7 +84,7 @@ yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
           message:
             '\nI just installed your generator by running:'
             + '\n'
-            + chalk.magenta('\n    npm install -g ' + pkgName)
+            + chalk.blue.bold('\n    npm install -g ' + pkgName)
         });
       }.bind(this));
   }
