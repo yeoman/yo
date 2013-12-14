@@ -99,7 +99,7 @@ function pre() {
 
   // easteregg
   if (cmd === 'yeoman') {
-    return fs.createReadStream(__dirname + '/help.txt').pipe(process.stdout);
+    return fs.createReadStream(__dirname + '/yeoman-ascii.txt').pipe(process.stdout);
   }
 
   init();
