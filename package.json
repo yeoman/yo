@@ -1,6 +1,6 @@
 {
   "name": "yo",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "CLI tool for scaffolding out Yeoman projects",
   "license": "MIT",
   "bin": {
