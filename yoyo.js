@@ -1,23 +1,24 @@
 var fs = require('fs');
 var async = require('async');
 var open = require('open');
-var generator = require('yeoman-generator');
+var yo = require('yeoman-generator');
 var util = require('util');
 var path = require('path');
 var updateNotifier = require('update-notifier');
 var chalk = require('chalk');
+var findup = require('findup');
 
 
 // The `yo yo` generator provides users with a few common, helpful commands.
 var yoyo = module.exports = function yoyo(args, options) {
-  generator.Base.apply(this, arguments);
+  yo.Base.apply(this, arguments);
   this.insight = options.insight;
 
   this.insight.track('yoyo', 'init');
   process.once('exit', this._exit.bind(this));
 };
 
-util.inherits(yoyo, generator.Base);
+util.inherits(yoyo, yo.Base);
 
 
 // Runs parallel `npm update -g`s for each detected generator.
@@ -242,23 +243,21 @@ yoyo.prototype.findGenerators = function findGenerators() {
 
   var done = this.async();
 
-  // This should be a Set with ES6.
-  var resolvedGenerators = {};
   var resolveGenerators = function (generator) {
-    var generatorPath = generator.resolved.replace(/([\/\\].*generator[^\/\\]*)[\/\\].*/, '$1/package.json');
 
     return function (next) {
-      var alreadyResolved = generatorPath in resolvedGenerators;
-      var isPackageJSON = path.basename(generatorPath) === 'package.json';
-
-      if (alreadyResolved || !isPackageJSON || !fs.existsSync(generatorPath)) {
+      if (!/(app|all)$/.test(generator.namespace)) {
         return next();
       }
 
-      var pkg = JSON.parse(self.readFileAsString(generatorPath));
-      pkg.namespace = generator.namespace;
+      findup(generator.resolved, 'package.json', function (err, dir) {
+        if (err) {
+          // package.json not found
+          return next();
+        }
 
-      if (/[app|all]/.test(generator.namespace)) {
+        var pkg = yo.file.readJSON(path.join(dir, 'package.json'));
+        pkg.namespace = generator.namespace;
         pkg.appGenerator = true;
         pkg.prettyName = generator.namespace.replace(/(\w+):\w+/, '$1');
         pkg.prettyName = pkg.prettyName.charAt(0).toUpperCase() + pkg.prettyName.slice(1);
@@ -271,13 +270,13 @@ yoyo.prototype.findGenerators = function findGenerators() {
         if (pkg.update && pkg.version !== pkg.update.latest) {
           pkg.updateAvailable = true;
         }
-      }
 
-      self.pkgs[pkg.name] = pkg;
+        self.pkgs[pkg.name] = pkg;
 
-      resolvedGenerators[generatorPath] = true;
+        next();
 
-      next();
+      });
+
     };
   };
 
@@ -361,7 +360,7 @@ yoyo.prototype.home = function home(options) {
     name: 'whatNext',
     type: 'list',
     message: 'What would you like to do?',
-    choices: this._.union(generatorList, new generator.inquirer.Separator(), defaultChoices)
+    choices: this._.union(generatorList, new yo.inquirer.Separator(), defaultChoices)
   }], function (answer) {
     this[answer.whatNext.method](answer.whatNext.args, done);
   }.bind(this));
