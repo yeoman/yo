@@ -5,12 +5,7 @@ module.exports = function (grunt) {
     jshint: {
       options: grunt.file.readJSON('.jshintrc'),
       gruntfile: 'Gruntfile.js',
-      bin: {
-        src: [
-          'bin/*.js',
-          'bin/yo'
-        ]
-      },
+      bin: [ 'cli.js', 'yoyo.js' ],
       test: {
         options: {
           globals: {
@@ -30,7 +25,7 @@ module.exports = function (grunt) {
         'Gruntfile.js',
         '<%= jshint.test.src %>',
         '<%= jshint.bin.src %>'
-        
+
       ],
       tasks: [
         'jshint',
