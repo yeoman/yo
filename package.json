@@ -1,6 +1,6 @@
 {
   "name": "yo",
-  "version": "1.0.6",
+  "version": "1.0.7-pre.1",
   "description": "CLI tool for scaffolding out Yeoman projects",
   "license": "MIT",
   "bin": {
@@ -33,7 +33,7 @@
     "stack"
   ],
   "dependencies": {
-    "yeoman-generator": "~0.14.1",
+    "yeoman-generator": "~0.15.0",
     "nopt": "~2.1.1",
     "lodash": "~2.4.1",
     "update-notifier": "~0.1.3",
