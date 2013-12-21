@@ -237,11 +237,11 @@ yoyo.prototype._noop = function _noop() {};
 
 // Rolls through all of the generators provided by `env.generators`, finding
 // their `package.json` files, then storing them internally in `this.pkgs`.
-yoyo.prototype.findGenerators = function findGenerators() {
+yoyo.prototype.findGenerators = function findGenerators(done) {
   var self = this;
   self.pkgs = {};
 
-  var done = this.async();
+  done = done || this.async();
 
   var resolveGenerators = function (generator) {
 
@@ -301,10 +301,14 @@ yoyo.prototype.home = function home(options) {
   options = options || {};
 
   if (options.refresh) {
-    this.env.lookup('*:*');
-    this.findGenerators();
+    this.env.lookup();
+    return this.findGenerators(this._printHomeScreen.bind(this, options, done));
   }
 
+  this._printHomeScreen(options, done);
+};
+
+yoyo.prototype._printHomeScreen = function _printHomeScreen(options, done) {
   if (options.message) {
     console.log('\n' + chalk.cyan(options.message) + '\n');
   }
