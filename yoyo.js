@@ -238,55 +238,37 @@ yoyo.prototype._noop = function _noop() {};
 // Rolls through all of the generators provided by `env.generators`, finding
 // their `package.json` files, then storing them internally in `this.pkgs`.
 yoyo.prototype.findGenerators = function findGenerators() {
-  var self = this;
-  self.pkgs = {};
-
-  var done = this.async();
+  this.pkgs = {};
 
   var resolveGenerators = function (generator) {
-
-    return function (next) {
-      if (!/(app|all)$/.test(generator.namespace)) {
-        return next();
-      }
-
-      findup(generator.resolved, 'package.json', function (err, dir) {
-        if (err) {
-          // package.json not found
-          return next();
-        }
-
-        var pkg = yo.file.readJSON(path.join(dir, 'package.json'));
-        pkg.namespace = generator.namespace;
-        pkg.appGenerator = true;
-        pkg.prettyName = generator.namespace.replace(/(\w+):\w+/, '$1');
-        pkg.prettyName = pkg.prettyName.charAt(0).toUpperCase() + pkg.prettyName.slice(1);
-
-        pkg.update = updateNotifier({
-          packageName: pkg.name,
-          packageVersion: pkg.version
-        }).update;
-
-        if (pkg.update && pkg.version !== pkg.update.latest) {
-          pkg.updateAvailable = true;
-        }
-
-        self.pkgs[pkg.name] = pkg;
-
-        next();
-
-      });
-
-    };
-  };
-
-  async.parallel(self._.map(this.env.getGeneratorsMeta(), resolveGenerators), function (err) {
-    if (err) {
-      return self.emit('error', err);
+    if (!/(app|all)$/.test(generator.namespace)) {
+      return;
     }
 
-    done();
-  });
+    var dir = findup.sync(generator.resolved, 'package.json');
+    if (!dir) {
+      return;
+    }
+
+    var pkg = yo.file.readJSON(path.join(dir, 'package.json'));
+    pkg.namespace = generator.namespace;
+    pkg.appGenerator = true;
+    pkg.prettyName = generator.namespace.replace(/(\w+):\w+/, '$1');
+    pkg.prettyName = pkg.prettyName.charAt(0).toUpperCase() + pkg.prettyName.slice(1);
+
+    pkg.update = updateNotifier({
+      packageName: pkg.name,
+      packageVersion: pkg.version
+    }).update;
+
+    if (pkg.update && pkg.version !== pkg.update.latest) {
+      pkg.updateAvailable = true;
+    }
+
+    this.pkgs[pkg.name] = pkg;
+  };
+
+  this._.each(this.env.getGeneratorsMeta(), resolveGenerators, this);
 };
 
 
@@ -301,7 +283,7 @@ yoyo.prototype.home = function home(options) {
   options = options || {};
 
   if (options.refresh) {
-    this.env.lookup('*:*');
+    this.env.lookup();
     this.findGenerators();
   }
 

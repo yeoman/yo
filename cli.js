@@ -65,7 +65,7 @@ function init() {
   env.alias(/^([^:]+)$/, '$1:app');
 
   // lookup for every namespaces, within the environments.paths and lookups
-  env.lookup('*:*');
+  env.lookup();
 
   env.on('end', function () {
     console.log('Done running sir');
