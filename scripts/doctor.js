@@ -53,7 +53,7 @@ var doctor = {
         '    Add this line to your .bashrc',
         '      export NODE_PATH=$NODE_PATH:' + val.npmRoot,
         '    Or run this command',
-        '      echo "export NODE_PATH=$NODE_PATH:' + val.npmRoot + '" > ~/.bashrc && source ~/.bashrc'
+        '      echo "export NODE_PATH=$NODE_PATH:' + val.npmRoot + '" >> ~/.bashrc && source ~/.bashrc'
       ].join('\n');
     }
 

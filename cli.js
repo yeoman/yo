@@ -100,6 +100,11 @@ function pre() {
     return console.log(pkg.version);
   }
 
+  // Debugging helper
+  if (cmd === 'doctor') {
+    return require('./scripts/doctor');
+  }
+
   // easteregg
   if (cmd === 'yeoman') {
     return fs.createReadStream(__dirname + '/yeoman.txt').pipe(process.stdout);
