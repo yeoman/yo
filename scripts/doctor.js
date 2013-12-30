@@ -15,7 +15,7 @@ var doctor = {
 
   logErrors: function () {
     if (!this.errors.length) {
-      console.log(chalk.green('[Yeoman Doctor] Everything looks allright!'));
+      console.log(chalk.green('[Yeoman Doctor] Everything looks alright!'));
       console.log();
       return;
     }
