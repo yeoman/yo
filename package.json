@@ -1,6 +1,6 @@
 {
   "name": "yo",
-  "version": "1.0.7-pre.2",
+  "version": "1.0.7-pre.3",
   "description": "CLI tool for scaffolding out Yeoman projects",
   "license": "MIT",
   "bin": {
@@ -21,7 +21,8 @@
   "files": [
     "cli.js",
     "yoyo.js",
-    "yeoman.txt"
+    "yeoman.txt",
+    "scripts/"
   ],
   "keywords": [
     "front-end",
