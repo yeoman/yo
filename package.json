@@ -1,6 +1,6 @@
 {
   "name": "yo",
-  "version": "1.0.7-pre.3",
+  "version": "1.1.0",
   "description": "CLI tool for scaffolding out Yeoman projects",
   "license": "MIT",
   "bin": {
@@ -55,7 +55,7 @@
   "devDependencies": {
     "grunt": "~0.4.2",
     "mockery": "~1.4.0",
-    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-jshint": "~0.8.0",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-mocha-test": "~0.8.1"
   },
