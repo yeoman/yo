@@ -1,5 +1,6 @@
 var chalk = require('chalk');
 var shell = require('shelljs');
+var path = require('path');
 
 var isWin = !!process.platform.match(/^win/);
 var pathSep = isWin ? ';' : ':';
@@ -28,8 +29,9 @@ var doctor = {
 
   checkNodePath: function () {
     if (!process.env.NODE_PATH) return;
-    var nodePaths = process.env.NODE_PATH.split(pathSep);
-    var npmRoot = shell.exec('npm -g root', { silent: true }).output.replace(/([\r\n])$/, '');
+    var nodePaths = process.env.NODE_PATH.split(pathSep).map(path.normalize);
+    var npmRoot = shell.exec('npm -g root', { silent: true }).output;
+    npmRoot = path.normalize(npmRoot.trim());
     if (nodePaths.indexOf(npmRoot) < 0) {
       this.nodePathMismatch({
         nodePaths: nodePaths,
@@ -48,7 +50,14 @@ var doctor = {
     ].join('\n');
     output += '\n\n  [' + chalk.cyan('Fix') + '] Append the NPM root value to your NODE_PATH variable\n';
 
-    if (!isWin) {
+    if (isWin) {
+      output += [
+        '    If you\'re using cmd.exe, run this command to fix the issue:',
+        '      setx NODE_PATH "%NODE_PATH%;' + val.npmRoot + '"',
+        '    Then restart your command line. Otherwise, you can setup NODE_PATH manually:',
+        '      https://github.com/sindresorhus/guides/blob/master/set-environment-variables.md#windows'
+      ].join('\n');
+    } else {
       output += [
         '    Add this line to your .bashrc',
         '      export NODE_PATH=$NODE_PATH:' + val.npmRoot,
