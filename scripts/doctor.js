@@ -5,7 +5,7 @@ var path = require('path');
 var isWin = !!process.platform.match(/^win/);
 var pathSep = isWin ? ';' : ':';
 
-var doctor = {
+var doctor = module.exports = {
   errors: [],
 
   run: function () {
@@ -28,7 +28,7 @@ var doctor = {
   },
 
   checkNodePath: function () {
-    if (!process.env.NODE_PATH) return;
+    if (!process.env.NODE_PATH) { return; }
     var nodePaths = process.env.NODE_PATH.split(pathSep).map(path.normalize);
     var npmRoot = shell.exec('npm -g root', { silent: true }).output;
     npmRoot = path.normalize(npmRoot.trim());

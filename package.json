@@ -15,8 +15,8 @@
   },
   "scripts": {
     "test": "grunt",
-    "postinstall": "node scripts/doctor.js",
-    "postupdate": "node scripts/doctor.js"
+    "postinstall": "node ./scripts/doctor",
+    "postupdate": "node ./scripts/doctor"
   },
   "files": [
     "cli.js",
