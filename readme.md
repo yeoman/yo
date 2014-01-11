@@ -27,6 +27,9 @@ If your issue only occur using a generator, please report the issues on the gene
 
 See the [contributing docs](https://github.com/yeoman/yeoman/blob/master/contributing.md).
 
+## Changelog
+
+See the [release page](https://github.com/yeoman/yo/releases).
 
 ## License
 
