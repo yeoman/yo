@@ -57,7 +57,11 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
 //
 // - generator - (string) The generator to initialize.
 yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
-  console.log(chalk.yellow('\nMake sure you\'re in the directory you want to scaffold into.\n') + 'This generator can also be run with: ' + chalk.blue.bold('yo ' + generator.split(':')[0]));
+  console.log(
+      chalk.yellow('\nMake sure you are in the directory you want to scaffold into.\n')
+    + 'This generator can also be run with: '
+    + chalk.blue.bold('yo ' + generator.split(':')[0])
+  );
 
   this.insight.track('yoyo', 'run', generator);
   this.env.run(generator, done);
@@ -218,15 +222,8 @@ yoyo.prototype._exit = function _exit() {
   console.log(
       '\nBye from us! Chat soon.'
     + '\n'
-    + '\n            Add' + chalk.red.bold('y') + ' Osmani'
-    + '\n          Sindr' + chalk.red.bold('e') + ' Sorhus'
-    + '\n        Brian F' + chalk.red.bold('o') + 'rd'
-    + '\n     Eric Bidel' + chalk.red.bold('m') + 'an'
-    + '\n              P' + chalk.red.bold('a') + 'ul Irish'
-    + '\n     Mickael Da' + chalk.red.bold('n') + 'iel'
-    + '\n          Pasca' + chalk.yellow.bold('1') + ' Hartig'
-    + '\n      Stephen S' + chalk.cyan.bold('.') + 'wchuk'
-    + '\n    Frederick R' + chalk.yellow.bold('0') + 's'
+    + '\n' + chalk.red.bold('The Yeoman Team')
+    + '\n https://github.com/yeoman/yeoman#team'
     + '\n');
 };
 
