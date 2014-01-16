@@ -10,7 +10,7 @@
   "homepage": "http://yeoman.io",
   "author": "Chrome Developer Relations",
   "engines": {
-    "node": ">=0.8.0",
+    "node": ">=0.10.0",
     "npm": ">=1.2.10"
   },
   "scripts": {
@@ -49,7 +49,7 @@
     "shelljs": "~0.2.6"
   },
   "peerDependencies": {
-    "grunt-cli": "~0.1.7",
+    "grunt-cli": ">=0.1.7",
     "bower": ">=0.9.0"
   },
   "devDependencies": {
