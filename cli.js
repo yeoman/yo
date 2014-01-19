@@ -11,7 +11,8 @@ var Insight = require('insight');
 
 var opts = nopt({
   help: Boolean,
-  version: Boolean
+  version: Boolean,
+  'allow-root': Boolean
 }, {
   h: '--help',
   v: '--version'
@@ -42,6 +43,10 @@ More info: https://github.com/yeoman/insight & http://yeoman.io') + chalk.gray('
 
 
 function rootCheck() {
+  if (opts['allow-root']) {
+    return;
+  }
+
   var msg = chalk.red('Easy with the "sudo"; Yeoman is the master around here.') + '\n\n\
 Since yo is a user command, there is no need to execute it with superuser\n\
 permissions. If you\'re having permission errors when using yo without sudo,\n\
