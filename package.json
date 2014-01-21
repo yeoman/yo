@@ -2,7 +2,7 @@
   "name": "yo",
   "version": "1.1.2",
   "description": "CLI tool for scaffolding out Yeoman projects",
-  "license": "MIT",
+  "license": "BSD",
   "bin": {
     "yo": "cli.js"
   },
