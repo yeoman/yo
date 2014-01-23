@@ -6,7 +6,7 @@
   "bin": {
     "yo": "cli.js"
   },
-  "repository": "yeoman/yo",
+  "repository": "git://github.com/yeoman/yo.git",
   "homepage": "http://yeoman.io",
   "author": "Chrome Developer Relations",
   "engines": {
