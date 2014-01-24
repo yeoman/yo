@@ -8,7 +8,7 @@
   },
   "repository": "git://github.com/yeoman/yo.git",
   "homepage": "http://yeoman.io",
-  "author": "Chrome Developer Relations",
+  "author": "The Yeoman Team",
   "engines": {
     "node": ">=0.10.0",
     "npm": ">=1.2.10"
