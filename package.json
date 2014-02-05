@@ -51,11 +51,10 @@
     "gulp-util": "~2.2.14"
   },
   "peerDependencies": {
-    "grunt-cli": ">=0.1.7",
+    "gulp": ">=3.5.1",
     "bower": ">=0.9.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.2",
     "mockery": "~1.4.0",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-contrib-watch": "~0.5.3",
