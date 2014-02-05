@@ -61,6 +61,6 @@ function watchTaskHandler ( callback ) {
 
   callback( null );
 }
-gulp.task('watch', [ 'jshint' ], watchTaskHandler);
+gulp.task('watch', [ 'mocha' ], watchTaskHandler);
 
-gulp.task( 'default', [ 'jshint', 'mocha', 'watch' ] );
+gulp.task( 'default', [ 'watch' ] );
