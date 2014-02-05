@@ -3,6 +3,7 @@ var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var jshint = require('gulp-jshint');
 var watch = require('gulp-watch');
+var spawn = require('child_process').spawn;
 
 function jshintTaskHandler ( callback ) {
   var paths = [ 
@@ -21,27 +22,27 @@ function jshintTaskHandler ( callback ) {
 gulp.task('jshint', jshintTaskHandler);
 
 function mochaTaskHandler ( callback ) {
-  var paths = [ 'test/**/*.js' ];  
-  var options = {
-    test: {
-      options: {
-        slow: 1500,
-        timeout: 50000,
-        reporter: 'spec',
-        globals: [ 
-          'events', 'AssertionError',
-          'TAP_Global_Harness' 
-        ],
-      }
-    }
-  };
-  var srcOpts = { read: false };
+  var paths = [ 
+    'test/**/*.js',
+    '--timeout 50000',
+    '--slow 1500',
+  ];  
+  var mocha = spawn( 'mocha', paths );
 
-  gulp
-    .src( paths, srcOpts )
-    .pipe( mocha( options ) );
+  function print ( data ) {
+    process.stdout.write( data.toString('utf-8') );
+  }
 
-  callback( null );
+  mocha
+    .stdout
+    .on('data', print);
+
+  mocha
+    .stderr
+    .on('data', print);
+
+  mocha
+    .on('close', callback);
 }
 gulp.task('mocha', [ 'jshint' ], mochaTaskHandler);
 
@@ -52,7 +53,7 @@ function watchTaskHandler ( callback ) {
   var srcOpts = { read: false };
 
   function watchHandler ( events, callback ) {
-    gulp.run([ 'mocha' ], callback);
+    mochaTaskHandler( callback );
   }
   gulp
     .src( paths, srcOpts )
@@ -60,6 +61,6 @@ function watchTaskHandler ( callback ) {
 
   callback( null );
 }
-gulp.task('watch', watchTaskHandler);
+gulp.task('watch', [ 'jshint' ], watchTaskHandler);
 
-gulp.task( 'default', [ 'jshint', 'mocha' ] );
+gulp.task( 'default', [ 'jshint', 'watch' ] );

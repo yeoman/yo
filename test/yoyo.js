@@ -6,11 +6,11 @@ var assert = require('assert');
 var env = generator();
 
 var insightStub = {
-  track: function () {}
+  track: function trackHandler () {}
 };
 
 var yoyo = require('../yoyo');
-var yo = function () {
+var yo = function yoHandler () {
   env.run('yo', {
     insight: insightStub
   });
@@ -18,7 +18,7 @@ var yo = function () {
 env.register(path.join(__dirname, '../yoyo'), 'yo');
 
 function Phoenix() {
-  generator.Base.apply(this, arguments);
+  generator.Base.apply( this, arguments );
 }
 util.inherits(Phoenix, generator.Base);
 env.registerStub(Phoenix, 'phoenix:app');
