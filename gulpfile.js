@@ -4,7 +4,6 @@ var mocha = require('gulp-mocha');
 var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
 var watch = require('gulp-watch');
-var spawn = require('child_process').spawn;
 
 function jshintTaskHandler(callback) {
   var paths = [
@@ -39,32 +38,25 @@ function codeStyleTaskHandler(callback) {
 }
 gulp.task('code-style', codeStyleTaskHandler);
 
-function mochaTaskHandler(callback) {
+function mochaTaskHandler(events) {
   var paths = [
-    'test/**/*.js',
-    '--timeout 50000',
-    '--slow 1500',
+    './test/**/*.js',
   ];
-  var mocha = spawn('mocha', paths);
+  var srcOpts = { read: false };
+  var options = {
+    slow: 1500,
+    timeout: 50000,
+    reporter: 'spec',
+    globals: [
+      'events',
+      'AssertionError',
+      'TAP_Global_Harness',
+    ] 
+  };
 
-  function print(data) {
-    process.stdout.write(data.toString('utf-8'));
-  }
-
-  function dealWithExitHandler(code) {
-    return callback(!code);
-  }
-
-  mocha
-    .stdout
-    .on('data', print);
-
-  mocha
-    .stderr
-    .on('data', print);
-
-  mocha
-    .on('close', dealWithExitHandler);
+  gulp
+    .src(paths)
+    .pipe(mocha(options));
 }
 gulp.task('mocha', mochaTaskHandler);
 
