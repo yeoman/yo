@@ -2,6 +2,7 @@
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var jshint = require('gulp-jshint');
+var jscs = require('gulp-jscs');
 var watch = require('gulp-watch');
 var spawn = require('child_process').spawn;
 
@@ -21,6 +22,22 @@ function jshintTaskHandler(callback) {
   callback(null);
 }
 gulp.task('jshint', jshintTaskHandler);
+
+function codeStyleTaskHandler(callback) {
+  var paths = [
+    'cli.js',
+    'yoyo.js',
+    'scripts/*.js',
+    'gulpfile.js'
+  ];
+  var srcOpts = { read: true };
+  
+  gulp
+    .src(paths, srcOpts)
+    .pipe(jscs());
+  callback(null);
+}
+gulp.task('code-style', codeStyleTaskHandler);
 
 function mochaTaskHandler(callback) {
   var paths = [
@@ -45,7 +62,7 @@ function mochaTaskHandler(callback) {
   mocha
     .on('close', callback);
 }
-gulp.task('mocha', [ 'jshint' ], mochaTaskHandler);
+gulp.task('mocha', mochaTaskHandler);
 
 function watchTaskHandler(callback) {
   var paths = [
@@ -62,6 +79,6 @@ function watchTaskHandler(callback) {
 
   callback(null);
 }
-gulp.task('watch', [ 'mocha' ], watchTaskHandler);
+gulp.task('watch', watchTaskHandler);
 
-gulp.task('default', [ 'watch' ]);
+gulp.task('default', [ 'jshint', 'code-style', 'mocha', 'watch' ]);
