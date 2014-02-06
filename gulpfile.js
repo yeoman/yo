@@ -51,7 +51,7 @@ function mochaTaskHandler(events) {
       'events',
       'AssertionError',
       'TAP_Global_Harness',
-    ] 
+    ]
   };
 
   gulp

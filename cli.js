@@ -40,7 +40,7 @@ if (opts.insight === false) {
 var separator = (new Array(68)).join('=');
 insightMsg = [
   chalk.gray(separator), '\n',
-  chalk.yellow('We\'re constantly looking for ways to make '), 
+  chalk.yellow('We\'re constantly looking for ways to make '),
   chalk.bold.red(pkg.name), chalk.yellow(' better!'), '\n',
   chalk.yellow('May we anonymously report usage statistics to improve the tool over time? '), '\n',
   chalk.yellow('More info: https://github.com/yeoman/insight & http://yeoman.io'), '\n',
