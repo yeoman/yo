@@ -31,31 +31,24 @@ insight = new Insight({
   packageVersion: pkg.version
 });
 
-function optsInsightOutputConfigHandler() {
-  if (opts.insight === false) {
-    insight.config.set('optOut', true);
-  } else if (opts.insight) {
-    insight.config.set('optOut', false);
-  }
+if (opts.insight === false) {
+  insight.config.set('optOut', true);
+} else if (opts.insight) {
+  insight.config.set('optOut', false);
 }
-optsInsightOutputConfigHandler();
 
-function insightMsgBannerHandler() {
-  var separator = (new Array(68)).join('=');
-  insightMsg = [
-    chalk.gray(separator), '\n',
-    chalk.yellow('We\'re constantly looking for ways to make '), 
-    chalk.bold.red(pkg.name), chalk.yellow(' better!'), '\n',
-    chalk.yellow('May we anonymously report usage statistics to improve the tool over time? '), '\n',
-    chalk.yello('More info: https://github.com/yeoman/insight & http://yeoman.io'), '\n',
-    chalk.gray(separator),
-  ].join('');
-}
-insightMsgBannerHandler();
+var separator = (new Array(68)).join('=');
+insightMsg = [
+  chalk.gray(separator), '\n',
+  chalk.yellow('We\'re constantly looking for ways to make '), 
+  chalk.bold.red(pkg.name), chalk.yellow(' better!'), '\n',
+  chalk.yellow('May we anonymously report usage statistics to improve the tool over time? '), '\n',
+  chalk.yellow('More info: https://github.com/yeoman/insight & http://yeoman.io'), '\n',
+  chalk.gray(separator),
+].join('');
 
-function rootCheckHandler() {
-  var msg = null;
-  msg = [
+function rootCheck() {
+  var msg = [
     chalk.red('Easy with the "sudo"; Yeoman is the master around here.'), '\n\n',
     'Since yo is a user command, there is no need to execute it with superuser', '\n',
     'permissions. If you\'re having permission errors when using yo without sudo,', '\n',
@@ -152,5 +145,5 @@ if (!process.env.yeoman_test && opts['update-notifier'] !== false) {
   }
 }
 
-rootCheckHandler();
+rootCheck();
 pre();
