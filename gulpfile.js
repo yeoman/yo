@@ -88,4 +88,4 @@ function watchTaskHandler(callback) {
 }
 gulp.task('watch', watchTaskHandler);
 
-gulp.task('default', ['jshint', 'code-style', 'mocha', 'watch']);
+gulp.task('default', ['jshint', 'code-style', 'mocha']);
