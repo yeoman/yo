@@ -13,6 +13,7 @@ var args = null;
 var cmd = null;
 var insight = null;
 var insightMsg = null;
+var separator = null;
 
 opts = nopt({
   help: Boolean,
@@ -37,7 +38,7 @@ if (opts.insight === false) {
   insight.config.set('optOut', false);
 }
 
-var separator = (new Array(68)).join('=');
+separator = (new Array(68)).join('=');
 insightMsg = [
   chalk.gray(separator), '\n',
   chalk.yellow('We\'re constantly looking for ways to make '),
