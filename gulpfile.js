@@ -1,9 +1,9 @@
 'use strict';
 var gulp = require('gulp');
-var mocha = require('gulp-mocha');
 var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
 var watch = require('gulp-watch');
+var spawn = require('child_process').spawn;
 
 function jshintTaskHandler(callback) {
   var paths = [
@@ -38,25 +38,36 @@ function codeStyleTaskHandler(callback) {
 }
 gulp.task('code-style', codeStyleTaskHandler);
 
-function mochaTaskHandler(events) {
-  var paths = [
+function mochaTaskHandler(callback) {
+  var params = [
     './test/**/*.js',
+    '--slow 1500',
+    '--timeout 50000',
+    '--reporter spec',
+    '--globals events',
+    '--globals AssertionError',
+    '--globals TAP_Global_Harness',
   ];
-  var srcOpts = { read: false };
-  var options = {
-    slow: 1500,
-    timeout: 50000,
-    reporter: 'spec',
-    globals: [
-      'events',
-      'AssertionError',
-      'TAP_Global_Harness',
-    ]
-  };
+  var mocha = spawn('mocha', params);
 
-  gulp
-    .src(paths)
-    .pipe(mocha(options));
+  mocha
+    .stdout
+    .pipe(process.stdout);
+
+  mocha
+    .stderr
+    .pipe(process.stdout);
+
+  function exitHandler(code) {
+    var out = null;
+
+    if ( code ) {
+      out = 'fail';  
+    }
+    callback(out);
+  }
+  mocha
+    .on('exit', exitHandler);
 }
 gulp.task('mocha', mochaTaskHandler);
 
