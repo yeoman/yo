@@ -6,29 +6,19 @@ var watch = require('gulp-watch');
 var spawn = require('child_process').spawn;
 
 function jshintTaskHandler(callback) {
-  var paths = [
-    'cli.js',
-    'yoyo.js',
-    'scripts/*.js',
-    'gulpfile.js'
-  ];
+  var paths = ['cli.js', 'yoyo.js', 'scripts/*.js', 'gulpfile.js'];
   var srcOpts = { read: true };
 
   gulp
     .src(paths, srcOpts)
     .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'));
+    .pipe(jshint.reporter('jshint-stylish'));
   callback(null);
 }
 gulp.task('jshint', jshintTaskHandler);
 
 function codeStyleTaskHandler(callback) {
-  var paths = [
-    'cli.js',
-    'yoyo.js',
-    'scripts/*.js',
-    'gulpfile.js'
-  ];
+  var paths = ['cli.js', 'yoyo.js', 'scripts/*.js', 'gulpfile.js'];
   var srcOpts = { read: true };
   
   gulp
@@ -62,7 +52,7 @@ function mochaTaskHandler(callback) {
     var out = null;
 
     if (code) {
-      out = 'fail';  
+      out = 'fail';
     }
     callback(out);
   }
@@ -72,9 +62,7 @@ function mochaTaskHandler(callback) {
 gulp.task('mocha', mochaTaskHandler);
 
 function watchTaskHandler(callback) {
-  var paths = [
-    'bin/**/*.js', 'test/**/*.js',
-  ];
+  var paths = ['bin/**/*.js', 'test/**/*.js'];
   var srcOpts = { read: false };
 
   function watchHandler(events, callback) {
