@@ -18,7 +18,7 @@ var yo = function yoHandler () {
 env.register(path.join(__dirname, '../yoyo'), 'yo');
 
 function Phoenix() {
-  generator.Base.apply( this, arguments );
+  generator.Base.apply(this, arguments);
 }
 util.inherits(Phoenix, generator.Base);
 env.registerStub(Phoenix, 'phoenix:app');
