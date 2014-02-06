@@ -61,7 +61,7 @@ function mochaTaskHandler(callback) {
   function exitHandler(code) {
     var out = null;
 
-    if ( code ) {
+    if (code) {
       out = 'fail';  
     }
     callback(out);
