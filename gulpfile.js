@@ -51,6 +51,10 @@ function mochaTaskHandler(callback) {
     process.stdout.write(data.toString('utf-8'));
   }
 
+  function dealWithExitHandler(code) {
+    return callback(!code);
+  }
+
   mocha
     .stdout
     .on('data', print);
@@ -60,7 +64,7 @@ function mochaTaskHandler(callback) {
     .on('data', print);
 
   mocha
-    .on('close', callback);
+    .on('close', dealWithExitHandler);
 }
 gulp.task('mocha', mochaTaskHandler);
 
