@@ -12,7 +12,8 @@ function jshintTaskHandler(callback) {
   gulp
     .src(paths, srcOpts)
     .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('jshint-stylish'));
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter('fail'));
   callback(null);
 }
 gulp.task('jshint', jshintTaskHandler);
