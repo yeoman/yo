@@ -67,6 +67,8 @@ function watchTaskHandler(callback) {
   var srcOpts = { read: false };
 
   function watchHandler(events, callback) {
+    jshintTaskHandler(callback);
+    codeStyleTaskHandler(callback);
     mochaTaskHandler(callback);
   }
   gulp
