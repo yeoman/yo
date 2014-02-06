@@ -8,7 +8,6 @@ var updateNotifier = require('update-notifier');
 var chalk = require('chalk');
 var findup = require('findup');
 
-
 // The `yo yo` generator provides users with a few common, helpful commands.
 var yoyo = module.exports = function yoyo(args, options) {
   yo.Base.apply(this, arguments);
@@ -19,7 +18,6 @@ var yoyo = module.exports = function yoyo(args, options) {
 };
 
 util.inherits(yoyo, yo.Base);
-
 
 // Runs parallel `npm update -g`s for each detected generator.
 yoyo.prototype._updateGenerators = function _updateGenerators() {
@@ -52,7 +50,6 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
   });
 };
 
-
 // Initializes a generator.
 //
 // - generator - (string) The generator to initialize.
@@ -66,7 +63,6 @@ yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
   this.insight.track('yoyo', 'run', generator);
   this.env.run(generator, done);
 };
-
 
 // Serves as the response prompt for "Install a generator" as well as simply
 // installs a generator if a string is passed in.
@@ -102,7 +98,6 @@ yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
   }], this._searchNpm.bind(this));
 };
 
-
 // Grabs all of the packages with a `yeoman-generator` keyword on NPM.
 //
 // - term - (object) Contains the search term & gets passed back to callback().
@@ -127,7 +122,6 @@ yoyo.prototype._findAllNpmGenerators = function _findAllNpmGenerators(term, cb) 
     cb(term);
   }.bind(this));
 };
-
 
 // Takes a search term, looks it up in the registry, prompts the user with the
 // results, allowing them to choose to install it, or go back home.
@@ -174,7 +168,6 @@ yoyo.prototype._searchNpm = function _searchNpm(term) {
   }.bind(this));
 };
 
-
 // Prompts user with a few helpful resources, then opens it in their browser.
 yoyo.prototype._findHelp = function _findHelp() {
   this.insight.track('yoyo', 'help');
@@ -214,7 +207,6 @@ yoyo.prototype._findHelp = function _findHelp() {
   }.bind(this));
 };
 
-
 // Serves as a quick escape from the `yo yo` prompts.
 yoyo.prototype._exit = function _exit() {
   this.insight.track('yoyo', 'exit');
@@ -227,10 +219,8 @@ yoyo.prototype._exit = function _exit() {
     + '\n');
 };
 
-
 // I'm sorry...
 yoyo.prototype._noop = function _noop() {};
-
 
 // Rolls through all of the generators provided by `env.generators`, finding
 // their `package.json` files, then storing them internally in `this.pkgs`.
@@ -267,7 +257,6 @@ yoyo.prototype.findGenerators = function findGenerators() {
 
   this._.each(this.env.getGeneratorsMeta(), resolveGenerators, this);
 };
-
 
 // Display the home `yo` screen, with the intial set of options.
 //
