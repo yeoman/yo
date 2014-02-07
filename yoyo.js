@@ -21,20 +21,20 @@ var yoyo = module.exports = function yoyo(args, options) {
 util.inherits(yoyo, yo.Base);
 
 
-// Runs parallel `npm update -g`s for each detected generator.
-yoyo.prototype._updateGenerators = function _updateGenerators() {
+// Runs parallel `npm update -g`s for each selected generator.
+yoyo.prototype._updateGenerators = function _updateGenerators(pkgs) {
   var self = this;
 
   var resolveGenerators = function (pkg) {
     return function (next) {
-      self.spawnCommand('npm', ['update', '-g', pkg.name])
+      self.spawnCommand('npm', ['update', '-g', pkg])
         .on('error', next)
         .on('exit', next);
     };
   };
 
   self.insight.track('yoyo', 'update');
-  async.parallel(self._.map(self.pkgs, resolveGenerators), function (err) {
+  async.parallel(self._.map(pkgs, resolveGenerators), function (err) {
     if (err) {
       self.insight.track('yoyo:err', 'update');
       return self.emit('error', err);
@@ -44,7 +44,7 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
     self.home({
       refresh: true,
       message:
-        'I\'ve just updated all of your generators. Remember, you can update'
+        'I\'ve just updated your generators. Remember, you can update'
         + '\na specific generator with npm by running:'
         + '\n'
         + chalk.magenta('\n    npm update -g generator-_______')
@@ -52,6 +52,17 @@ yoyo.prototype._updateGenerators = function _updateGenerators() {
   });
 };
 
+// Prompts the user to select which generators to update
+yoyo.prototype._promptToUpdateGenerators = function _promptToUpdateGenerators() {
+  this.prompt([{
+    name: '_updateSelectedGenerators',
+    message: 'Generators to update',
+    type: 'checkbox',
+    choices: this._.map(this.pkgs, function (generator) { return {name: generator.name, checked: true}; })
+  }], function (answer) {
+    this._updateGenerators.call(this, answer._updateSelectedGenerators);
+  }.bind(this));
+};
 
 // Initializes a generator.
 //
@@ -329,7 +340,7 @@ yoyo.prototype.home = function home(options) {
     defaultChoices.unshift({
       name: 'Update your generators',
       value: {
-        method: '_updateGenerators'
+        method: '_promptToUpdateGenerators'
       }
     });
   }

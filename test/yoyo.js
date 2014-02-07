@@ -83,6 +83,7 @@ describe('yo yo', function () {
   describe('updateGenerators', function () {
     var pkgs = yoyo.prototype.pkgs;
     var updatedGenerators = [];
+    var choices = [];
     var sentHome = false;
 
     beforeEach(function () {
@@ -114,14 +115,21 @@ describe('yo yo', function () {
         sentHome = true;
       });
 
-      yoyo.prototype._updateGenerators();
+      helpers.stub(yoyo.prototype, 'prompt', function (prompts) {
+        prompts[0].choices.forEach(function (choice) {
+          choices.push(choice);
+        });
+        yoyo.prototype._updateGenerators(choices.map(function (choice) { return choice.name; }));
+      });
+
+      yoyo.prototype._promptToUpdateGenerators();
     });
 
     after(function () {
       yoyo.prototype.pkgs = pkgs;
     });
 
-    it('should globally update installed generators', function () {
+    it('should globally update selected generators', function () {
       assert.ok(updatedGenerators.indexOf('generator-unicorn') > -1);
       assert.ok(updatedGenerators.indexOf('generator-phoenix') > -1);
     });
