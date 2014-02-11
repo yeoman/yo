@@ -6,11 +6,11 @@ var assert = require('assert');
 var env = generator();
 
 var insightStub = {
-  track: function () {}
+  track: function trackHandler () {}
 };
 
 var yoyo = require('../yoyo');
-var yo = function () {
+var yo = function yoHandler () {
   env.run('yo', {
     insight: insightStub
   });

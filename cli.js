@@ -40,7 +40,6 @@ May we anonymously report usage statistics to improve the tool over time? \n\
 More info: https://github.com/yeoman/insight & http://yeoman.io') + chalk.gray('\n\
 ==========================================================================');
 
-
 function rootCheck() {
   var msg = chalk.red('Easy with the "sudo"; Yeoman is the master around here.') + '\n\n\
 Since yo is a user command, there is no need to execute it with superuser\n\
@@ -118,10 +117,11 @@ if (!process.env.yeoman_test && opts.insight !== false) {
     insight.optOut = insight.config.get('optOut');
     insight.track('downloaded');
     insight.askPermission(insightMsg, pre);
-    return;
+    //return;
+  } else {
+    // only track the two first subcommands
+    insight.track.apply(insight, args.slice(0, 2));
   }
-  // only track the two first subcommands
-  insight.track.apply(insight, args.slice(0, 2));
 }
 
 if (!process.env.yeoman_test && opts['update-notifier'] !== false) {
