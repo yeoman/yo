@@ -8,14 +8,8 @@ var pkg = require('./package.json');
 var updateNotifier = require('update-notifier');
 var sudoBlock = require('sudo-block');
 var Insight = require('insight');
-var opts = null;
-var args = null;
-var cmd = null;
-var insight = null;
-var insightMsg = null;
-var separator = null;
 
-opts = nopt({
+var opts = nopt({
   help: Boolean,
   version: Boolean
 }, {
@@ -23,10 +17,10 @@ opts = nopt({
   v: '--version'
 });
 
-args = opts.argv.remain;
-cmd = args[0];
+var args = opts.argv.remain;
+var cmd = args[0];
 
-insight = new Insight({
+var insight = new Insight({
   trackingCode: 'UA-31537568-1',
   packageName: pkg.name,
   packageVersion: pkg.version
@@ -38,30 +32,25 @@ if (opts.insight === false) {
   insight.config.set('optOut', false);
 }
 
-separator = (new Array(68)).join('=');
-insightMsg = [
-  chalk.gray(separator), '\n',
-  chalk.yellow('We\'re constantly looking for ways to make '),
-  chalk.bold.red(pkg.name), chalk.yellow(' better!'), '\n',
-  chalk.yellow('May we anonymously report usage statistics to improve the tool over time? '), '\n',
-  chalk.yellow('More info: https://github.com/yeoman/insight & http://yeoman.io'), '\n',
-  chalk.gray(separator),
-].join('');
+/*jshint multistr:true */
+var insightMsg = chalk.gray('\
+==========================================================================') + chalk.yellow('\n\
+We\'re constantly looking for ways to make ') + chalk.bold.red(pkg.name) + chalk.yellow(' better! \n\
+May we anonymously report usage statistics to improve the tool over time? \n\
+More info: https://github.com/yeoman/insight & http://yeoman.io') + chalk.gray('\n\
+==========================================================================');
 
 function rootCheck() {
-  var msg = [
-    chalk.red('Easy with the "sudo"; Yeoman is the master around here.'), '\n\n',
-    'Since yo is a user command, there is no need to execute it with superuser', '\n',
-    'permissions. If you\'re having permission errors when using yo without sudo,', '\n',
-    'please spend a few minutes learning more about how your system should work', '\n',
-    'and make any necessary repairs.', '\n\n',
-    'A quick solution would be to change where npm stores global packages by', '\n',
-    'putting ~/npm/bin in your PATH and running:', '\n',
-    chalk.blue('npm config set prefix ~/npm'), '\n\n',
-    'Reading material:', '\n',
-    'http://www.joyent.com/blog/installing-node-and-npm', '\n',
-    'https://gist.github.com/isaacs/579814', '\n',
-  ].join('');
+  var msg = chalk.red('Easy with the "sudo"; Yeoman is the master around here.') + '\n\n\
+Since yo is a user command, there is no need to execute it with superuser\n\
+permissions. If you\'re having permission errors when using yo without sudo,\n\
+please spend a few minutes learning more about how your system should work\n\
+and make any necessary repairs.\n\n\
+A quick solution would be to change where npm stores global packages by\n\
+putting ~/npm/bin in your PATH and running:\n' + chalk.blue('npm config set prefix ~/npm') + '\n\n\
+Reading material:\n\
+http://www.joyent.com/blog/installing-node-and-npm\n\
+https://gist.github.com/isaacs/579814\n';
 
   sudoBlock(msg);
 }
