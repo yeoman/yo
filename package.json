@@ -35,7 +35,8 @@
     "insight": "~0.1.0",
     "sudo-block": "~0.1.0",
     "async": "~0.2.9",
-    "open": "0.0.3"
+    "open": "0.0.3",
+    "npm": "^1.4.4"
   },
   "peerDependencies": {
     "grunt-cli": "~0.1.7",

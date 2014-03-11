@@ -9,6 +9,7 @@ var pkg = require('../package.json');
 var updateNotifier = require('update-notifier');
 var sudoBlock = require('sudo-block');
 var Insight = require('insight');
+var npm = require('npm');
 
 var opts = nopt({
   help: Boolean,
@@ -75,9 +76,20 @@ function init() {
   });
 
   env.on('error', function (err) {
-    console.error('Error', process.argv.slice(2).join(' '), '\n');
-    console.error(opts.debug ? err.stack : err.message);
-    process.exit(err.code || 1);
+    var name = process.argv.slice(2).join(' ');
+    console.log('Did not find generator-' + name  + ' Let me try to install it for you.');
+    npm.load({loaded: false}, function (er) {
+        if(er) {
+          console.error("Error! " + er);
+          process.exit(er.code || 1);
+        }
+        npm.commands.install(["generator-" + name], function (er, data) {
+            if(er && er.code == 'E404') {
+              console.error("Sorry no such generator: generator-" + name + ":(");
+              process.exit(er.code || 1);
+            }
+        });
+    });
   });
 
   // Register the `yo yo` generator.
