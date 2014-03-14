@@ -1,35 +1,57 @@
-var util = require('util');
-var path = require('path');
-
 module.exports = function (grunt) {
   'use strict';
 
   grunt.initConfig({
-    lint: {
-      options: {
-        options: '<json:.jshintrc>',
-        global: {
-          process: true
-        }
-      },
-      grunt: [
-        'Gruntfile.js',
-        //'tasks/*.js',
-      ],
-      lib: [
-        //'lib/{plugins,utils}/*.js',
-        //'lib/generators/*.js'
-      ],
-      test: [
-        //'test/**/*.js'
-      ]
+    jshint: {
+      options: grunt.file.readJSON('.jshintrc'),
+      gruntfile: 'Gruntfile.js',
+      bin: [ 'cli.js', 'yoyo.js', 'scripts/*.js' ],
+      test: {
+        options: {
+          globals: {
+            describe: true,
+            it: true,
+            beforeEach: true,
+            afterEach: true,
+            before: true,
+            after: true
+          }
+        },
+        src: 'test/**/*.js'
+      }
     },
     watch: {
-      files: '<config:lint>',
-      tasks: 'lint'
+      files: [
+        'Gruntfile.js',
+        '<%= jshint.test.src %>',
+        '<%= jshint.bin.src %>'
+
+      ],
+      tasks: [
+        'jshint',
+        'mochaTest'
+      ]
+    },
+    mochaTest: {
+      test: {
+        options: {
+          slow: 1500,
+          timeout: 50000,
+          reporter: 'spec',
+          globals: [
+            'events',
+            'AssertionError',
+            'TAP_Global_Harness'
+          ]
+        },
+        src: ['test/**/*.js']
+      }
     }
   });
 
-  // Disable lint for now until we upgrade to latest grunt with latest jshint
-  grunt.registerTask('default', 'lint');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-mocha-test');
+
+  grunt.registerTask('default', ['jshint', 'mochaTest']);
 };

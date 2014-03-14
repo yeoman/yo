@@ -5,17 +5,23 @@ var helpers = require(path.join(path.dirname(require.resolve('yeoman-generator')
 var assert = require('assert');
 var env = generator();
 
-var yoyo = require('../bin/yoyo');
-var yo = function () {
-  env.run('yo');
+var insightStub = {
+  track: function () {}
 };
-env.register(yoyo, 'yo');
+
+var yoyo = require('../yoyo');
+var yo = function () {
+  env.run('yo', {
+    insight: insightStub
+  });
+};
+env.register(path.join(__dirname, '../yoyo'), 'yo');
 
 function Phoenix() {
   generator.Base.apply(this, arguments);
 }
 util.inherits(Phoenix, generator.Base);
-env.register(Phoenix, 'phoenix:app');
+env.registerStub(Phoenix, 'phoenix:app');
 
 describe('yo yo', function () {
   afterEach(helpers.restore);
@@ -50,10 +56,12 @@ describe('yo yo', function () {
         helpers.stub(yoyo.prototype, 'findGenerators');
         helpers.stub(yoyo.prototype, 'prompt', function (prompts) {
           prompts[0].choices.forEach(function (choice) {
-            if (choice.value && choice.value.method === '_initGenerator') {
-              choices.generators.push(choice.value.args);
-            } else {
-              choices.methods.push(choice.value.method);
+            if (choice.value && choice.value.method) {
+              if (choice.value.method === '_initGenerator') {
+                choices.generators.push(choice.value.args);
+              } else {
+                choices.methods.push(choice.value.method);
+              }
             }
           });
         });
@@ -75,6 +83,7 @@ describe('yo yo', function () {
   describe('updateGenerators', function () {
     var pkgs = yoyo.prototype.pkgs;
     var updatedGenerators = [];
+    var choices = [];
     var sentHome = false;
 
     beforeEach(function () {
@@ -83,6 +92,8 @@ describe('yo yo', function () {
       }, {
         name: 'generator-phoenix'
       }];
+
+      yoyo.prototype.insight = insightStub;
 
       helpers.stub(yoyo.prototype, 'spawnCommand', function spawnCommand(cmd, args) {
         if (args) {
@@ -104,14 +115,21 @@ describe('yo yo', function () {
         sentHome = true;
       });
 
-      yoyo.prototype._updateGenerators();
+      helpers.stub(yoyo.prototype, 'prompt', function (prompts) {
+        prompts[0].choices.forEach(function (choice) {
+          choices.push(choice);
+        });
+        yoyo.prototype._updateGenerators(choices.map(function (choice) { return choice.name; }));
+      });
+
+      yoyo.prototype._promptToUpdateGenerators();
     });
 
     after(function () {
       yoyo.prototype.pkgs = pkgs;
     });
 
-    it('should globally update installed generators', function () {
+    it('should globally update selected generators', function () {
       assert.ok(updatedGenerators.indexOf('generator-unicorn') > -1);
       assert.ok(updatedGenerators.indexOf('generator-phoenix') > -1);
     });
