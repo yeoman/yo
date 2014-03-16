@@ -8,7 +8,6 @@ var pkg = require('./package.json');
 var updateNotifier = require('update-notifier');
 var sudoBlock = require('sudo-block');
 var Insight = require('insight');
-var npm = require('npm');
 
 var opts = nopt({
   help: Boolean,
