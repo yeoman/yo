@@ -74,18 +74,13 @@ function init() {
 
   env.on('error', function (err) {
     var name = process.argv.slice(2).join(' ');
-    console.log('Did not find generator-' + name  + ' Let me try to install it for you.');
-    npm.load({loaded: false}, function (er) {
-        if(er) {
-          console.error("Error! " + er);
-          process.exit(er.code || 1);
-        }
-        npm.commands.install(["generator-" + name], function (er, data) {
-            if(er && er.code == 'E404') {
-              console.error("Sorry no such generator: generator-" + name + ":(");
-              process.exit(er.code || 1);
-            }
-        });
+    var generator = require('yeoman-generator');
+    console.log('Did not find generator-' + name  + ' Let me try to install it for you!');
+    generator.NamedBase.__super__.npmInstall(name, { save: false }, function (err) {
+      if (err) {
+        console.error(chalk.bold('Sorry no such generator: generator-' + name));
+        process.exit(err.code || 1);
+      }
     });
   });
 
