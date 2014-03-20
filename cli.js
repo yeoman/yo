@@ -75,7 +75,7 @@ function init() {
     var name = process.argv.slice(2).join(' ');
     var generator = require('yeoman-generator');
     console.log('Did not find generator-' + name  + ' Let me try to install it for you!');
-    generator.NamedBase.__super__.npmInstall(name, { save: false }, function (err) {
+    generator.Base.prototype.npmInstall(name, { save: false }, function (err) {
       if (err) {
         console.error(chalk.bold('Sorry no such generator: generator-' + name));
         process.exit(err.code || 1);
