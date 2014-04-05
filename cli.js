@@ -5,6 +5,7 @@ var path = require('path');
 var nopt = require('nopt');
 var chalk = require('chalk');
 var pkg = require('./package.json');
+var _ = require('lodash');
 var updateNotifier = require('update-notifier');
 var sudoBlock = require('sudo-block');
 var Insight = require('insight');
@@ -67,6 +68,13 @@ function init() {
 
   // lookup for every namespaces, within the environments.paths and lookups
   env.lookup();
+
+  // list generators
+  if (opts.generators) {
+    return console.log(_.uniq(Object.keys(env.getGeneratorsMeta()).map(function (el) {
+      return el.split(':')[0];
+    })).join('\n'));
+  }
 
   env.on('end', function () {
     console.log('Done running sir');

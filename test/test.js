@@ -55,4 +55,14 @@ describe('bin', function () {
       cb();
     });
   });
+
+  it('should output available generators when `--generators` flag is supplied', function (cb) {
+    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin.yo), '--generators', '--no-insight', '--no-update-notifier']);
+
+    cp.stdout.once('data', function (data) {
+      assert(data.length > 0);
+      assert(!/\[/.test(data));
+      cb();
+    });
+  });
 });
