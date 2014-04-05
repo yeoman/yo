@@ -8,6 +8,7 @@ var pkg = require('./package.json');
 var updateNotifier = require('update-notifier');
 var sudoBlock = require('sudo-block');
 var Insight = require('insight');
+var escExit = require('esc-exit');
 
 var opts = nopt({
   help: Boolean,
@@ -137,3 +138,4 @@ if (!process.env.yeoman_test && opts['update-notifier'] !== false) {
 
 rootCheck();
 pre();
+escExit();
