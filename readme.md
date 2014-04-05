@@ -1,6 +1,6 @@
-# yo [![Build Status](https://secure.travis-ci.org/yeoman/yo.svg?branch=master)](http://travis-ci.org/yeoman/yo)
+# yo [![Build Status](https://travis-ci.org/yeoman/yo.svg?branch=master)](https://travis-ci.org/yeoman/yo)
 
-CLI tool for scaffolding out [Yeoman](https://github.com/yeoman/yeoman) projects.
+> CLI tool for running Yeoman [generators](yeoman.io/community-generators.html).
 
 ![](screenshot.png)
 
@@ -24,13 +24,16 @@ If `doctor` doesn't help, then check opened issues for a similar problem. Open a
 
 If your issue only occur using a generator, please report the issues on the generator's repository.
 
+
 ## Contribute
 
 See the [contributing docs](https://github.com/yeoman/yeoman/blob/master/contributing.md).
 
+
 ## Changelog
 
 See the [release page](https://github.com/yeoman/yo/releases).
+
 
 ## License
 

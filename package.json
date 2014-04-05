@@ -1,7 +1,7 @@
 {
   "name": "yo",
   "version": "1.1.2",
-  "description": "CLI tool for scaffolding out Yeoman projects",
+  "description": "CLI tool for running Yeoman generators",
   "license": "BSD",
   "bin": {
     "yo": "cli.js"

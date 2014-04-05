@@ -8,7 +8,6 @@ var doctor = module.exports = {
 
   run: function () {
     this.checkNodePath();
-
     this.logErrors();
   },
 
@@ -18,6 +17,7 @@ var doctor = module.exports = {
       console.log();
       return;
     }
+
     console.log(chalk.red('[Yeoman Doctor] Uh oh, I found potential errors on your machine\n---------------\n'));
     this.errors.forEach(function (errMsg) {
       console.log('[' + chalk.red('Error') + '] ' + errMsg);
@@ -26,10 +26,15 @@ var doctor = module.exports = {
   },
 
   checkNodePath: function () {
-    if (!process.env.NODE_PATH) { return; }
+    if (!process.env.NODE_PATH) {
+      return;
+    }
+
     var nodePaths = process.env.NODE_PATH.split(pathSep).map(path.normalize);
     var npmRoot = shell.exec('npm -g root', { silent: true }).output;
+
     npmRoot = path.normalize(npmRoot.trim());
+
     if (nodePaths.indexOf(npmRoot) < 0) {
       this.nodePathMismatch({
         nodePaths: nodePaths,
