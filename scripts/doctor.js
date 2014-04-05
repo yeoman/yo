@@ -1,7 +1,6 @@
 var path = require('path');
 var chalk = require('chalk');
 var shell = require('shelljs');
-var pathSep = require('path-sep');
 
 var doctor = module.exports = {
   errors: [],
@@ -30,7 +29,7 @@ var doctor = module.exports = {
       return;
     }
 
-    var nodePaths = process.env.NODE_PATH.split(pathSep).map(path.normalize);
+    var nodePaths = process.env.NODE_PATH.split(path.delimiter).map(path.normalize);
     var npmRoot = shell.exec('npm -g root', { silent: true }).output;
 
     npmRoot = path.normalize(npmRoot.trim());
@@ -48,7 +47,7 @@ var doctor = module.exports = {
     output += 'NPM root value is not in your NODE_PATH\n';
     output += '  [' + chalk.cyan('info') + ']\n';
     output += [
-      '    NODE_PATH = ' + val.nodePaths.join(pathSep),
+      '    NODE_PATH = ' + val.nodePaths.join(path.delimiter),
       '    NPM root  = ' + val.npmRoot
     ].join('\n');
     output += '\n\n  [' + chalk.cyan('Fix') + '] Append the NPM root value to your NODE_PATH variable\n';

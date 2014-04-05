@@ -45,7 +45,6 @@
     "lodash": "^2.4.1",
     "nopt": "^2.2.0",
     "opn": "^0.1.1",
-    "path-sep": "^0.1.0",
     "shelljs": "^0.2.6",
     "sudo-block": "^0.4.0",
     "update-notifier": "^0.1.3",
