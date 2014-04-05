@@ -1,9 +1,7 @@
+var path = require('path');
 var chalk = require('chalk');
 var shell = require('shelljs');
-var path = require('path');
-
-var isWin = !!process.platform.match(/^win/);
-var pathSep = isWin ? ';' : ':';
+var pathSep = require('path-sep');
 
 var doctor = module.exports = {
   errors: [],
@@ -50,7 +48,7 @@ var doctor = module.exports = {
     ].join('\n');
     output += '\n\n  [' + chalk.cyan('Fix') + '] Append the NPM root value to your NODE_PATH variable\n';
 
-    if (isWin) {
+    if (process.platform === 'win32') {
       output += [
         '    If you\'re using cmd.exe, run this command to fix the issue:',
         '      setx NODE_PATH "%NODE_PATH%;' + val.npmRoot + '"',
