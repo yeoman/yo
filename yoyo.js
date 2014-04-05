@@ -1,6 +1,6 @@
 var fs = require('fs');
 var async = require('async');
-var open = require('open');
+var open = require('opn');
 var yo = require('yeoman-generator');
 var util = require('util');
 var path = require('path');
