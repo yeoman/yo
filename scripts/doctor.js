@@ -44,13 +44,13 @@ var doctor = module.exports = {
 
   nodePathMismatch: function (val) {
     var output = '';
-    output += 'NPM root value is not in your NODE_PATH\n';
+    output += 'npm root value is not in your NODE_PATH\n';
     output += '  [' + chalk.cyan('info') + ']\n';
     output += [
       '    NODE_PATH = ' + val.nodePaths.join(path.delimiter),
-      '    NPM root  = ' + val.npmRoot
+      '    npm root  = ' + val.npmRoot
     ].join('\n');
-    output += '\n\n  [' + chalk.cyan('Fix') + '] Append the NPM root value to your NODE_PATH variable\n';
+    output += '\n\n  [' + chalk.cyan('Fix') + '] Append the npm root value to your NODE_PATH variable\n';
 
     if (process.platform === 'win32') {
       output += [
