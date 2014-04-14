@@ -8,6 +8,7 @@ var pkg = require('./package.json');
 var _ = require('lodash');
 var updateNotifier = require('update-notifier');
 var sudoBlock = require('sudo-block');
+var isRoot = require('is-root');
 var Insight = require('insight');
 var escExit = require('esc-exit');
 
@@ -44,6 +45,13 @@ More info: https://github.com/yeoman/insight & http://yeoman.io') + chalk.gray('
 
 
 function rootCheck() {
+  if (isRoot() && process.setuid) {
+    try {
+      // Try to force yo to run on a safe uid
+      process.setuid(501);
+    } catch (err) {}
+  }
+
   var msg = chalk.red('Easy with the "sudo"; Yeoman is the master around here.') + '\n\n\
 Since yo is a user command, there is no need to execute it with superuser\n\
 permissions. If you\'re having permission errors when using yo without sudo,\n\
