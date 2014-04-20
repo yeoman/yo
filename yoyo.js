@@ -7,6 +7,7 @@ var path = require('path');
 var updateNotifier = require('update-notifier');
 var chalk = require('chalk');
 var findup = require('findup');
+var fullname = require('fullname');
 
 
 // The `yo yo` generator provides users with a few common, helpful commands.
@@ -346,12 +347,21 @@ yoyo.prototype.home = function home(options) {
   }
 
   this.insight.track('yoyo', 'home');
-  this.prompt([{
-    name: 'whatNext',
-    type: 'list',
-    message: 'What would you like to do?',
-    choices: this._.union(generatorList, new yo.inquirer.Separator(), defaultChoices)
-  }], function (answer) {
-    this[answer.whatNext.method](answer.whatNext.args, done);
+
+  fullname(function (err, name) {
+    if (err) {
+      return done(err);
+    }
+
+    var allo = name ? ('\'Allo ' + name.split(' ')[0] + '! ') : '\'Allo! ';
+
+    this.prompt([{
+      name: 'whatNext',
+      type: 'list',
+      message: allo + 'What would you like to do?',
+      choices: this._.union(generatorList, new yo.inquirer.Separator(), defaultChoices)
+    }], function (answer) {
+      this[answer.whatNext.method](answer.whatNext.args, done);
+    }.bind(this));
   }.bind(this));
 };
