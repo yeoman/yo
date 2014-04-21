@@ -74,8 +74,9 @@ function init() {
   env.on('error', function (err) {
     var name = process.argv.slice(2).join(' ');
     var generator = require('yeoman-generator');
+    console.log(generator.Base.prototype.npmInstall);
     console.log('Did not find generator-' + name  + ' Let me try to install it for you!');
-    generator.Base.prototype.npmInstall(name, { save: false }, function (err) {
+    generator.generators.Base.prototype.npmInstall(name, { save: false }, function (err) {
       if (err) {
         console.error(chalk.bold('Sorry no such generator: generator-' + name));
         process.exit(err.code || 1);
