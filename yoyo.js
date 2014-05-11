@@ -2,6 +2,7 @@ var fs = require('fs');
 var async = require('async');
 var open = require('opn');
 var yo = require('yeoman-generator');
+var yosay = require('yosay');
 var util = require('util');
 var path = require('path');
 var updateNotifier = require('update-notifier');
@@ -231,12 +232,20 @@ yoyo.prototype._findHelp = function _findHelp() {
 yoyo.prototype._exit = function _exit() {
   this.insight.track('yoyo', 'exit');
 
+  var url = 'https://github.com/yeoman/yeoman#team';
+  var maxLength = url.length;
+  var newLine = new Array(maxLength).join(' ');
+
   console.log(
-      '\nBye from us! Chat soon.'
-    + '\n'
-    + '\n' + chalk.red.bold('The Yeoman Team')
-    + '\n https://github.com/yeoman/yeoman#team'
-    + '\n');
+    '\n' +
+    yosay(
+      'Bye from us! Chat soon.' +
+      newLine +
+      newLine +
+      'The Yeoman Team ' + url,
+      { maxLength: maxLength }
+    )
+  );
 };
 
 
