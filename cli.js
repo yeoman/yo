@@ -11,6 +11,7 @@ var sudoBlock = require('sudo-block');
 var isRoot = require('is-root');
 var Insight = require('insight');
 var escExit = require('esc-exit');
+var yosay = require('yosay');
 
 var opts = nopt({
   help: Boolean,
@@ -147,8 +148,13 @@ if (!process.env.yeoman_test && opts['update-notifier'] !== false) {
     packageVersion: pkg.version
   });
 
+  var message = [];
+
   if (notifier.update) {
-    notifier.notify(true);
+    message.push('Update available: ' + notifier.update.latest + ' (current: ' + notifier.update.current + ')');
+    message.push(Array(message[0].length).join(' '));
+    message.push('Run `npm update -g ' + pkg.name + '` to update.');
+    console.log(yosay(message.join(' '), { maxLength: message[0].length }));
   }
 }
 
