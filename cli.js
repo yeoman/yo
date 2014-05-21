@@ -12,6 +12,7 @@ var isRoot = require('is-root');
 var Insight = require('insight');
 var escExit = require('esc-exit');
 var yosay = require('yosay');
+var stringLength = require('string-length');
 
 var opts = nopt({
   help: Boolean,
@@ -151,10 +152,9 @@ if (!process.env.yeoman_test && opts['update-notifier'] !== false) {
   var message = [];
 
   if (notifier.update) {
-    message.push('Update available: ' + notifier.update.latest + ' (current: ' + notifier.update.current + ')');
-    message.push(Array(message[0].length).join(' '));
-    message.push('Run `npm update -g ' + pkg.name + '` to update.');
-    console.log(yosay(message.join(' '), { maxLength: message[0].length }));
+    message.push('Update available: ' + chalk.green.bold(notifier.update.latest) + chalk.gray(' (current: ' + notifier.update.current + ')'));
+    message.push('Run ' + chalk.magenta('npm update -g ' + pkg.name) + ' to update.');
+    console.log(yosay(message.join(' '), { maxLength: stringLength(message[0]) }));
   }
 }
 
