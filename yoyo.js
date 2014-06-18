@@ -200,13 +200,13 @@ yoyo.prototype._findHelp = function _findHelp() {
       + '\nI will open the link you select in your browser for you',
     choices: [{
       name: 'Take me to the documentation',
-      value: 'https://github.com/yeoman/yeoman/wiki'
+      value: 'http://yeoman.io/learning/index.html'
     }, {
       name: 'View Frequently Asked Questions',
-      value: 'https://github.com/yeoman/yeoman/wiki/FAQ'
+      value: 'http://yeoman.io/learning/faq.html'
     }, {
       name: 'File an issue on GitHub',
-      value: 'https://github.com/yeoman/yeoman/blob/master/contributing.md#issue-submission'
+      value: 'http://yeoman.io/contributing/opening-issues.html'
     }, {
       name: 'Take me back home, Yo!',
       value: {
