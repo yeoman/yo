@@ -16,7 +16,7 @@ var yo = function () {
     insight: insightStub
   });
 };
-env.register(path.join(__dirname, '../yoyo'), 'yo');
+env.registerStub(yoyo, 'yo');
 
 function Phoenix() {
   generator.Base.apply(this, arguments);
@@ -46,7 +46,7 @@ describe('yo yo', function () {
         methods: []
       };
 
-      before(function () {
+      before(function (cb) {
         yoyo.prototype.pkgs = {
           phoenix: {
             version: '0.0.0',
@@ -65,6 +65,7 @@ describe('yo yo', function () {
               }
             }
           });
+          cb();
         });
 
         yo();
