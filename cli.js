@@ -124,7 +124,7 @@ function pre() {
   }
 
   // easteregg
-  if (cmd === 'yeoman') {
+  if (cmd === 'yeoman' || cmd === 'yo') {
     return fs.createReadStream(__dirname + '/yeoman.txt').pipe(process.stdout);
   }
 
