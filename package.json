@@ -52,7 +52,7 @@
     "sudo-block": "^0.4.0",
     "update-notifier": "^0.1.3",
     "yeoman-generator": "^0.17.0",
-    "yosay": "^0.2.1"
+    "yosay": "^0.3.0"
   },
   "peerDependencies": {
     "grunt-cli": ">=0.1.7",
