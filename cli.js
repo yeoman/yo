@@ -90,9 +90,16 @@ function init() {
   });
 
   env.on('error', function (err) {
-    console.error('Error', process.argv.slice(2).join(' '), '\n');
-    console.error(opts.debug ? err.stack : err.message);
-    process.exit(err.code || 1);
+    var name = process.argv.slice(2).join(' ');
+    var generator = require('yeoman-generator');
+    console.log(generator.Base.prototype.npmInstall);
+    console.log('Did not find generator-' + name  + ' Let me try to install it for you!');
+    generator.generators.Base.prototype.npmInstall(name, { save: false }, function (err) {
+      if (err) {
+        console.error(chalk.bold('Sorry no such generator: generator-' + name));
+        process.exit(err.code || 1);
+      }
+    });
   });
 
   // Register the `yo yo` generator.
