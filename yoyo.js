@@ -1,6 +1,9 @@
-var fs = require('fs');
+/* jshint onevar:false */
+
+'use strict';
+
 var async = require('async');
-var open = require('opn');
+var opn = require('opn');
 var yo = require('yeoman-generator');
 var yosay = require('yosay');
 var util = require('util');
@@ -46,10 +49,9 @@ yoyo.prototype._updateGenerators = function _updateGenerators(pkgs) {
     self.home({
       refresh: true,
       message:
-        'I\'ve just updated your generators. Remember, you can update'
-        + '\na specific generator with npm by running:'
-        + '\n'
-        + chalk.magenta('\n    npm update -g generator-_______')
+        'I\'ve just updated your generators. Remember, you can update' +
+        '\na specific generator with npm by running:\n' +
+        chalk.magenta('\n    npm update -g generator-_______')
     });
   });
 };
@@ -60,7 +62,9 @@ yoyo.prototype._promptToUpdateGenerators = function _promptToUpdateGenerators() 
     name: '_updateSelectedGenerators',
     message: 'Generators to update',
     type: 'checkbox',
-    choices: this._.map(this.pkgs, function (generator) { return {name: generator.name, checked: true}; })
+    choices: this._.map(this.pkgs, function (generator) {
+      return {name: generator.name, checked: true};
+    })
   }], function (answer) {
     this._updateGenerators.call(this, answer._updateSelectedGenerators);
   }.bind(this));
@@ -71,9 +75,9 @@ yoyo.prototype._promptToUpdateGenerators = function _promptToUpdateGenerators() 
 // - generator - (string) The generator to initialize.
 yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
   console.log(
-      chalk.yellow('\nMake sure you are in the directory you want to scaffold into.\n')
-    + 'This generator can also be run with: '
-    + chalk.blue.bold('yo ' + generator.split(':')[0])
+    chalk.yellow('\nMake sure you are in the directory you want to scaffold into.\n') +
+    'This generator can also be run with: ' +
+    chalk.blue.bold('yo ' + generator.split(':')[0])
   );
 
   this.insight.track('yoyo', 'run', generator);
@@ -100,9 +104,8 @@ yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
         this.home({
           refresh: true,
           message:
-            '\nI just installed your generator by running:'
-            + '\n'
-            + chalk.blue.bold('\n    npm install -g ' + pkgName)
+            '\nI just installed your generator by running:\n' +
+            chalk.blue.bold('\n    npm install -g ' + pkgName)
         });
       }.bind(this));
   }
@@ -121,7 +124,9 @@ yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
 // - term - (object) Contains the search term & gets passed back to callback().
 // - cb   - Callback to execute once generators have been found.
 yoyo.prototype._findAllNpmGenerators = function _findAllNpmGenerators(term, cb) {
-  var url = 'http://isaacs.iriscouch.com/registry/_design/app/_view/byKeyword?startkey=[%22yeoman-generator%22]&endkey=[%22yeoman-generator%22,{}]&group_level=3';
+  var url = 'http://isaacs.iriscouch.com/registry/_design/' +
+    'app/_view/byKeyword?startkey=[%22yeoman-generator%22]' +
+    '&endkey=[%22yeoman-generator%22,{}]&group_level=3';
 
   this.request(url, function (err, res, body) {
     if (err) {
@@ -132,8 +137,8 @@ yoyo.prototype._findAllNpmGenerators = function _findAllNpmGenerators(term, cb) 
       this.npmGenerators = JSON.parse(body);
     } catch (err) {
       return this.emit('error', new Error(chalk.bold(
-        'A problem occurred contacting the registry.'
-        + '\nUnable to parse response: not valid JSON.'
+        'A problem occurred contacting the registry.' +
+        '\nUnable to parse response: not valid JSON.'
       )));
     }
 
@@ -155,7 +160,10 @@ yoyo.prototype._searchNpm = function _searchNpm(term) {
   // Find any matches from NPM.
   var choices = this._.chain(this.npmGenerators.rows).map(function (generator) {
     // Make sure it's not already installed.
-    if (!this.pkgs[generator.key[1]] && generator.key.join(' ').indexOf(term.searchTerm) > -1) {
+    if (
+      !this.pkgs[generator.key[1]] &&
+      generator.key.join(' ').indexOf(term.searchTerm) > -1
+    ) {
       return {
         name: generator.key[1],
         value: generator.key[1]
@@ -166,9 +174,8 @@ yoyo.prototype._searchNpm = function _searchNpm(term) {
   var resultsPrompt = [{
     name: '_installGenerator',
     type: 'list',
-    message: choices.length > 0
-      ? 'Here\'s what I found. Install one?'
-      : 'Sorry, nothing was found',
+    message: choices.length > 0 ?
+      'Here\'s what I found. Install one?' : 'Sorry, nothing was found',
     choices: this._.union(choices, [{
       name: 'Search again',
       value: '_installGenerator'
@@ -195,9 +202,8 @@ yoyo.prototype._findHelp = function _findHelp() {
     name: 'whereTo',
     type: 'list',
     message:
-      'Here are a few helpful resources.'
-      + '\n'
-      + '\nI will open the link you select in your browser for you',
+      'Here are a few helpful resources.\n' +
+      '\nI will open the link you select in your browser for you',
     choices: [{
       name: 'Take me to the documentation',
       value: 'http://yeoman.io/learning/index.html'
@@ -222,7 +228,7 @@ yoyo.prototype._findHelp = function _findHelp() {
     if (this._.isFunction(this[answer.whereTo.method])) {
       this[answer.whereTo.method](answer.whereTo.args);
     } else {
-      open(answer.whereTo);
+      opn(answer.whereTo);
     }
   }.bind(this));
 };
@@ -334,7 +340,8 @@ yoyo.prototype.home = function home(options) {
     var versionInfo = chalk.gray('(' + generator.version + ')');
 
     if (generator.updateAvailable) {
-      versionInfo += chalk.yellow(' Update Available! ') + chalk.red('(' + generator.update.latest + ')');
+      versionInfo += chalk.yellow(' Update Available! ') +
+        chalk.red('(' + generator.update.latest + ')');
     }
 
     return {
