@@ -1,5 +1,5 @@
 --slow 1500
---timeout 50000
+--timeout 5000
 
 --reporter spec
 

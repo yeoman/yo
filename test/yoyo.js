@@ -1,9 +1,11 @@
 /*global describe, it, before, beforeEach, after, afterEach */
+'use strict';
+var assert = require('assert');
 var path = require('path');
 var util = require('util');
+var sinon = require('sinon');
 var generator = require('yeoman-generator');
-var helpers = require(path.join(path.dirname(require.resolve('yeoman-generator')), 'lib/test/helpers'));
-var assert = require('assert');
+var helpers = generator.test;
 var env = generator();
 
 var insightStub = {
@@ -18,10 +20,7 @@ var yo = function () {
 };
 env.registerStub(yoyo, 'yo');
 
-function Phoenix() {
-  generator.Base.apply(this, arguments);
-}
-util.inherits(Phoenix, generator.Base);
+var Phoenix = generator.Base.extend();
 env.registerStub(Phoenix, 'phoenix:app');
 
 describe('yo yo', function () {
@@ -145,12 +144,10 @@ describe('yo yo', function () {
     it('should .run() desired generator', function (done) {
       var fakeGenerator = 'generator-phoenix';
 
-      helpers.stub(yoyo.prototype.env = {}, 'run', function (generator, done) {
-        assert.equal(generator, fakeGenerator);
-        done();
-      });
-
+      var stub = sinon.stub(yoyo.prototype, 'composeWith');
       yoyo.prototype._initGenerator(fakeGenerator, done);
+
+      sinon.assert.calledWith(stub, fakeGenerator);
     });
   });
 
