@@ -81,7 +81,8 @@ yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
   );
 
   this.insight.track('yoyo', 'run', generator);
-  this.env.run(generator, done);
+  this.composeWith(generator);
+  done();
 };
 
 
