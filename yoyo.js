@@ -338,15 +338,15 @@ yoyo.prototype.home = function home(options) {
       return;
     }
 
-    var versionInfo = chalk.dim.reset('(' + generator.version + ')');
+    var updateInfo = generator.updateAvailable ? chalk.dim.yellow(' ♥ Update Available!') : '';
 
-    if (generator.updateAvailable) {
-      versionInfo += chalk.yellow(' Update Available! ') +
-        chalk.red('(' + generator.update.latest + ')');
-    }
+    // TODO
+    // var updateInfo = generator.updateAvailable ?
+    //   chalk.dim.yellow(' ♥ Update Available!') +
+    //   chalk.dim.reset(' (Press Space to update)') : '';
 
     return {
-      name: generator.prettyName + ' ' + versionInfo,
+      name: generator.prettyName + updateInfo,
       value: {
         method: '_initGenerator',
         args: generator.namespace
