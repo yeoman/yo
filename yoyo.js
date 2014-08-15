@@ -4,7 +4,7 @@
 
 var async = require('async');
 var opn = require('opn');
-var yo = require('yeoman-generator');
+var gen = require('yeoman-generator');
 var yosay = require('yosay');
 var util = require('util');
 var path = require('path');
@@ -16,14 +16,14 @@ var fullname = require('fullname');
 
 // The `yo yo` generator provides users with a few common, helpful commands.
 var yoyo = module.exports = function yoyo(args, options) {
-  yo.Base.apply(this, arguments);
+  gen.Base.apply(this, arguments);
   this.insight = options.insight;
 
   this.insight.track('yoyo', 'init');
   process.once('exit', this._exit.bind(this));
 };
 
-util.inherits(yoyo, yo.Base);
+util.inherits(yoyo, gen.Base);
 
 
 // Runs parallel `npm update -g`s for each selected generator.
@@ -275,7 +275,7 @@ yoyo.prototype.findGenerators = function findGenerators() {
       return;
     }
 
-    var pkg = yo.file.readJSON(path.join(dir, 'package.json'));
+    var pkg = gen.file.readJSON(path.join(dir, 'package.json'));
     pkg.namespace = generator.namespace;
     pkg.appGenerator = true;
     pkg.prettyName = generator.namespace.replace(/(\w+):\w+/, '$1');
@@ -377,11 +377,11 @@ yoyo.prototype.home = function home(options) {
       type: 'list',
       message: allo + 'What would you like to do?',
       choices: this._.flatten([
-        new yo.inquirer.Separator('Run a generator'),
+        new gen.inquirer.Separator('Run a generator'),
         generatorList,
-        new yo.inquirer.Separator(),
+        new gen.inquirer.Separator(),
         defaultChoices,
-        new yo.inquirer.Separator()
+        new gen.inquirer.Separator()
       ])
     }], function (answer) {
       this[answer.whatNext.method](answer.whatNext.args, done);
