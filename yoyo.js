@@ -77,8 +77,8 @@ yoyo.prototype._promptToUpdateGenerators = function _promptToUpdateGenerators() 
 yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
   console.log(
     chalk.yellow('\nMake sure you are in the directory you want to scaffold into.\n') +
-    'This generator can also be run with: ' +
-    chalk.blue.bold('yo ' + generator.split(':')[0])
+    chalk.dim('This generator can also be run with: ' +
+    chalk.blue('yo ' + generator.split(':')[0]) + '\n')
   );
 
   this.insight.track('yoyo', 'run', generator);
