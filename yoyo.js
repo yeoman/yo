@@ -338,7 +338,7 @@ yoyo.prototype.home = function home(options) {
       return;
     }
 
-    var versionInfo = chalk.gray('(' + generator.version + ')');
+    var versionInfo = chalk.dim.reset('(' + generator.version + ')');
 
     if (generator.updateAvailable) {
       versionInfo += chalk.yellow(' Update Available! ') +
