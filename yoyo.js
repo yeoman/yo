@@ -346,7 +346,7 @@ yoyo.prototype.home = function home(options) {
     }
 
     return {
-      name: 'Run the ' + generator.prettyName + ' generator ' + versionInfo,
+      name: generator.prettyName + ' ' + versionInfo,
       value: {
         method: '_initGenerator',
         args: generator.namespace
@@ -376,7 +376,13 @@ yoyo.prototype.home = function home(options) {
       name: 'whatNext',
       type: 'list',
       message: allo + 'What would you like to do?',
-      choices: this._.union(generatorList, new yo.inquirer.Separator(), defaultChoices)
+      choices: this._.flatten([
+        new yo.inquirer.Separator('Run a generator'),
+        generatorList,
+        new yo.inquirer.Separator(),
+        defaultChoices,
+        new yo.inquirer.Separator()
+      ])
     }], function (answer) {
       this[answer.whatNext.method](answer.whatNext.args, done);
     }.bind(this));
