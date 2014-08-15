@@ -13,7 +13,16 @@ var chalk = require('chalk');
 var findup = require('findup');
 var fullname = require('fullname');
 var _s = require('underscore.string');
+var Configstore = require('configstore');
+var pkg = require('./package.json');
 
+var conf = new Configstore(pkg.name, {
+  generatorRunCount: {}
+});
+
+function namespaceToName(val) {
+  return val.replace(/(\w+):\w+/, '$1');
+}
 
 // The `yo yo` generator provides users with a few common, helpful commands.
 var yoyo = module.exports = function yoyo(args, options) {
@@ -80,6 +89,13 @@ yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
     chalk.dim('This generator can also be run with: ' +
     chalk.blue('yo ' + generator.split(':')[0]) + '\n')
   );
+
+  // save the generator run count
+  var generatorName = namespaceToName(generator);
+  var generatorRunCount = conf.get('generatorRunCount');
+  generatorRunCount[generatorName] = typeof generatorRunCount[generatorName] === 'number' ?
+    ++generatorRunCount[generatorName] : 1;
+  conf.set('generatorRunCount', generatorRunCount);
 
   this.insight.track('yoyo', 'run', generator);
   this.composeWith(generator);
@@ -279,7 +295,7 @@ yoyo.prototype.findGenerators = function findGenerators() {
     var pkg = gen.file.readJSON(path.join(dir, 'package.json'));
     pkg.namespace = generator.namespace;
     pkg.appGenerator = true;
-    pkg.prettyName = _s.titleize(_s.humanize(generator.namespace.replace(/(\w+):\w+/, '$1')));
+    pkg.prettyName = _s.titleize(_s.humanize(namespaceToName(generator.namespace)));
 
     pkg.update = updateNotifier({
       packageName: pkg.name,
@@ -352,7 +368,10 @@ yoyo.prototype.home = function home(options) {
         args: generator.namespace
       }
     };
-  }).compact().value();
+  }).compact().sortBy(function (el) {
+    var generatorName = namespaceToName(el.value.args);
+    return -conf.get('generatorRunCount')[generatorName] || 0;
+  }).value();
 
   if (generatorList.length) {
     defaultChoices.unshift({
