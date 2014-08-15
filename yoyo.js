@@ -12,6 +12,7 @@ var updateNotifier = require('update-notifier');
 var chalk = require('chalk');
 var findup = require('findup');
 var fullname = require('fullname');
+var _s = require('underscore.string');
 
 
 // The `yo yo` generator provides users with a few common, helpful commands.
@@ -278,8 +279,7 @@ yoyo.prototype.findGenerators = function findGenerators() {
     var pkg = gen.file.readJSON(path.join(dir, 'package.json'));
     pkg.namespace = generator.namespace;
     pkg.appGenerator = true;
-    pkg.prettyName = generator.namespace.replace(/(\w+):\w+/, '$1');
-    pkg.prettyName = pkg.prettyName.charAt(0).toUpperCase() + pkg.prettyName.slice(1);
+    pkg.prettyName = _s.titleize(_s.humanize(generator.namespace.replace(/(\w+):\w+/, '$1')));
 
     pkg.update = updateNotifier({
       packageName: pkg.name,

@@ -51,6 +51,7 @@
     "shelljs": "^0.3.0",
     "string-length": "^1.0.0",
     "sudo-block": "^1.0.0",
+    "underscore.string": "^2.3.3",
     "update-notifier": "^0.2.0",
     "yeoman-generator": "^0.17.2",
     "yosay": "^1.0.0"
