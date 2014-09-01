@@ -183,7 +183,7 @@ yoyo.prototype._searchNpm = function _searchNpm(term) {
       generator.key.join(' ').indexOf(term.searchTerm) > -1
     ) {
       return {
-        name: generator.key[1],
+        name: generator.key[1].replace(/^generator-/, ''),
         value: generator.key[1]
       };
     }
