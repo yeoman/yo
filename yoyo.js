@@ -122,7 +122,7 @@ yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
         this.home({
           refresh: true,
           message:
-            '\nI just installed your generator by running:\n' +
+            '\nI just installed a generator by running:\n' +
             chalk.blue.bold('\n    npm install -g ' + pkgName)
         });
       }.bind(this));
