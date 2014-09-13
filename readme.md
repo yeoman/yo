@@ -1,6 +1,16 @@
-# yo [![Build Status](https://travis-ci.org/yeoman/yo.svg?branch=master)](https://travis-ci.org/yeoman/yo) ![](http://img.shields.io/badge/unicorn-approved-ff69b4.svg)
+▂▂╱▔▔▔▔▔▔▔▔▔▔╲  
+╲▂┈╭╮╱╱╭┳━━━╮▕  
+┈┈▏┃╰╮╭╯┃╭━╮┃▕  
+┈┈▏╰╮╰╯╭┫┃╱┃┃▕  
+┈┈▏╱╰╮╭╯┃┃╱┃┃▕  
+┈┈▏╱╱┃┃╱┃╰━╯┃▕  
+┈┈▏╱╱╰╯╱╰━━━╯▕  
+┈┈╲▂▂▂▂▂▂▂▂▂▂╱
 
-> CLI tool for running Yeoman [generators](http://yeoman.io/generators/community.html).
+
+[![Build Status](https://travis-ci.org/yeoman/yo.svg?branch=master)](https://travis-ci.org/yeoman/yo) ![](http://img.shields.io/badge/unicorn-approved-ff69b4.svg)
+
+> CLI tool for running Yeoman [generators](http://yeoman.io/generators/community.html)
 
 ![](screenshot.png)
 
