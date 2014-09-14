@@ -12,6 +12,7 @@ var isRoot = require('is-root');
 var Insight = require('insight');
 var yosay = require('yosay');
 var stringLength = require('string-length');
+var yeomanCharacter = require('yeoman-character');
 
 var opts = nopt({
   help: Boolean,
@@ -125,7 +126,8 @@ function pre() {
 
   // easteregg
   if (cmd === 'yeoman' || cmd === 'yo') {
-    return fs.createReadStream(__dirname + '/yeoman.txt').pipe(process.stdout);
+    console.log(yeomanCharacter);
+    return;
   }
 
   init();
