@@ -52,9 +52,9 @@
     "string-length": "^1.0.0",
     "sudo-block": "^1.0.0",
     "underscore.string": "^2.3.3",
-    "update-notifier": "^0.2.0",
+    "update-notifier": "^0.2.1",
     "yeoman-character": "^1.0.0",
-    "yeoman-generator": "^0.17.3",
+    "yeoman-generator": "^0.17.6",
     "yosay": "^1.0.0"
   },
   "devDependencies": {
@@ -62,7 +62,8 @@
     "grunt-cli": "^0.1.13",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-mocha-test": "^0.11.0",
+    "grunt-mocha-test": "^0.12.0",
+    "mocha": "^1.21.4",
     "mockery": "^1.4.0",
     "sinon": "^1.10.3"
   },
