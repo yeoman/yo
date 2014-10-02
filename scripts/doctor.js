@@ -12,7 +12,7 @@ var doctor = module.exports = {
 
   logErrors: function () {
     if (!this.errors.length) {
-      console.log(chalk.green('[Yeoman Doctor] Everything looks alright!'));
+      console.log(chalk.green('[Yeoman Doctor] Everything looks all right!'));
       console.log();
       return;
     }
