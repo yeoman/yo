@@ -52,9 +52,9 @@
     "string-length": "^1.0.0",
     "sudo-block": "^1.0.0",
     "underscore.string": "^2.3.3",
-    "update-notifier": "^0.2.1",
+    "update-notifier": "^0.2.2",
     "yeoman-character": "^1.0.0",
-    "yeoman-generator": "^0.17.6",
+    "yeoman-generator": "^0.17.7",
     "yosay": "^1.0.0"
   },
   "devDependencies": {
