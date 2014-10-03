@@ -12,7 +12,7 @@
 
 > CLI tool for running Yeoman [generators](http://yeoman.io/generators/)
 
-![](screenshot.png)
+<img src="screenshot.png" width="569">
 
 
 ## [Documentation](https://github.com/yeoman/yeoman/wiki)
