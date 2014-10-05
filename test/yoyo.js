@@ -1,6 +1,7 @@
 /*global describe, it, before, beforeEach, after, afterEach */
 'use strict';
 var assert = require('assert');
+var fs = require('fs');
 var path = require('path');
 var util = require('util');
 var sinon = require('sinon');
@@ -53,8 +54,8 @@ describe('yo yo', function () {
             namespace: 'phoenix:app'
           }
         };
-        helpers.stub(yoyo.prototype, 'findGenerators');
-        helpers.stub(yoyo.prototype, 'prompt', function (prompts) {
+        this.stubFindGenerators = sinon.stub(yoyo.prototype, 'findGenerators');
+        this.stubPrompt = sinon.stub(yoyo.prototype, 'prompt', function (prompts) {
           prompts[0].choices.forEach(function (choice) {
             if (choice.value && choice.value.method) {
               if (choice.value.method === '_initGenerator') {
@@ -67,7 +68,15 @@ describe('yo yo', function () {
           cb();
         });
 
+        this.stubExistsSync = sinon.stub(fs, 'existsSync').returns(false);
+
         yo();
+      });
+
+      afterEach(function() {
+        this.stubPrompt.restore();
+        this.stubExistsSync.restore();
+        this.stubFindGenerators.restore();
       });
 
       it('should display installed generators', function () {
@@ -77,6 +86,10 @@ describe('yo yo', function () {
 
       it('should allow an option to exit', function () {
         assert.ok(choices.methods.indexOf('_noop') > -1);
+      });
+
+      it('should not display clear menu', function () {
+        assert.ok(choices.methods.indexOf('_clearGlobalConfig') === -1);
       });
     });
   });
@@ -370,7 +383,7 @@ describe('yo yo', function () {
       });
       yoyo.prototype._searchNpm({
         searchTerm: 'amd'
-      });      
+      });
     });
   });
 
@@ -393,6 +406,63 @@ describe('yo yo', function () {
           assert.ok(choice.value.match(/^https*:\/\//));
         }
       });
+    });
+  });
+
+  describe('clearGlobalConfig', function () {
+
+    it('should display only generators with a global store entry', function () {
+      var choices = {
+        generators: [],
+        prettyNames: []
+      };
+
+      yoyo.prototype.pkgs = {
+        'generator-unicorn': {
+          name: 'generator-unicorn',
+          prettyName: 'Unicorn',
+          namespace: 'unicorn:app'
+        },
+        'generator-foo': {
+          name: 'generator-foo',
+          prettyName: 'Foo',
+          namespace: 'foo:app'
+        }
+      };
+
+      var stubExistsSync = sinon.stub(fs, 'existsSync').returns(true);
+
+      var stubReadFileSync = sinon.stub(fs, 'readFileSync', function () {
+        return JSON.stringify({
+          'generator-phoenix': {},
+          'generator-unicorn': {}
+        });
+      });
+
+      var stubPrompt = sinon.stub(yoyo.prototype, 'prompt', function (prompts) {
+        prompts[0].choices.forEach(function (choice) {
+          if (choice.name) {
+            choices.prettyNames.push(choice.name);
+          }
+          if (choice.value && choice.value.args && choice.value.args.generator) {
+            choices.generators.push(choice.value.args.generator);
+          }
+        });
+      });
+
+      yoyo.prototype._clearGlobalConfig();
+
+      assert.equal(choices.generators.length, 3);
+      assert.ok(choices.generators.indexOf('*') > -1); // Clear all generators entry is present
+      assert.ok(choices.generators.indexOf('generator-phoenix') > -1);
+      assert.ok(choices.generators.indexOf('generator-unicorn') > -1);
+
+      assert.ok(choices.prettyNames.indexOf('Unicorn') > -1);
+      assert.ok(choices.prettyNames.indexOf('phoenix\u001b[31m (not installed anymore)\u001b[39m') > -1);
+
+      stubExistsSync.restore();
+      stubReadFileSync.restore();
+      stubPrompt.restore();
     });
   });
 });
