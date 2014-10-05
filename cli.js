@@ -12,7 +12,6 @@ var isRoot = require('is-root');
 var Insight = require('insight');
 var yosay = require('yosay');
 var stringLength = require('string-length');
-var yeomanCharacter = require('yeoman-character');
 
 var opts = nopt({
   help: Boolean,
@@ -69,22 +68,12 @@ https://gist.github.com/isaacs/579814\n';
 }
 
 function init() {
-  var env = require('yeoman-generator')();
+  var env = require('yeoman-environment').createEnv();
 
   // alias any single namespace to `*:all` and `webapp` namespace specifically
   // to webapp:app.
   env.alias(/^([^:]+)$/, '$1:all');
   env.alias(/^([^:]+)$/, '$1:app');
-
-  // lookup for every namespaces, within the environments.paths and lookups
-  env.lookup();
-
-  // list generators
-  if (opts.generators) {
-    return console.log(_.uniq(Object.keys(env.getGeneratorsMeta()).map(function (el) {
-      return el.split(':')[0];
-    })).join('\n'));
-  }
 
   env.on('end', function () {
     console.log('Done running sir');
@@ -96,22 +85,32 @@ function init() {
     process.exit(err.code || 1);
   });
 
-  // Register the `yo yo` generator.
-  if (!cmd) {
-    if (opts.help) {
-      return console.log(env.help('yo'));
+  // lookup for every namespaces, within the environments.paths and lookups
+  env.lookup(function () {
+    // list generators
+    if (opts.generators) {
+      return console.log(_.uniq(Object.keys(env.getGeneratorsMeta()).map(function (el) {
+        return el.split(':')[0];
+      })).join('\n'));
     }
 
-    env.register(path.resolve(__dirname, './yoyo'), 'yo');
-    args = ['yo'];
-    // make the insight instance available in `yoyo`
-    opts = { insight: insight };
-  }
+    // Register the `yo yo` generator.
+    if (!cmd) {
+      if (opts.help) {
+        return console.log(env.help('yo'));
+      }
 
-  // Note: at some point, nopt needs to know about the generator options, the
-  // one that will be triggered by the below args. Maybe the nopt parsing
-  // should be done internally, from the args.
-  env.run(args, opts);
+      env.register(path.resolve(__dirname, './yoyo'), 'yo');
+      args = ['yo'];
+      // make the insight instance available in `yoyo`
+      opts = { insight: insight };
+    }
+
+    // Note: at some point, nopt needs to know about the generator options, the
+    // one that will be triggered by the below args. Maybe the nopt parsing
+    // should be done internally, from the args.
+    env.run(args, opts);
+  });
 }
 
 function pre() {
@@ -126,8 +125,7 @@ function pre() {
 
   // easteregg
   if (cmd === 'yeoman' || cmd === 'yo') {
-    console.log(yeomanCharacter);
-    return;
+    return console.log(require('yeoman-character'));
   }
 
   init();

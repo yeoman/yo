@@ -12,15 +12,17 @@ describe('bin', function () {
     beforeEach(function () {
       this.origArgv = process.argv;
       this.origExit = process.exit;
-      this.env = require('yeoman-generator')();
+      this.env = require('yeoman-environment').createEnv();
 
       mockery.enable({
         warnOnUnregistered: false
       });
 
-      mockery.registerMock('yeoman-generator', function () {
-        return this.env;
-      }.bind(this));
+      mockery.registerMock('yeoman-environment', {
+        createEnv: function () {
+          return this.env;
+        }.bind(this)
+      });
     });
 
     afterEach(function () {
@@ -42,7 +44,7 @@ describe('bin', function () {
         cb();
       };
       process.argv = ['node', path.join(__dirname, '../', pkg.bin.yo), 'notexisting'];
-      this.env.lookup = function () { /* noop */ };
+      this.env.lookup = function (cb) { cb(); };
       require('../cli');
     });
   });
