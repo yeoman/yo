@@ -14,13 +14,12 @@
   },
   "scripts": {
     "test": "grunt",
-    "postinstall": "node ./scripts/doctor",
-    "postupdate": "node ./scripts/doctor"
+    "postinstall": "yodoctor",
+    "postupdate": "yodoctor"
   },
   "files": [
     "cli.js",
-    "yoyo.js",
-    "scripts"
+    "yoyo.js"
   ],
   "keywords": [
     "front-end",
@@ -54,6 +53,7 @@
     "underscore.string": "^2.3.3",
     "update-notifier": "^0.2.2",
     "yeoman-character": "^1.0.0",
+    "yeoman-doctor": "^1.0.0",
     "yeoman-environment": "^1.0.0",
     "yeoman-generator": "^0.17.7",
     "yosay": "^1.0.0"

@@ -120,7 +120,7 @@ function pre() {
 
   // Debugging helper
   if (cmd === 'doctor') {
-    return require('./scripts/doctor');
+    return require('yeoman-doctor').run();
   }
 
   // easteregg
