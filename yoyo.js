@@ -1,7 +1,5 @@
 /* jshint onevar:false */
-
 'use strict';
-
 var async = require('async');
 var opn = require('opn');
 var gen = require('yeoman-generator');
@@ -25,7 +23,7 @@ function namespaceToName(val) {
 }
 
 // The `yo yo` generator provides users with a few common, helpful commands.
-var yoyo = module.exports = function yoyo(args, options) {
+var yoyo = module.exports = function (args, options) {
   gen.Base.apply(this, arguments);
   this.insight = options.insight;
 
@@ -37,7 +35,7 @@ util.inherits(yoyo, gen.Base);
 
 
 // Runs parallel `npm update -g`s for each selected generator.
-yoyo.prototype._updateGenerators = function _updateGenerators(pkgs) {
+yoyo.prototype._updateGenerators = function (pkgs) {
   var self = this;
 
   var resolveGenerators = function (pkg) {
@@ -52,7 +50,8 @@ yoyo.prototype._updateGenerators = function _updateGenerators(pkgs) {
   async.parallel(self._.map(pkgs, resolveGenerators), function (err) {
     if (err) {
       self.insight.track('yoyo:err', 'update');
-      return self.emit('error', err);
+      self.emit('error', err);
+      return;
     }
 
     self.insight.track('yoyo', 'updated');
@@ -67,7 +66,7 @@ yoyo.prototype._updateGenerators = function _updateGenerators(pkgs) {
 };
 
 // Prompts the user to select which generators to update
-yoyo.prototype._promptToUpdateGenerators = function _promptToUpdateGenerators() {
+yoyo.prototype._promptToUpdateGenerators = function () {
   this.prompt([{
     name: '_updateSelectedGenerators',
     message: 'Generators to update',
@@ -83,7 +82,7 @@ yoyo.prototype._promptToUpdateGenerators = function _promptToUpdateGenerators() 
 // Initializes a generator.
 //
 // - generator - (string) The generator to initialize.
-yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
+yoyo.prototype._initGenerator = function (generator, done) {
   console.log(
     chalk.yellow('\nMake sure you are in the directory you want to scaffold into.\n') +
     chalk.dim('This generator can also be run with: ' +
@@ -107,7 +106,7 @@ yoyo.prototype._initGenerator = function _initGenerator(generator, done) {
 // installs a generator if a string is passed in.
 //
 // - pkgName - (optional) A string that matches the NPM package name.
-yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
+yoyo.prototype._installGenerator = function (pkgName) {
   if (this._.isString(pkgName)) {
     this.insight.track('yoyo', 'install', pkgName);
 
@@ -141,14 +140,15 @@ yoyo.prototype._installGenerator = function _installGenerator(pkgName) {
 //
 // - term - (object) Contains the search term & gets passed back to callback().
 // - cb   - Callback to execute once generators have been found.
-yoyo.prototype._findAllNpmGenerators = function _findAllNpmGenerators(term, cb) {
+yoyo.prototype._findAllNpmGenerators = function (term, cb) {
   var url = 'http://isaacs.iriscouch.com/registry/_design/' +
     'app/_view/byKeyword?startkey=[%22yeoman-generator%22]' +
     '&endkey=[%22yeoman-generator%22,{}]&group_level=3';
 
   this.request(url, function (err, res, body) {
     if (err) {
-      return this.emit('error', err);
+      this.emit('error', err);
+      return;
     }
 
     try {
@@ -170,7 +170,7 @@ yoyo.prototype._findAllNpmGenerators = function _findAllNpmGenerators(term, cb) 
 //
 // - term - Object with a 'searchTerm' property containing the term to search
 //          NPM for.
-yoyo.prototype._searchNpm = function _searchNpm(term) {
+yoyo.prototype._searchNpm = function (term) {
   if (!this.npmGenerators) {
     return this._findAllNpmGenerators(term, this._searchNpm.bind(this));
   }
@@ -214,7 +214,7 @@ yoyo.prototype._searchNpm = function _searchNpm(term) {
 
 
 // Prompts user with a few helpful resources, then opens it in their browser.
-yoyo.prototype._findHelp = function _findHelp() {
+yoyo.prototype._findHelp = function () {
   this.insight.track('yoyo', 'help');
   this.prompt([{
     name: 'whereTo',
@@ -253,7 +253,7 @@ yoyo.prototype._findHelp = function _findHelp() {
 
 
 // Serves as a quick escape from the `yo yo` prompts.
-yoyo.prototype._exit = function _exit() {
+yoyo.prototype._exit = function () {
   this.insight.track('yoyo', 'exit');
 
   var url = 'https://github.com/yeoman/yeoman#team';
@@ -274,12 +274,12 @@ yoyo.prototype._exit = function _exit() {
 
 
 // I'm sorry...
-yoyo.prototype._noop = function _noop() {};
+yoyo.prototype._noop = function () {};
 
 
 // Rolls through all of the generators provided by `env.generators`, finding
 // their `package.json` files, then storing them internally in `this.pkgs`.
-yoyo.prototype.findGenerators = function findGenerators() {
+yoyo.prototype.findGenerators = function () {
   this.pkgs = {};
 
   var resolveGenerators = function (generator) {
@@ -318,7 +318,7 @@ yoyo.prototype.findGenerators = function findGenerators() {
 // - options - (optional)
 //           - message (string) - String to print before prompt.
 //           - refresh (bool) - Spawn a new `yo` command.
-yoyo.prototype.home = function home(options) {
+yoyo.prototype.home = function (options) {
   var done = this.async();
 
   options = options || {};
@@ -386,7 +386,8 @@ yoyo.prototype.home = function home(options) {
 
   fullname(function (err, name) {
     if (err) {
-      return done(err);
+      done(err);
+      return;
     }
 
     var allo = name ? ('\'Allo ' + name.split(' ')[0] + '! ') : '\'Allo! ';

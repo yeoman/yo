@@ -16,9 +16,6 @@ var stringLength = require('string-length');
 var opts = nopt({
   help: Boolean,
   version: Boolean
-}, {
-  h: '--help',
-  v: '--version'
 });
 
 var args = opts.argv.remain;
@@ -97,7 +94,8 @@ function init() {
     // Register the `yo yo` generator.
     if (!cmd) {
       if (opts.help) {
-        return console.log(env.help('yo'));
+        console.log(env.help('yo'));
+        return;
       }
 
       env.register(path.resolve(__dirname, './yoyo'), 'yo');
@@ -115,17 +113,20 @@ function init() {
 
 function pre() {
   if (opts.version) {
-    return console.log(pkg.version);
+    console.log(pkg.version);
+    return;
   }
 
-  // Debugging helper
+  // debugging helper
   if (cmd === 'doctor') {
-    return require('yeoman-doctor').run();
+    require('yeoman-doctor').run();
+    return;
   }
 
   // easteregg
   if (cmd === 'yeoman' || cmd === 'yo') {
-    return console.log(require('yeoman-character'));
+    console.log(require('yeoman-character'));
+    return;
   }
 
   init();
