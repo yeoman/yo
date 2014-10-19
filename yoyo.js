@@ -13,7 +13,6 @@ var fullname = require('fullname');
 var _s = require('underscore.string');
 var Configstore = require('configstore');
 var pkg = require('./package.json');
-var Q = require('q');
 var conf = new Configstore(pkg.name, {
   generatorRunCount: {}
 });
