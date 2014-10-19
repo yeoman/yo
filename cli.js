@@ -153,7 +153,7 @@ if (!process.env.yeoman_test && opts['update-notifier'] !== false) {
 
   if (notifier.update) {
     message.push('Update available: ' + chalk.green.bold(notifier.update.latest) + chalk.gray(' (current: ' + notifier.update.current + ')'));
-    message.push('Run ' + chalk.magenta('npm update -g ' + pkg.name) + ' to update.');
+    message.push('Run ' + chalk.magenta('npm install -g ' + pkg.name) + ' to update.');
     console.log(yosay(message.join(' '), { maxLength: stringLength(message[0]) }));
   }
 }
