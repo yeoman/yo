@@ -136,22 +136,6 @@ yoyo.prototype._installGenerator = function (pkgName) {
   }], this._searchNpm.bind(this));
 };
 
-
-yoyo.prototype._getAuthor = function(name){
-            var deferred = Q.defer();
-            var url = 'https://skimdb.npmjs.com/registry/' + name;
-            this.request({url: url, json: true}, function handlePlugin(error, response, body) {
-              if (!error && response.statusCode == 200) {
-                deferred.resolve(function (plugin) {
-                  return plugin.author ? plugin.author : '';
-                });
-              } else {
-                deferred.reject(new Error('GitHub fetch failed\n' + error + '\n' + body));
-              }
-            });
-            return deferred.promise;
-}
-
 // Grabs all of the packages with a `yeoman-generator` keyword on NPM.
 //
 // - term - (object) Contains the search term & gets passed back to callback().
@@ -187,10 +171,10 @@ yoyo.prototype._findAllNpmGenerators = function (term, cb) {
 yoyo.prototype._handleRow = function(generator,cb){
   var url = 'https://skimdb.npmjs.com/registry/' + generator.key[1];
   this.request({url: url, json: true}, function (err, res, body) {
-    if (!err && res.statusCode == 200) {
+    if (!err && res.statusCode === 200) {
       var offical = body.author &&
                     body.author.name &&
-                    body.author.name == 'The Yeoman Team' ?
+                    body.author.name === 'The Yeoman Team' ?
                     '<><> ' : '';
       cb(null, {
         name: offical + generator.key[1].replace(/^generator-/, ''),
@@ -201,7 +185,7 @@ yoyo.prototype._handleRow = function(generator,cb){
       cb(new Error('GitHub fetch failed\n' + err + '\n' + body));
     }
   }.bind(this));
-}
+};
 
 // Takes a search term, looks it up in the registry, prompts the user with the
 // results, allowing them to choose to install it, or go back home.
@@ -221,10 +205,12 @@ yoyo.prototype._searchNpm = function (term) {
 
   async.map(availableGenerators, this._handleRow.bind(this), function(err, choices){
     choices.sort(function compare(a,b) {
-      if (a.name < b.name)
+      if (a.name < b.name){
          return -1;
-      if (a.name > b.name)
+      }        
+      if (a.name > b.name){
         return 1;
+      }
       return 0;
     });
     var resultsPrompt = [{
