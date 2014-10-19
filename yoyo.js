@@ -34,13 +34,13 @@ var yoyo = module.exports = function (args, options) {
 util.inherits(yoyo, gen.Base);
 
 
-// Runs parallel `npm update -g`s for each selected generator.
+// Runs parallel `npm install -g`s for each selected generator.
 yoyo.prototype._updateGenerators = function (pkgs) {
   var self = this;
 
   var resolveGenerators = function (pkg) {
     return function (next) {
-      self.spawnCommand('npm', ['update', '-g', pkg])
+      self.spawnCommand('npm', ['install', '-g', pkg])
         .on('error', next)
         .on('exit', next);
     };
@@ -60,7 +60,7 @@ yoyo.prototype._updateGenerators = function (pkgs) {
       message:
         'I\'ve just updated your generators. Remember, you can update' +
         '\na specific generator with npm by running:\n' +
-        chalk.magenta('\n    npm update -g generator-_______')
+        chalk.magenta('\n    npm install -g generator-_______')
     });
   });
 };
