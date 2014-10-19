@@ -13,7 +13,6 @@ var fullname = require('fullname');
 var _s = require('underscore.string');
 var Configstore = require('configstore');
 var pkg = require('./package.json');
-
 var conf = new Configstore(pkg.name, {
   generatorRunCount: {}
 });
@@ -21,6 +20,7 @@ var conf = new Configstore(pkg.name, {
 function namespaceToName(val) {
   return val.replace(/(\w+):\w+/, '$1');
 }
+
 
 // The `yo yo` generator provides users with a few common, helpful commands.
 var yoyo = module.exports = function (args, options) {
@@ -135,7 +135,6 @@ yoyo.prototype._installGenerator = function (pkgName) {
   }], this._searchNpm.bind(this));
 };
 
-
 // Grabs all of the packages with a `yeoman-generator` keyword on NPM.
 //
 // - term - (object) Contains the search term & gets passed back to callback().
@@ -164,7 +163,45 @@ yoyo.prototype._findAllNpmGenerators = function (term, cb) {
   }.bind(this));
 };
 
+// Grab out name, and author from git repo of the generator
+//
+// - generator - (object) Contains npm registry json object.
+// - cb   - Callback to execute once generators have been processed.
+yoyo.prototype._handleRow = function(generator,cb){
+  var url = 'https://skimdb.npmjs.com/registry/' + generator.key[1];
+  this.request({url: url, json: true}, function (err, res, body) {
+    if (!err && res.statusCode === 200) {
+      var packageType = this._isYeomanPackage(body);
+      cb(null, {
+        name: packageType + generator.key[1].replace(/^generator-/, ''),
+        value: generator.key[1],
+        author: packageType ? body.author.name : ''
+      });
+    } else {
+      cb(new Error('GitHub fetch failed\n' + err + '\n' + body));
+    }
+  }.bind(this));
+};
 
+// Determine if NPM package is a yeoman package
+// - body - object containing github repo information
+yoyo.prototype._isYeomanPackage = function(body){
+  return body.author && 
+  body.author.name === 'The Yeoman Team' ? ':} ' : '';
+};
+
+//Sorts the NPM Packages in alphabetical order
+// - a - first compared NPM package
+// - b - second compared NPM package
+yoyo.prototype._sortNPMPackage = function(a,b){
+      if (a.name < b.name){
+         return -1;
+      }        
+      if (a.name > b.name){
+        return 1;
+      }
+      return 0;
+};
 // Takes a search term, looks it up in the registry, prompts the user with the
 // results, allowing them to choose to install it, or go back home.
 //
@@ -175,40 +212,41 @@ yoyo.prototype._searchNpm = function (term) {
     return this._findAllNpmGenerators(term, this._searchNpm.bind(this));
   }
 
+  var pkgs = this.pkgs;
   // Find any matches from NPM.
-  var choices = this._.chain(this.npmGenerators.rows).map(function (generator) {
-    // Make sure it's not already installed.
-    if (
-      !this.pkgs[generator.key[1]] &&
-      generator.key.join(' ').indexOf(term.searchTerm) > -1
-    ) {
-      return {
-        name: generator.key[1].replace(/^generator-/, ''),
-        value: generator.key[1]
-      };
-    }
-  }.bind(this)).compact().value();
+  var availableGenerators = this.npmGenerators.rows.filter(function(generator){
+    return !pkgs[generator.key[1]] && generator.key.join(' ').indexOf(term.searchTerm) > -1;
+  });
 
-  var resultsPrompt = [{
-    name: '_installGenerator',
-    type: 'list',
-    message: choices.length > 0 ?
-      'Here\'s what I found. Install one?' : 'Sorry, nothing was found',
-    choices: this._.union(choices, [{
-      name: 'Search again',
-      value: '_installGenerator'
-    }, {
-      name: 'Return home',
-      value: 'home'
-    }])
-  }];
+  async.map(availableGenerators, this._handleRow.bind(this), function(err, choices){
+    choices.sort(this._sortNPMPackage);
 
-  this.prompt(resultsPrompt, function (answer) {
-    if (this._.isFunction(this[answer._installGenerator])) {
-      return this[answer._installGenerator]();
+    var introMessage = 'Sorry, nothing was found';
+
+    if (choices.length > 0){
+      introMessage = 'Here\'s what I found.\n' + 
+      ' :} represents yeoman offical generators.\n Install one?';
     }
 
-    this._installGenerator(answer._installGenerator);
+    var resultsPrompt = [{
+      name: '_installGenerator',
+      type: 'list',
+      message: introMessage,      
+      choices: this._.union(choices, [{
+        name: 'Search again',
+        value: '_installGenerator'
+        }, {
+        name: 'Return home',
+        value: 'home'
+      }])
+    }];
+
+    this.prompt(resultsPrompt, function (answer) {
+      if (this._.isFunction(this[answer._installGenerator])) {
+        return this[answer._installGenerator]();
+      }
+      this._installGenerator(answer._installGenerator);
+    }.bind(this));
   }.bind(this));
 };
 
