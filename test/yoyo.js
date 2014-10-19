@@ -260,28 +260,41 @@ describe('yo yo', function () {
 
     var choices = [];
 
-    var fakeResponse = {
-      rows: [{
-        key: [ null, 'generator-unicorn' ]
-      }, {
-        key: [ null, 'generator-phoenix' ]
-      }, {
-        key: [ null, 'generator-unicorn-sparkles' ]
-      }]
-    };
+    var fakeResponse ={
+  'rows': [
+    {
+      'key': [
+        'yeoman-generator',
+        'generator-amd',
+        'A generator for Yeoman that provides a boilerplate for a single AMD module'
+      ],
+      'value': 1
+    },
+    {
+      'key': [
+        'yeoman-generator',
+        'generator-amd-build',
+        'Yeoman generator to build Amd app with the grunt-amd-build Grunt plugin.'
+      ],
+      'value': 1
+    },
+    {
+      'key': [
+        'yeoman-generator',
+        'generator-amdblah',
+        'Generator for starting a project with Express, RequireJS, Backbone.js + Handlebars both on server and client side, i18next, Moment.js and Bootstrap.'
+      ],
+      'value': 1
+    }
+  ]
+};
 
     beforeEach(function () {
       // Pretend we have generator-unicorn installed. I mean, why wouldn't we?
-      yoyo.prototype.pkgs = { 'generator-unicorn': 'awesome' };
+      yoyo.prototype.pkgs = { 'generator-amd-build': 'awesome' };
 
       yoyo.prototype.npmGenerators = fakeResponse;
 
-      helpers.stub(yoyo.prototype, 'prompt', function (prompts, cb) {
-        choices = [];
-        prompts[0].choices.forEach(function (choice) {
-          choices.push(choice.value);
-        });
-      });
     });
 
     after(function () {
@@ -299,45 +312,65 @@ describe('yo yo', function () {
       });
 
       yoyo.prototype._searchNpm({
-        searchTerm: 'unicorn'
+        searchTerm: 'amd'
       });
 
       assert.ok(called);
       yoyo.prototype.npmGenerators = npmGenerators;
     });
 
-    it('should prompt user with generators that match the term', function () {
-      yoyo.prototype._searchNpm({
-        searchTerm: 'generator'
+    it('should prompt user with generators that match the term', function (done) {
+      helpers.stub(yoyo.prototype, 'prompt', function (prompts, cb) {
+       var choices = prompts[0].choices.map(function (choice) {
+        return choice.value;
+       });
+       assert.ok(choices.indexOf('generator-amd') > -1);
+       assert.ok(choices.indexOf('generator-amdblah') > -1);
+       done();
       });
-
-      assert.ok(choices.indexOf('generator-phoenix') > -1);
-      assert.ok(choices.indexOf('generator-unicorn-sparkles') > -1);
+      yoyo.prototype._searchNpm({
+        searchTerm: 'a'
+      });
     });
 
-    it('should not show already installed generators', function () {
-      yoyo.prototype._searchNpm({
-        searchTerm: 'unicorn'
+    it('should not show already installed generators', function (done) {
+      helpers.stub(yoyo.prototype, 'prompt', function (prompts, cb) {
+       var choices = prompts[0].choices.map(function (choice) {
+        return choice.value;
+       });
+       assert.ok(choices.indexOf('generator-amd-build') === -1);
+       assert.ok(choices.indexOf('generator-amd') > -1);
+       done();
       });
-
-      assert.ok(choices.indexOf('generator-unicorn') === -1);
-      assert.ok(choices.indexOf('generator-unicorn-sparkles') > -1);
+      yoyo.prototype._searchNpm({
+        searchTerm: 'amd'
+      });
     });
 
-    it('should allow the user to search again', function () {
-      yoyo.prototype._searchNpm({
-        searchTerm: 'unicorn'
+    it('should allow the user to search again', function (done) {
+      helpers.stub(yoyo.prototype, 'prompt', function (prompts, cb) {
+       var choices = prompts[0].choices.map(function (choice) {
+        return choice.value;
+       });
+       assert.ok(choices.indexOf('_installGenerator') > -1);
+       done();
       });
-
-      assert.ok(choices.indexOf('_installGenerator') > -1);
+      yoyo.prototype._searchNpm({
+        searchTerm: 'amd'
+      });
     });
 
-    it('should allow the user to return home', function () {
-      yoyo.prototype._searchNpm({
-        searchTerm: 'unicorn'
+    it('should allow the user to return home', function (done) {
+      helpers.stub(yoyo.prototype, 'prompt', function (prompts, cb) {
+       var choices = prompts[0].choices.map(function (choice) {
+        return choice.value;
+       });
+       assert.ok(choices.indexOf('home') > -1);
+       done();
       });
-
-      assert.ok(choices.indexOf('home') > -1);
+      yoyo.prototype._searchNpm({
+        searchTerm: 'amd'
+      });      
     });
   });
 
