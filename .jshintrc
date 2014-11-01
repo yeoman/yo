@@ -10,10 +10,6 @@
   "noarg": true,
   "undef": true,
   "strict": false,
-  "trailing": true,
-  "smarttabs": true,
-  "indent": 2,
-  "white": true,
   "quotmark": "single",
   "laxbreak": true,
   "multistr": true
