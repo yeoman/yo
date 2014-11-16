@@ -173,7 +173,7 @@ yoyo.prototype._handleRow = function(generator,cb){
     if (!err && res.statusCode === 200) {
       var packageType = this._isYeomanPackage(body);
       cb(null, {
-        name: packageType + generator.key[1].replace(/^generator-/, ''),
+        name: generator.key[1].replace(/^generator-/, '') + packageType,
         value: generator.key[1],
         author: packageType ? body.author.name : ''
       });
@@ -186,8 +186,8 @@ yoyo.prototype._handleRow = function(generator,cb){
 // Determine if NPM package is a yeoman package
 // - body - object containing github repo information
 yoyo.prototype._isYeomanPackage = function(body){
-  return body.author && 
-  body.author.name === 'The Yeoman Team' ? ':} ' : '';
+  return body.author &&
+  body.author.name === 'The Yeoman Team' ? chalk.green(' :{') : '';
 };
 
 //Sorts the NPM Packages in alphabetical order
@@ -196,7 +196,7 @@ yoyo.prototype._isYeomanPackage = function(body){
 yoyo.prototype._sortNPMPackage = function(a,b){
       if (a.name < b.name){
          return -1;
-      }        
+      }
       if (a.name > b.name){
         return 1;
       }
@@ -224,14 +224,14 @@ yoyo.prototype._searchNpm = function (term) {
     var introMessage = 'Sorry, nothing was found';
 
     if (choices.length > 0){
-      introMessage = 'Here\'s what I found.\n' + 
-      ' :} represents yeoman offical generators.\n Install one?';
+      introMessage = 'Here\'s what I found. (' + chalk.green(':{') +
+      ' represents offical generators)\n  Install one?';
     }
 
     var resultsPrompt = [{
       name: '_installGenerator',
       type: 'list',
-      message: introMessage,      
+      message: introMessage,
       choices: this._.union(choices, [{
         name: 'Search again',
         value: '_installGenerator'
