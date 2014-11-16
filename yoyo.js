@@ -187,7 +187,7 @@ yoyo.prototype._handleRow = function(generator,cb){
 // - body - object containing github repo information
 yoyo.prototype._isYeomanPackage = function(body){
   return body.author && 
-  body.author.name === 'The Yeoman Team' ? '෴ ' : '';
+  body.author.name === 'The Yeoman Team' ? ':} ' : '';
 };
 
 //Sorts the NPM Packages in alphabetical order
@@ -225,7 +225,7 @@ yoyo.prototype._searchNpm = function (term) {
 
     if (choices.length > 0){
       introMessage = 'Here\'s what I found.\n' + 
-      ' ෴ represents yeoman offical generators.\n Install one?';
+      ' :} represents yeoman offical generators.\n Install one?';
     }
 
     var resultsPrompt = [{
