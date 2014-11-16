@@ -15,7 +15,8 @@
   "scripts": {
     "test": "grunt",
     "postinstall": "yodoctor",
-    "postupdate": "yodoctor"
+    "postupdate": "yodoctor",
+    "prepublish": "nsp audit-package"
   },
   "files": [
     "cli.js",
@@ -66,6 +67,7 @@
     "grunt-mocha-test": "^0.12.1",
     "mocha": "^1.21.4",
     "mockery": "^1.4.0",
+    "nsp": "*",
     "sinon": "^1.10.3"
   },
   "engineStrict": true,
