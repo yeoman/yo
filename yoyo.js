@@ -171,14 +171,11 @@ yoyo.prototype._handleRow = function(generator,cb){
   var url = 'https://skimdb.npmjs.com/registry/' + generator.key[1];
   this.request({url: url, json: true}, function (err, res, body) {
     if (!err && res.statusCode === 200) {
-      var offical = body.author &&
-                    body.author.name &&
-                    body.author.name === 'The Yeoman Team' ?
-                    '<><> ' : '';
+      var packageType = this._isYeomanPackage(body);
       cb(null, {
-        name: offical + generator.key[1].replace(/^generator-/, ''),
+        name: packageType + generator.key[1].replace(/^generator-/, ''),
         value: generator.key[1],
-        author: offical ? body.author.name : ''
+        author: packageType ? body.author.name : ''
       });
     } else {
       cb(new Error('GitHub fetch failed\n' + err + '\n' + body));
@@ -186,6 +183,25 @@ yoyo.prototype._handleRow = function(generator,cb){
   }.bind(this));
 };
 
+// Determine if NPM package is a yeoman package
+// - body - object containing github repo information
+yoyo.prototype._isYeomanPackage = function(body){
+  return body.author && 
+  body.author.name === 'The Yeoman Team' ? '෴ ' : '';
+};
+
+//Sorts the NPM Packages in alphabetical order
+// - a - first compared NPM package
+// - b - second compared NPM package
+yoyo.prototype._sortNPMPackage = function(a,b){
+      if (a.name < b.name){
+         return -1;
+      }        
+      if (a.name > b.name){
+        return 1;
+      }
+      return 0;
+};
 // Takes a search term, looks it up in the registry, prompts the user with the
 // results, allowing them to choose to install it, or go back home.
 //
@@ -203,20 +219,19 @@ yoyo.prototype._searchNpm = function (term) {
   });
 
   async.map(availableGenerators, this._handleRow.bind(this), function(err, choices){
-    choices.sort(function compare(a,b) {
-      if (a.name < b.name){
-         return -1;
-      }        
-      if (a.name > b.name){
-        return 1;
-      }
-      return 0;
-    });
+    choices.sort(this._sortNPMPackage);
+
+    var introMessage = 'Sorry, nothing was found';
+
+    if (choices.length > 0){
+      introMessage = 'Here\'s what I found.\n' + 
+      ' ෴ represents yeoman offical generators.\n Install one?';
+    }
+
     var resultsPrompt = [{
       name: '_installGenerator',
       type: 'list',
-      message: choices.length > 0 ?
-      'Here\'s what I found.\n <><> represents yeoman offical generators.\n Install one?' : 'Sorry, nothing was found',
+      message: introMessage,      
       choices: this._.union(choices, [{
         name: 'Search again',
         value: '_installGenerator'

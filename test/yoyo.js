@@ -263,34 +263,34 @@ describe('yo yo', function () {
     var fakeResponse ={
   'rows': [
     {
-      'key': [
-        'yeoman-generator',
-        'generator-amd',
-        'A generator for Yeoman that provides a boilerplate for a single AMD module'
-      ],
-      'value': 1
-    },
-    {
-      'key': [
-        'yeoman-generator',
-        'generator-amd-build',
-        'Yeoman generator to build Amd app with the grunt-amd-build Grunt plugin.'
-      ],
-      'value': 1
-    },
-    {
-      'key': [
-        'yeoman-generator',
-        'generator-amdblah',
-        'Generator for starting a project with Express, RequireJS, Backbone.js + Handlebars both on server and client side, i18next, Moment.js and Bootstrap.'
-      ],
-      'value': 1
-    }
-  ]
-};
+        'key': [
+          'yeoman-generator',
+          'generator-amd',
+          'A generator for Yeoman that provides a boilerplate for a single AMD module'
+        ],
+        'value': 1
+      },
+      {
+        'key': [
+          'yeoman-generator',
+          'generator-amd-build',
+          'Yeoman generator to build Amd app with the grunt-amd-build Grunt plugin.'
+        ],
+        'value': 1
+      },
+      {
+        'key': [
+          'yeoman-generator',
+          'generator-amdblah',
+          'Generator for starting a project with Express, RequireJS, Backbone.js + Handlebars both on server and client side, i18next, Moment.js and Bootstrap.'
+        ],
+        'value': 1
+      }
+    ]
+  };
 
     beforeEach(function () {
-      // Pretend we have generator-unicorn installed. I mean, why wouldn't we?
+      // Pretend we have generator-amd-build installed. I mean, why wouldn't we?
       yoyo.prototype.pkgs = { 'generator-amd-build': 'awesome' };
 
       yoyo.prototype.npmGenerators = fakeResponse;
