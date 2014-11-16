@@ -21,27 +21,6 @@ var opts = nopt({
 var args = opts.argv.remain;
 var cmd = args[0];
 
-var insight = new Insight({
-  trackingCode: 'UA-31537568-1',
-  packageName: pkg.name,
-  packageVersion: pkg.version
-});
-
-if (opts.insight === false) {
-  insight.config.set('optOut', true);
-} else if (opts.insight) {
-  insight.config.set('optOut', false);
-}
-
-/*jshint multistr:true */
-var insightMsg = chalk.gray('\
-==========================================================================') + chalk.yellow('\n\
-We\'re constantly looking for ways to make ') + chalk.bold.red(pkg.name) + chalk.yellow(' better! \n\
-May we anonymously report usage statistics to improve the tool over time? \n\
-More info: https://github.com/yeoman/insight & http://yeoman.io') + chalk.gray('\n\
-==========================================================================');
-
-
 function rootCheck() {
   if (isRoot() && process.setuid) {
     try {
@@ -62,6 +41,27 @@ http://www.joyent.com/blog/installing-node-and-npm\n\
 https://gist.github.com/isaacs/579814\n';
 
   sudoBlock(msg);
+}
+
+function pre() {
+  if (opts.version) {
+    console.log(pkg.version);
+    return;
+  }
+
+  // debugging helper
+  if (cmd === 'doctor') {
+    require('yeoman-doctor').run();
+    return;
+  }
+
+  // easteregg
+  if (cmd === 'yeoman' || cmd === 'yo') {
+    console.log(require('yeoman-character'));
+    return;
+  }
+
+  init();
 }
 
 function init() {
@@ -111,25 +111,25 @@ function init() {
   });
 }
 
-function pre() {
-  if (opts.version) {
-    console.log(pkg.version);
-    return;
-  }
+rootCheck();
 
-  // debugging helper
-  if (cmd === 'doctor') {
-    require('yeoman-doctor').run();
-    return;
-  }
+var insightMsg = chalk.gray('\
+==========================================================================') + chalk.yellow('\n\
+We\'re constantly looking for ways to make ') + chalk.bold.red(pkg.name) + chalk.yellow(' better! \n\
+May we anonymously report usage statistics to improve the tool over time? \n\
+More info: https://github.com/yeoman/insight & http://yeoman.io') + chalk.gray('\n\
+==========================================================================');
 
-  // easteregg
-  if (cmd === 'yeoman' || cmd === 'yo') {
-    console.log(require('yeoman-character'));
-    return;
-  }
+var insight = new Insight({
+  trackingCode: 'UA-31537568-1',
+  packageName: pkg.name,
+  packageVersion: pkg.version
+});
 
-  init();
+if (opts.insight === false) {
+  insight.config.set('optOut', true);
+} else if (opts.insight) {
+  insight.config.set('optOut', false);
 }
 
 if (!process.env.yeoman_test && opts.insight !== false) {
@@ -153,10 +153,9 @@ if (!process.env.yeoman_test && opts['update-notifier'] !== false) {
 
   if (notifier.update) {
     message.push('Update available: ' + chalk.green.bold(notifier.update.latest) + chalk.gray(' (current: ' + notifier.update.current + ')'));
-    message.push('Run ' + chalk.magenta('npm update -g ' + pkg.name) + ' to update.');
+    message.push('Run ' + chalk.magenta('npm install -g ' + pkg.name) + ' to update.');
     console.log(yosay(message.join(' '), { maxLength: stringLength(message[0]) }));
   }
 }
 
-rootCheck();
 pre();
