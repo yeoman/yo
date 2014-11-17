@@ -15,6 +15,7 @@ var _s = require('underscore.string');
 var Configstore = require('configstore');
 var userHome = require('user-home');
 var pkg = require('./package.json');
+var Router = require('./lib/router');
 var conf = new Configstore(pkg.name, {
   generatorRunCount: {}
 });
@@ -40,10 +41,20 @@ function getGlobalConfig() {
   return {};
 }
 
+function initRouter(generator) {
+  var router = new Router(generator.insight);
+  router.registerRoute('help', require('./lib/routes/help'));
+  router.registerRoute('home', function () {
+    generator.home();
+  });
+  return router;
+}
+
 // The `yo yo` generator provides users with a few common, helpful commands.
 var yoyo = module.exports = function (args, options) {
   gen.Base.apply(this, arguments);
   this.insight = options.insight;
+  this.router = initRouter(this);
 
   this.insight.track('yoyo', 'init');
   process.once('exit', this._exit.bind(this));
@@ -271,40 +282,7 @@ yoyo.prototype._searchNpm = function (term) {
 
 // Prompts user with a few helpful resources, then opens it in their browser.
 yoyo.prototype._findHelp = function () {
-  this.insight.track('yoyo', 'help');
-  this.prompt([{
-    name: 'whereTo',
-    type: 'list',
-    message:
-      'Here are a few helpful resources.\n' +
-      '\nI will open the link you select in your browser for you',
-    choices: [{
-      name: 'Take me to the documentation',
-      value: 'http://yeoman.io/learning/index.html'
-    }, {
-      name: 'View Frequently Asked Questions',
-      value: 'http://yeoman.io/learning/faq.html'
-    }, {
-      name: 'File an issue on GitHub',
-      value: 'http://yeoman.io/contributing/opening-issues.html'
-    }, {
-      name: 'Take me back home, Yo!',
-      value: {
-        method: 'home',
-        args: {
-          message: 'I get it, you like learning on your own. I respect that.'
-        }
-      }
-    }]
-  }], function (answer) {
-    this.insight.track('yoyo', 'help', answer);
-
-    if (this._.isFunction(this[answer.whereTo.method])) {
-      this[answer.whereTo.method](answer.whereTo.args);
-    } else {
-      opn(answer.whereTo);
-    }
-  }.bind(this));
+  this.router.navigate('help');
 };
 
 

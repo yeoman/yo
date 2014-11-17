@@ -42,6 +42,7 @@
     "configstore": "^0.3.1",
     "findup": "^0.1.5",
     "fullname": "^1.0.0",
+    "inquirer": "^0.8.0",
     "insight": "^0.4.3",
     "is-root": "^1.0.0",
     "lodash": "^2.4.1",
@@ -69,7 +70,8 @@
     "mocha": "^1.21.4",
     "mockery": "^1.4.0",
     "nsp": "*",
-    "sinon": "^1.10.3"
+    "proxyquire": "^1.0.1",
+    "sinon": "^1.12.1"
   },
   "engineStrict": true,
   "preferGlobal": true

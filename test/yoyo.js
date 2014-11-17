@@ -387,28 +387,6 @@ describe('yo yo', function () {
     });
   });
 
-  describe('findHelp', function () {
-    var choices;
-
-    before(function () {
-      helpers.stub(yoyo.prototype, 'prompt', function (prompts, callback) {
-        choices = prompts[0].choices;
-      });
-
-      yoyo.prototype._findHelp();
-    });
-
-    it('should only allow URLs and existing methods', function () {
-      choices.forEach(function (choice) {
-        if (choice.value.method) {
-          assert.ok(yoyo.prototype._.isFunction(yoyo.prototype[choice.value.method]));
-        } else {
-          assert.ok(choice.value.match(/^https*:\/\//));
-        }
-      });
-    });
-  });
-
   describe('clearGlobalConfig', function () {
 
     it('should display only generators with a global store entry', function () {
