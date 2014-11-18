@@ -94,66 +94,11 @@ describe('yo yo', function () {
     });
   });
 
-  describe('updateGenerators', function () {
-    var pkgs = yoyo.prototype.pkgs;
-    var updatedGenerators = [];
-    var choices = [];
-    var sentHome = false;
-
-    beforeEach(function () {
-      yoyo.prototype.pkgs = [{
-        name: 'generator-unicorn'
-      }, {
-        name: 'generator-phoenix'
-      }];
-
-      yoyo.prototype.insight = insightStub;
-
-      helpers.stub(yoyo.prototype, 'spawnCommand', function spawnCommand(cmd, args) {
-        if (args) {
-          updatedGenerators.push(args[args.length - 1]);
-        }
-
-        return {
-          on: function (event, cb) {
-            if (event === 'exit') {
-              return cb();
-            } else {
-              return spawnCommand();
-            }
-          }
-        };
-      });
-
-      helpers.stub(yoyo.prototype, 'home', function (opts) {
-        sentHome = true;
-      });
-
-      helpers.stub(yoyo.prototype, 'prompt', function (prompts) {
-        prompts[0].choices.forEach(function (choice) {
-          choices.push(choice);
-        });
-        yoyo.prototype._updateGenerators(choices.map(function (choice) { return choice.name; }));
-      });
-
-      yoyo.prototype._promptToUpdateGenerators();
-    });
-
-    after(function () {
-      yoyo.prototype.pkgs = pkgs;
-    });
-
-    it('should globally update selected generators', function () {
-      assert.ok(updatedGenerators.indexOf('generator-unicorn') > -1);
-      assert.ok(updatedGenerators.indexOf('generator-phoenix') > -1);
-    });
-
-    it('should return the user to the home screen', function () {
-      assert.ok(sentHome);
-    });
-  });
-
   describe('initGenerator', function () {
+    beforeEach(function () {
+      yoyo.prototype.insight = insightStub;
+    });
+
     it('should .run() desired generator', function (done) {
       var fakeGenerator = 'generator-phoenix';
 
