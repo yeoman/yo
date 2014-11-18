@@ -488,12 +488,12 @@ yoyo.prototype._clearGlobalConfig = function _clearGlobalConfig() {
     }
   ];
 
-  var generatorList = this._.chain(getGlobalConfig()).map(function (val, name) {
+  var generatorList = this._.chain(getGlobalConfig()).map(function (val, key) {
     var prettyName = '';
     var sort = 0;
 
     // Remove version from generator name
-    name = name.split(':')[0];
+    var name = key.split(':')[0];
     var generator = this.pkgs[name];
 
     if (generator) {
@@ -510,7 +510,7 @@ yoyo.prototype._clearGlobalConfig = function _clearGlobalConfig() {
       value: {
         method: '_clearGeneratorConfig',
         args: {
-          generator: name
+          generator: key
         }
       }
     };
