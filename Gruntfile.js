@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     jshint: {
       options: grunt.file.readJSON('.jshintrc'),
       gruntfile: 'Gruntfile.js',
-      bin: [ 'cli.js', 'yoyo.js', 'scripts/*.js' ],
+      bin: [ 'cli.js', 'yoyo.js', 'lib/**/*.js' ],
       test: {
         options: {
           globals: {
@@ -41,7 +41,6 @@ module.exports = function (grunt) {
           globals: [
             'events',
             'AssertionError',
-            'TAP_Global_Harness'
           ]
         },
         src: ['test/**/*.js']

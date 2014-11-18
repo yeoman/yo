@@ -12,7 +12,7 @@ describe('help route', function () {
       track: sinon.stub()
     };
     this.homeRoute = sinon.spy();
-    this.router = new Router(this.insight);
+    this.router = new Router(sinon.stub(), this.insight);
     this.router.registerRoute('home', this.homeRoute);
 
     this.opn = sinon.stub();

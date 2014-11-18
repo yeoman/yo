@@ -9,8 +9,8 @@ var path = require('path');
 var fs = require('fs');
 var updateNotifier = require('update-notifier');
 var chalk = require('chalk');
-var findup = require('findup');
 var fullname = require('fullname');
+var namespaceToName = require('./lib/utils').namespaceToName;
 var _s = require('underscore.string');
 var Configstore = require('configstore');
 var userHome = require('user-home');
@@ -20,9 +20,6 @@ var conf = new Configstore(pkg.name, {
   generatorRunCount: {}
 });
 
-function namespaceToName(val) {
-  return val.replace(/(\w+):\w+/, '$1');
-}
 
 // Returns global config path which is located in the user home directory
 function globalConfigPath() {
@@ -42,8 +39,10 @@ function getGlobalConfig() {
 }
 
 function initRouter(generator) {
-  var router = new Router(generator.insight);
+  var router = new Router(generator.env, generator.insight);
+  router.insight.track('yoyo', 'init');
   router.registerRoute('help', require('./lib/routes/help'));
+  router.registerRoute('update', require('./lib/routes/update'));
   router.registerRoute('home', function () {
     generator.home();
   });
@@ -56,56 +55,14 @@ var yoyo = module.exports = function (args, options) {
   this.insight = options.insight;
   this.router = initRouter(this);
 
-  this.insight.track('yoyo', 'init');
   process.once('exit', this._exit.bind(this));
 };
 
 util.inherits(yoyo, gen.Base);
 
-
-// Runs parallel `npm install -g`s for each selected generator.
-yoyo.prototype._updateGenerators = function (pkgs) {
-  var self = this;
-
-  var resolveGenerators = function (pkg) {
-    return function (next) {
-      self.spawnCommand('npm', ['install', '-g', pkg])
-        .on('error', next)
-        .on('exit', next);
-    };
-  };
-
-  self.insight.track('yoyo', 'update');
-  async.parallel(self._.map(pkgs, resolveGenerators), function (err) {
-    if (err) {
-      self.insight.track('yoyo:err', 'update');
-      self.emit('error', err);
-      return;
-    }
-
-    self.insight.track('yoyo', 'updated');
-    self.home({
-      refresh: true,
-      message:
-        'I\'ve just updated your generators. Remember, you can update' +
-        '\na specific generator with npm by running:\n' +
-        chalk.magenta('\n    npm install -g generator-_______')
-    });
-  });
-};
-
 // Prompts the user to select which generators to update
 yoyo.prototype._promptToUpdateGenerators = function () {
-  this.prompt([{
-    name: '_updateSelectedGenerators',
-    message: 'Generators to update',
-    type: 'checkbox',
-    choices: this._.map(this.pkgs, function (generator) {
-      return {name: generator.name, checked: true};
-    })
-  }], function (answer) {
-    this._updateGenerators.call(this, answer._updateSelectedGenerators);
-  }.bind(this));
+  this.router.navigate('update');
 };
 
 // Initializes a generator.
@@ -314,36 +271,8 @@ yoyo.prototype._noop = function () {};
 // Rolls through all of the generators provided by `env.generators`, finding
 // their `package.json` files, then storing them internally in `this.pkgs`.
 yoyo.prototype.findGenerators = function () {
-  this.pkgs = {};
-
-  var resolveGenerators = function (generator) {
-    if (!/(app|all)$/.test(generator.namespace)) {
-      return;
-    }
-
-    var dir = findup.sync(generator.resolved, 'package.json');
-    if (!dir) {
-      return;
-    }
-
-    var pkg = gen.file.readJSON(path.join(dir, 'package.json'));
-    pkg.namespace = generator.namespace;
-    pkg.appGenerator = true;
-    pkg.prettyName = _s.titleize(_s.humanize(namespaceToName(generator.namespace)));
-
-    pkg.update = updateNotifier({
-      packageName: pkg.name,
-      packageVersion: pkg.version
-    }).update;
-
-    if (pkg.update && pkg.version !== pkg.update.latest) {
-      pkg.updateAvailable = true;
-    }
-
-    this.pkgs[pkg.name] = pkg;
-  };
-
-  this._.each(this.env.getGeneratorsMeta(), resolveGenerators, this);
+  this.router.updateAvailableGenerators();
+  this.pkgs = this.router.generators;
 };
 
 
@@ -358,8 +287,11 @@ yoyo.prototype.home = function (options) {
   options = options || {};
 
   if (options.refresh) {
-    this.env.lookup();
-    this.findGenerators();
+    this.env.lookup(function () {
+      this.findGenerators();
+      this.home({ message: options.message });
+    }.bind(this));
+    return;
   }
 
   if (options.message) {
