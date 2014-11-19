@@ -39,10 +39,11 @@ function getGlobalConfig() {
 }
 
 function initRouter(generator) {
-  var router = new Router(generator.env, generator.insight);
+  var router = new Router(generator.env, generator.insight, conf);
   router.insight.track('yoyo', 'init');
   router.registerRoute('help', require('./lib/routes/help'));
   router.registerRoute('update', require('./lib/routes/update'));
+  router.registerRoute('run', require('./lib/routes/run'));
   router.registerRoute('home', function () {
     generator.home();
   });
@@ -67,24 +68,9 @@ yoyo.prototype._promptToUpdateGenerators = function () {
 
 // Initializes a generator.
 //
-// - generator - (string) The generator to initialize.
-yoyo.prototype._initGenerator = function (generator, done) {
-  console.log(
-    chalk.yellow('\nMake sure you are in the directory you want to scaffold into.\n') +
-    chalk.dim('This generator can also be run with: ' +
-    chalk.blue('yo ' + generator.split(':')[0]) + '\n')
-  );
-
-  // save the generator run count
-  var generatorName = namespaceToName(generator);
-  var generatorRunCount = conf.get('generatorRunCount');
-  generatorRunCount[generatorName] = typeof generatorRunCount[generatorName] === 'number' ?
-    ++generatorRunCount[generatorName] : 1;
-  conf.set('generatorRunCount', generatorRunCount);
-
-  this.insight.track('yoyo', 'run', generator);
-  this.composeWith(generator);
-  done();
+// - name - (string) The generator to initialize.
+yoyo.prototype._initGenerator = function (name, done) {
+  this.router.navigate('run', name);
 };
 
 

@@ -94,21 +94,6 @@ describe('yo yo', function () {
     });
   });
 
-  describe('initGenerator', function () {
-    beforeEach(function () {
-      yoyo.prototype.insight = insightStub;
-    });
-
-    it('should .run() desired generator', function (done) {
-      var fakeGenerator = 'generator-phoenix';
-
-      var stub = sinon.stub(yoyo.prototype, 'composeWith');
-      yoyo.prototype._initGenerator(fakeGenerator, done);
-
-      sinon.assert.calledWith(stub, fakeGenerator);
-    });
-  });
-
   describe('installGenerator', function () {
     describe('argument supplied', function () {
       var installedGenerator;
@@ -116,6 +101,7 @@ describe('yo yo', function () {
       var options;
 
       before(function () {
+        yoyo.prototype.insight = insightStub;
         helpers.stub(yoyo.prototype, 'home', function (opts) {
           options = opts;
         });
