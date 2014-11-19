@@ -11,32 +11,14 @@ var updateNotifier = require('update-notifier');
 var chalk = require('chalk');
 var fullname = require('fullname');
 var namespaceToName = require('./lib/utils').namespaceToName;
+var globalConfigHasContent = require('./lib/utils/global-config').hasContent;
 var _s = require('underscore.string');
 var Configstore = require('configstore');
-var userHome = require('user-home');
 var pkg = require('./package.json');
 var Router = require('./lib/router');
 var conf = new Configstore(pkg.name, {
   generatorRunCount: {}
 });
-
-
-// Returns global config path which is located in the user home directory
-function globalConfigPath() {
-  return path.join(userHome, '.yo-rc-global.json');
-}
-
-function writeGlobalConfigFile(content) {
-  fs.writeFileSync(globalConfigPath(), JSON.stringify(content, null, '  '));
-}
-
-function getGlobalConfig() {
-  var storePath = globalConfigPath();
-  if (fs.existsSync(storePath)) {
-    return JSON.parse(fs.readFileSync(storePath, 'utf8'));
-  }
-  return {};
-}
 
 function initRouter(generator) {
   var router = new Router(generator.env, generator.insight, conf);
@@ -46,6 +28,7 @@ function initRouter(generator) {
   router.registerRoute('run', require('./lib/routes/run'));
   router.registerRoute('install', require('./lib/routes/install'));
   router.registerRoute('exit', require('./lib/routes/exit'));
+  router.registerRoute('clearConfig', require('./lib/routes/clear-config'));
   router.registerRoute('home', function () {
     generator.home();
   });
@@ -142,8 +125,7 @@ yoyo.prototype.home = function (options) {
     }
   }];
 
-  // Add menu entry if global config is present
-  if (Object.keys(getGlobalConfig()).length > 0) {
+  if (globalConfigHasContent()) {
     defaultChoices.splice(defaultChoices.length - 1, 0, {
       name: 'Clear global config',
       value: {
@@ -213,95 +195,6 @@ yoyo.prototype.home = function (options) {
 };
 
 // Prompts the user to select which generators to clear
-yoyo.prototype._clearGlobalConfig = function _clearGlobalConfig() {
-  this.insight.track('yoyo', 'clearGlobalConfig');
-
-  var defaultChoices = [
-    {
-      name: 'Take me back home, Yo!',
-      value: {
-        method: 'home'
-      }
-    }
-  ];
-
-  var generatorList = this._.chain(getGlobalConfig()).map(function (val, key) {
-    var prettyName = '';
-    var sort = 0;
-
-    // Remove version from generator name
-    var name = key.split(':')[0];
-    var generator = this.pkgs[name];
-
-    if (generator) {
-      prettyName = generator.prettyName;
-      sort = -conf.get('generatorRunCount')[namespaceToName(generator.namespace)] || 0;
-    } else {
-      prettyName = name.replace(/^generator-/, '') + chalk.red(' (not installed anymore)');
-      sort = 0;
-    }
-
-    return {
-      name: prettyName,
-      sort: sort,
-      value: {
-        method: '_clearGeneratorConfig',
-        args: {
-          generator: key
-        }
-      }
-    };
-  }.bind(this)).compact().sortBy(function (generatorName) {
-    return generatorName.sort;
-  }).value();
-
-  if (generatorList.length > 0) {
-    generatorList.push(new gen.inquirer.Separator());
-    defaultChoices.unshift({
-      name: 'Clear all',
-      value: {
-        method: '_clearGeneratorConfig',
-        args: {
-          generator: '*'
-        }
-      }
-    });
-  }
-
-  this.prompt([{
-    name: 'whatNext',
-    type: 'list',
-    message: 'Which store would you like to clear?',
-    choices: this._.flatten([
-      generatorList,
-      defaultChoices
-    ])
-  }], function (answer) {
-    this[answer.whatNext.method](answer.whatNext.args);
-  }.bind(this));
-};
-
-// Clear the given generator from the global config file
-//
-// - options
-//           - generator (string) - Name of the generator to be clear. Use '*' to clear all generators.
-yoyo.prototype._clearGeneratorConfig = function _clearGeneratorConfig(options) {
-  var configContent;
-
-  // Clear all
-  if (options.generator === '*') {
-    configContent = {};
-
-  // Clear specifc generator by name
-  } else if (this._.isString(options.generator)) {
-    configContent = getGlobalConfig();
-    delete configContent[options.generator];
-  }
-
-  if (configContent) {
-    writeGlobalConfigFile(configContent);
-      this.home({
-        message: chalk.green('Global config has been successfully cleared')
-    });
-  }
+yoyo.prototype._clearGlobalConfig = function () {
+  this.router.navigate('clearConfig');
 };
