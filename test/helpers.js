@@ -20,6 +20,7 @@ exports.fakeCrossSpawn = function (event) {
 
 exports.fakeEnv = function () {
   var env = yeoman.createEnv();
-  env.lookup = function (cb) { cb(); };
+  env.lookup = sinon.spy(function (cb) { cb(); });
+  env.run = sinon.stub();
   return env;
 };

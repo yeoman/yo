@@ -4,13 +4,12 @@ var proxyquire = require('proxyquire');
 var sinon = require('sinon');
 var Router = require('../lib/router');
 var inquirer = require('inquirer');
+var helpers = require('./helpers');
 
 describe('help route', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create();
-    this.insight = {
-      track: sinon.stub()
-    };
+    this.insight = helpers.fakeInsight();
     this.homeRoute = sinon.spy();
     this.router = new Router(sinon.stub(), this.insight);
     this.router.registerRoute('home', this.homeRoute);

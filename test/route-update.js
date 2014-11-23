@@ -1,33 +1,24 @@
 'use strict';
 var _ = require('lodash');
 var assert = require('assert');
-var env = require('yeoman-environment');
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
 var Router = require('../lib/router');
 var inquirer = require('inquirer');
+var helpers = require('./helpers');
 
 describe('update route', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create();
-    this.insight = {
-      track: sinon.stub()
-    };
+    this.insight = helpers.fakeInsight();
 
-    this.env = env.createEnv();
-    this.sandbox.stub(this.env, 'lookup', function (cb) {
-      cb();
-    });
+    this.env = helpers.fakeEnv();
 
     this.homeRoute = sinon.spy();
     this.router = new Router(this.env, this.insight);
     this.router.registerRoute('home', this.homeRoute);
 
-    this.crossSpawn = sinon.stub().returns({
-      on: function (name, cb) {
-        cb();
-      }
-    });
+    this.crossSpawn = helpers.fakeCrossSpawn('close');
     var updateRoute = proxyquire('../lib/routes/update', {
       'cross-spawn': this.crossSpawn
     });
