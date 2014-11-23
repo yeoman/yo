@@ -1,7 +1,6 @@
 'use strict';
 var _ = require('lodash');
 var assert = require('assert');
-var env = require('yeoman-environment');
 var fs = require('fs');
 var sinon = require('sinon');
 var Configstore = require('configstore');
@@ -10,16 +9,14 @@ var conf = new Configstore('yoyo-test-purposes', {
 });
 var Router = require('../lib/router');
 var runRoute = require('../lib/routes/run');
+var helpers = require('./helpers');
+
 
 describe('run route', function () {
   beforeEach(function () {
-    this.sandbox = sinon.sandbox.create();
-    this.insight = {
-      track: sinon.stub()
-    };
+    this.insight = helpers.fakeInsight();
 
-    this.sandbox.stub(env.prototype, 'run');
-    this.env = env.createEnv();
+    this.env = helpers.fakeEnv();
 
     this.router = new Router(this.env, this.insight, conf);
     this.router.registerRoute('run', runRoute);
@@ -27,7 +24,6 @@ describe('run route', function () {
 
   afterEach(function () {
     fs.unlinkSync(conf.path);
-    this.sandbox.restore();
   });
 
   it('run a generator', function () {
@@ -36,7 +32,7 @@ describe('run route', function () {
 
     assert.equal(conf.get('generatorRunCount')['foo:app'], 1);
     sinon.assert.calledWith(this.insight.track, 'yoyo', 'run', 'foo');
-    sinon.assert.calledWith(env.prototype.run, 'foo:app');
+    sinon.assert.calledWith(this.env.run, 'foo:app');
 
     this.router.navigate('run', 'foo:app');
     assert.equal(conf.get('generatorRunCount')['foo:app'], 2);
