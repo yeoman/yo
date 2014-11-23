@@ -1,16 +1,16 @@
 {
   "node": true,
   "esnext": true,
-  "bitwise": true,
-  "curly": true,
+  "bitwise": false,
+  "curly": false,
   "eqeqeq": true,
   "eqnull": true,
   "immed": true,
+  "latedef": false,
   "newcap": true,
   "noarg": true,
   "undef": true,
-  "strict": false,
+  "strict": true,
   "quotmark": "single",
-  "laxbreak": true,
-  "multistr": true
+  "scripturl": true
 }
