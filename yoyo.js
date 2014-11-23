@@ -45,9 +45,13 @@ function initRouter(generator) {
   router.registerRoute('update', require('./lib/routes/update'));
   router.registerRoute('run', require('./lib/routes/run'));
   router.registerRoute('install', require('./lib/routes/install'));
+  router.registerRoute('exit', require('./lib/routes/exit'));
   router.registerRoute('home', function () {
     generator.home();
   });
+
+  process.once('exit', router.navigate.bind(router, 'exit'));
+
   return router;
 }
 
@@ -56,8 +60,6 @@ var yoyo = module.exports = function (args, options) {
   gen.Base.apply(this, arguments);
   this.insight = options.insight;
   this.router = initRouter(this);
-
-  process.once('exit', this._exit.bind(this));
 };
 
 util.inherits(yoyo, gen.Base);
@@ -87,28 +89,6 @@ yoyo.prototype._installGenerator = function (pkgName) {
 yoyo.prototype._findHelp = function () {
   this.router.navigate('help');
 };
-
-
-// Serves as a quick escape from the `yo yo` prompts.
-yoyo.prototype._exit = function () {
-  this.insight.track('yoyo', 'exit');
-
-  var url = 'https://github.com/yeoman/yeoman#team';
-  var maxLength = url.length;
-  var newLine = new Array(maxLength).join(' ');
-
-  console.log(
-    '\n' +
-    yosay(
-      'Bye from us! Chat soon.' +
-      newLine +
-      newLine +
-      'The Yeoman Team ' + url,
-      { maxLength: maxLength }
-    )
-  );
-};
-
 
 // I'm sorry...
 yoyo.prototype._noop = function () {};
