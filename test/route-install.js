@@ -107,7 +107,7 @@ describe('install route', function () {
       this.router.navigate('install');
     });
 
-    it('install a generator and return home updating run menu', function (done) {
+    it('install a generator', function (done) {
       var call = 0;
       this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
         call++;
