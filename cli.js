@@ -29,6 +29,7 @@ function rootCheck() {
     } catch (err) {}
   }
 
+  /*jshint multistr:true */
   var msg = chalk.red('Easy with the "sudo"; Yeoman is the master around here.') + '\n\n\
 Since yo is a user command, there is no need to execute it with superuser\n\
 permissions. If you\'re having permission errors when using yo without sudo,\n\
@@ -113,12 +114,13 @@ function init() {
 
 rootCheck();
 
-var insightMsg = chalk.gray('\
-==========================================================================') + chalk.yellow('\n\
-We\'re constantly looking for ways to make ') + chalk.bold.red(pkg.name) + chalk.yellow(' better! \n\
-May we anonymously report usage statistics to improve the tool over time? \n\
-More info: https://github.com/yeoman/insight & http://yeoman.io') + chalk.gray('\n\
-==========================================================================');
+var insightMsg = chalk.gray('==========================================================================') +
+chalk.yellow('\nWe\'re constantly looking for ways to make ') + chalk.bold.red(pkg.name) +
+chalk.yellow(
+  ' better! \nMay we anonymously report usage statistics to improve the tool over time? \n' +
+  'More info: https://github.com/yeoman/insight & http://yeoman.io'
+) +
+chalk.gray('\n==========================================================================');
 
 var insight = new Insight({
   trackingCode: 'UA-31537568-1',

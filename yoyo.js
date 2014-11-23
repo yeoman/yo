@@ -44,6 +44,7 @@ function initRouter(generator) {
   router.registerRoute('help', require('./lib/routes/help'));
   router.registerRoute('update', require('./lib/routes/update'));
   router.registerRoute('run', require('./lib/routes/run'));
+  router.registerRoute('install', require('./lib/routes/install'));
   router.registerRoute('home', function () {
     generator.home();
   });
@@ -79,149 +80,8 @@ yoyo.prototype._initGenerator = function (name, done) {
 //
 // - pkgName - (optional) A string that matches the NPM package name.
 yoyo.prototype._installGenerator = function (pkgName) {
-  if (this._.isString(pkgName)) {
-    this.insight.track('yoyo', 'install', pkgName);
-
-    // We know what generator we want to install
-    return this.spawnCommand('npm', ['install', '-g', pkgName])
-      .on('error', function (err) {
-        this.insight.track('yoyo:err', 'install', pkgName);
-        this.emit('error', err);
-      }.bind(this))
-      .on('exit', function () {
-        this.insight.track('yoyo', 'installed', pkgName);
-        this.home({
-          refresh: true,
-          message:
-            '\nI just installed a generator by running:\n' +
-            chalk.blue.bold('\n    npm install -g ' + pkgName)
-        });
-      }.bind(this));
-  }
-
-  this.insight.track('yoyo', 'install');
-
-  this.prompt([{
-    name: 'searchTerm',
-    message: 'Search NPM for generators'
-  }], this._searchNpm.bind(this));
+  return this.router.navigate('install');
 };
-
-// Grabs all of the packages with a `yeoman-generator` keyword on NPM.
-//
-// - term - (object) Contains the search term & gets passed back to callback().
-// - cb   - Callback to execute once generators have been found.
-yoyo.prototype._findAllNpmGenerators = function (term, cb) {
-  var url = 'http://isaacs.iriscouch.com/registry/_design/' +
-    'app/_view/byKeyword?startkey=[%22yeoman-generator%22]' +
-    '&endkey=[%22yeoman-generator%22,{}]&group_level=3';
-
-  this.request(url, function (err, res, body) {
-    if (err) {
-      this.emit('error', err);
-      return;
-    }
-
-    try {
-      this.npmGenerators = JSON.parse(body);
-    } catch (err) {
-      return this.emit('error', new Error(chalk.bold(
-        'A problem occurred contacting the registry.' +
-        '\nUnable to parse response: not valid JSON.'
-      )));
-    }
-
-    cb(term);
-  }.bind(this));
-};
-
-// Grab out name, and author from git repo of the generator
-//
-// - generator - (object) Contains npm registry json object.
-// - cb   - Callback to execute once generators have been processed.
-yoyo.prototype._handleRow = function(generator,cb){
-  var url = 'https://skimdb.npmjs.com/registry/' + generator.key[1];
-  this.request({url: url, json: true}, function (err, res, body) {
-    if (!err && res.statusCode === 200) {
-      var packageType = this._isYeomanPackage(body);
-      cb(null, {
-        name: generator.key[1].replace(/^generator-/, '') + packageType,
-        value: generator.key[1],
-        author: packageType ? body.author.name : ''
-      });
-    } else {
-      cb(new Error('GitHub fetch failed\n' + err + '\n' + body));
-    }
-  }.bind(this));
-};
-
-// Determine if NPM package is a yeoman package
-// - body - object containing github repo information
-yoyo.prototype._isYeomanPackage = function(body){
-  return body.author &&
-  body.author.name === 'The Yeoman Team' ? chalk.green(' :{') : '';
-};
-
-//Sorts the NPM Packages in alphabetical order
-// - a - first compared NPM package
-// - b - second compared NPM package
-yoyo.prototype._sortNPMPackage = function(a,b){
-      if (a.name < b.name){
-         return -1;
-      }
-      if (a.name > b.name){
-        return 1;
-      }
-      return 0;
-};
-// Takes a search term, looks it up in the registry, prompts the user with the
-// results, allowing them to choose to install it, or go back home.
-//
-// - term - Object with a 'searchTerm' property containing the term to search
-//          NPM for.
-yoyo.prototype._searchNpm = function (term) {
-  if (!this.npmGenerators) {
-    return this._findAllNpmGenerators(term, this._searchNpm.bind(this));
-  }
-
-  var pkgs = this.pkgs;
-  // Find any matches from NPM.
-  var availableGenerators = this.npmGenerators.rows.filter(function(generator){
-    return !pkgs[generator.key[1]] && generator.key.join(' ').indexOf(term.searchTerm) > -1;
-  });
-
-  async.map(availableGenerators, this._handleRow.bind(this), function(err, choices){
-    choices.sort(this._sortNPMPackage);
-
-    var introMessage = 'Sorry, nothing was found';
-
-    if (choices.length > 0){
-      introMessage = 'Here\'s what I found. (' + chalk.green(':{') +
-      ' represents offical generators)\n  Install one?';
-    }
-
-    var resultsPrompt = [{
-      name: '_installGenerator',
-      type: 'list',
-      message: introMessage,
-      choices: this._.union(choices, [{
-        name: 'Search again',
-        value: '_installGenerator'
-        }, {
-        name: 'Return home',
-        value: 'home'
-      }])
-    }];
-
-    this.prompt(resultsPrompt, function (answer) {
-      if (this._.isFunction(this[answer._installGenerator])) {
-        return this[answer._installGenerator]();
-      }
-      this._installGenerator(answer._installGenerator);
-    }.bind(this));
-  }.bind(this));
-};
-
 
 // Prompts user with a few helpful resources, then opens it in their browser.
 yoyo.prototype._findHelp = function () {
@@ -269,6 +129,7 @@ yoyo.prototype.findGenerators = function () {
 //           - refresh (bool) - Spawn a new `yo` command.
 yoyo.prototype.home = function (options) {
   var done = this.async();
+  this.pkgs = this.router.generators;
 
   options = options || {};
 
