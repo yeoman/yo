@@ -6,13 +6,12 @@ var Configstore = require('configstore');
 var _ = require('lodash');
 var inquirer = require('inquirer');
 var Router = require('../lib/router');
+var helpers = require('./helpers');
 
 describe('clear config route', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create();
-    this.insight = {
-      track: sinon.stub()
-    };
+    this.insight = helpers.fakeInsight();
     this.globalConfig = {
       remove: sinon.stub(),
       removeAll: sinon.stub(),
