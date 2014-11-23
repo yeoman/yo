@@ -27,18 +27,6 @@ env.registerStub(Phoenix, 'phoenix:app');
 describe('yo yo', function () {
   afterEach(helpers.restore);
 
-  it.skip('should find generators', function (cb) {
-    helpers.stub(yoyo.prototype, 'findGenerators', cb);
-
-    yo();
-  });
-
-  it.skip('should send the user to the home screen', function (cb) {
-    helpers.stub(yoyo.prototype, 'home', cb);
-
-    yo();
-  });
-
   describe('home', function () {
     describe('prompts', function () {
       var choices = {
@@ -79,7 +67,9 @@ describe('yo yo', function () {
         this.stubFindGenerators.restore();
       });
 
-      it('should display installed generators', function () {
+      // Skipping this one because we don't actually install a generator, so this one
+      // was just relying on side effects from another test.
+      it.skip('should display installed generators', function () {
         assert.equal(choices.generators.length, 1);
         assert.ok(choices.generators.indexOf('phoenix:app') > -1);
       });
@@ -97,6 +87,7 @@ describe('yo yo', function () {
   describe('clearGlobalConfig', function () {
 
     it('should display only generators with a global store entry', function () {
+      yoyo.prototype.insight = insightStub;
       var choices = {
         generators: [],
         prettyNames: []
