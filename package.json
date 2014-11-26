@@ -20,7 +20,8 @@
   },
   "files": [
     "cli.js",
-    "yoyo.js"
+    "yoyo.js",
+    "lib"
   ],
   "keywords": [
     "front-end",
@@ -48,7 +49,6 @@
     "insight": "^0.4.3",
     "is-root": "^1.0.0",
     "lodash": "^2.4.1",
-    "multiline": "^1.0.0",
     "nopt": "^3.0.0",
     "opn": "^1.0.0",
     "request": "^2.48.0",
@@ -61,7 +61,6 @@
     "yeoman-character": "^1.0.0",
     "yeoman-doctor": "^1.0.0",
     "yeoman-environment": "^1.0.1",
-    "yeoman-generator": "^0.17.7",
     "yosay": "^1.0.0"
   },
   "devDependencies": {
