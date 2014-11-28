@@ -12,6 +12,7 @@ var isRoot = require('is-root');
 var Insight = require('insight');
 var yosay = require('yosay');
 var stringLength = require('string-length');
+var Router = require('./lib/router');
 
 var opts = nopt({
   help: Boolean,
@@ -92,24 +93,31 @@ function init() {
       })).join('\n'));
     }
 
-    // Register the `yo yo` generator.
-    if (!cmd) {
-      if (opts.help) {
-        console.log(env.help('yo'));
-        return;
-      }
-
-      env.register(path.resolve(__dirname, './yoyo'), 'yo');
-      args = ['yo'];
-      // make the insight instance available in `yoyo`
-      opts = { insight: insight };
-    }
+    // If no generator is passed, then start the Yo UI
+    if (!cmd) return runYo(env);
 
     // Note: at some point, nopt needs to know about the generator options, the
     // one that will be triggered by the below args. Maybe the nopt parsing
     // should be done internally, from the args.
     env.run(args, opts);
   });
+}
+
+function runYo(env) {
+  var router = new Router(env, insight);
+  router.insight.track('yoyo', 'init');
+  router.registerRoute('help', require('./lib/routes/help'));
+  router.registerRoute('update', require('./lib/routes/update'));
+  router.registerRoute('run', require('./lib/routes/run'));
+  router.registerRoute('install', require('./lib/routes/install'));
+  router.registerRoute('exit', require('./lib/routes/exit'));
+  router.registerRoute('clearConfig', require('./lib/routes/clear-config'));
+  router.registerRoute('home', require('./lib/routes/home'));
+
+  process.once('exit', router.navigate.bind(router, 'exit'));
+
+  router.updateAvailableGenerators();
+  router.navigate('home');
 }
 
 rootCheck();
