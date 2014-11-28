@@ -1,20 +1,13 @@
 'use strict';
 var assert = require('assert');
 var proxyquire = require('proxyquire');
+var fs = require('fs');
 var sinon = require('sinon');
+var globalConfig = require('../lib/utils/global-config');
 
 describe('global config', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create();
-
-    this.fs = {
-      existsSync: sinon.stub(),
-      readFileSync: sinon.stub(),
-      writeFileSync: sinon.stub()
-    };
-    this.globalConfig = proxyquire('../lib/utils/global-config', {
-      fs: this.fs
-    });
   });
 
   afterEach(function () {
@@ -23,51 +16,43 @@ describe('global config', function () {
 
   describe('.getAll()', function () {
     it('when config file exists', function () {
-      this.fs.existsSync.returns(true);
-      this.fs.readFileSync.returns('{"foo": "bar"}');
-
-      assert.deepEqual(this.globalConfig.getAll(), {foo:'bar'});
-      sinon.assert.calledOnce(this.fs.existsSync);
-      sinon.assert.calledOnce(this.fs.readFileSync);
+      this.sandbox.stub(fs, 'existsSync').returns(true);
+      this.sandbox.stub(fs, 'readFileSync').returns('{"foo": "bar"}');
+      assert.deepEqual(globalConfig.getAll(), { foo: 'bar' });
     });
 
     it('when config file doesn\'t exists', function () {
-      this.fs.existsSync.returns(false);
-
-      assert.deepEqual(this.globalConfig.getAll(), {});
-      sinon.assert.calledOnce(this.fs.existsSync);
-      sinon.assert.notCalled(this.fs.readFileSync);
+      this.sandbox.stub(fs, 'existsSync').returns(false);
+      assert.deepEqual(globalConfig.getAll(), {});
     });
   });
 
   describe('.hasContent()', function () {
     it('when config is present', function () {
-      this.fs.existsSync.returns(true);
-      this.fs.readFileSync.returns('{"foo": "bar"}');
-
-      assert.ok(this.globalConfig.hasContent());
+      this.sandbox.stub(fs, 'existsSync').returns(true);
+      this.sandbox.stub(fs, 'readFileSync').returns('{"foo": "bar"}');
+      assert(globalConfig.hasContent());
     });
 
     it('when config is not present', function () {
-      this.fs.existsSync.returns(true);
-      this.fs.readFileSync.returns('{}');
-
-      assert.ok(!this.globalConfig.hasContent());
+      this.sandbox.stub(fs, 'existsSync').returns(true);
+      this.sandbox.stub(fs, 'readFileSync').returns('{}');
+      assert(!globalConfig.hasContent());
     });
   });
 
   it('.remove()', function () {
-    this.fs.existsSync.returns(true);
-    this.fs.readFileSync.returns('{"foo": "bar", "baz": "qux"}');
+    this.sandbox.stub(fs, 'existsSync').returns(true);
+    this.sandbox.stub(fs, 'writeFileSync');
+    this.sandbox.stub(fs, 'readFileSync').returns('{"foo": "bar", "baz": "qux"}');
 
-    this.globalConfig.remove('foo');
-    sinon.assert.calledOnce(this.fs.readFileSync);
-    assert.deepEqual(JSON.parse(this.fs.writeFileSync.getCall(0).args[1]), {baz:'qux'});
+    globalConfig.remove('foo');
+    sinon.assert.calledWith(fs.writeFileSync, globalConfig.path, '{\n  "baz": "qux"\n}');
   });
 
   it('.removeAll()', function () {
-    this.globalConfig.removeAll();
-    sinon.assert.calledOnce(this.fs.writeFileSync);
-    assert.equal(this.fs.writeFileSync.getCall(0).args[1], '{}');
+    this.sandbox.stub(fs, 'writeFileSync');
+    globalConfig.removeAll();
+    sinon.assert.calledWith(fs.writeFileSync, globalConfig.path, '{}');
   });
 });
