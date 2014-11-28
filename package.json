@@ -4,7 +4,7 @@
   "description": "CLI tool for running Yeoman generators",
   "license": "BSD",
   "bin": {
-    "yo": "cli.js"
+    "yo": "lib/cli.js"
   },
   "author": "The Yeoman Team",
   "repository": "yeoman/yo",
@@ -19,9 +19,7 @@
     "prepublish": "nsp audit-package"
   },
   "files": [
-    "cli.js",
-    "yoyo.js",
-    "lib"
+    "lib/"
   ],
   "keywords": [
     "front-end",
