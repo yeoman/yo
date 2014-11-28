@@ -45,7 +45,7 @@ describe('bin', function () {
       };
       process.argv = ['node', path.join(__dirname, '../', pkg.bin.yo), 'notexisting'];
       this.env.lookup = function (cb) { cb(); };
-      require('../cli');
+      require('../lib/cli');
     });
   });
 

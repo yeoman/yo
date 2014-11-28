@@ -1,0 +1,5 @@
+Usage: yo GENERATOR [args] [options]
+
+General options:
+  -h, --help     # Print generator's options and usage
+  -f, --force    # Overwrite files that already exist
