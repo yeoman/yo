@@ -3,7 +3,7 @@ var assert = require('assert');
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
 
-describe.only('global config', function () {
+describe('global config', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create();
 
