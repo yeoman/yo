@@ -12,7 +12,7 @@ describe.only('global config', function () {
       readFileSync: sinon.stub(),
       writeFileSync: sinon.stub()
     };
-    this.globalConfig = proxyquire('../../lib/utils/global-config', {
+    this.globalConfig = proxyquire('../lib/utils/global-config', {
       fs: this.fs
     });
   });
