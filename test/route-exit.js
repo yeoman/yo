@@ -3,7 +3,7 @@ var sinon = require('sinon');
 var Router = require('../lib/router');
 var helpers = require('./helpers');
 
-describe('help route', function () {
+describe('exit route', function () {
   beforeEach(function () {
     this.insight = helpers.fakeInsight();
     this.router = new Router(sinon.stub(), this.insight);
