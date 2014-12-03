@@ -1,6 +1,5 @@
 'use strict';
 var assert = require('assert');
-var proxyquire = require('proxyquire');
 var fs = require('fs');
 var sinon = require('sinon');
 var globalConfig = require('../lib/utils/global-config');
