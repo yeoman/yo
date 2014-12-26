@@ -14,8 +14,8 @@
   },
   "scripts": {
     "test": "grunt",
-    "postinstall": "yodoctor",
-    "postupdate": "yodoctor",
+    "postinstall": "yo doctor",
+    "postupdate": "yo doctor",
     "prepublish": "nsp audit-package"
   },
   "files": [
