@@ -32,7 +32,7 @@ describe('install route', function () {
     this.sandbox.restore();
   });
 
-  describe('NPM success with results', function () {
+  describe('npm success with results', function () {
     beforeEach(function () {
       this.rows = [
         { key: ['yeoman-generator', 'generator-unicorn', 'some unicorn'] },
@@ -132,7 +132,7 @@ describe('install route', function () {
     });
   });
 
-  describe('NPM success without results', function () {
+  describe('npm success without results', function () {
     beforeEach(function () {
       this.rows = [
         { key: ['yeoman-generator', 'generator-unrelated', 'some description'] },
