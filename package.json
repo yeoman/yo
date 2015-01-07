@@ -55,6 +55,7 @@
     "request": "^2.48.0",
     "root-check": "^1.0.0",
     "shelljs": "^0.3.0",
+    "sort-on": "^1.0.0",
     "string-length": "^1.0.0",
     "underscore.string": "^2.3.3",
     "update-notifier": "^0.2.2",
