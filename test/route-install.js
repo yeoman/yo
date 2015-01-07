@@ -40,7 +40,12 @@ describe('install route', function () {
         { key: ['yeoman-generator', 'generator-unicorn-1', 'foo description'] },
         { key: ['yeoman-generator', 'generator-foo', 'description with unicorn word'] }
       ];
-      this.pkgData = { author: { name: 'Simon' } };
+
+      this.pkgData = {
+        author: {
+          name: 'Simon'
+        }
+      };
 
       nock(urls.npm.domain)
         .get(urls.npm.keyword('yeoman-generator').replace(urls.npm.domain, ''))
@@ -136,16 +141,19 @@ describe('install route', function () {
 
       nock(urls.npm.domain)
         .get(urls.npm.keyword('yeoman-generator').replace(urls.npm.domain, ''))
-        .reply(200, { rows: this.rows });
+        .reply(200, {rows: this.rows});
     });
 
     it('list options if search have no results', function (done) {
       var call = 0;
+
       this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
         call++;
+
         if (call === 1) {
           return cb({ searchTerm: 'unicorn' });
         }
+
         if (call === 2) {
           var choices = arg[0].choices;
           assert.deepEqual(_.pluck(choices, 'value'), ['install', 'home']);

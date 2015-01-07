@@ -1,5 +1,4 @@
 'use strict';
-var _ = require('lodash');
 var assert = require('assert');
 var fs = require('fs');
 var sinon = require('sinon');
@@ -10,7 +9,6 @@ var conf = new Configstore('yoyo-test-purposes', {
 var Router = require('../lib/router');
 var runRoute = require('../lib/routes/run');
 var helpers = require('./helpers');
-
 
 describe('run route', function () {
   beforeEach(function () {

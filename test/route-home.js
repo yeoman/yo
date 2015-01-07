@@ -1,10 +1,9 @@
 'use strict';
 var _ = require('lodash');
 var assert = require('assert');
-var proxyquire = require('proxyquire');
 var sinon = require('sinon');
-var Router = require('../lib/router');
 var inquirer = require('inquirer');
+var Router = require('../lib/router');
 var helpers = require('./helpers');
 
 
@@ -34,7 +33,7 @@ describe('home route', function () {
   it('track usage', function (done) {
     this.sandbox.stub(inquirer, 'prompt', function (prompts, cb) {
       sinon.assert.calledWith(this.insight.track, 'yoyo', 'home');
-      cb({ whatNext: 'exit' });
+      cb({whatNext: 'exit'});
       done();
     }.bind(this));
     this.router.navigate('home');
@@ -42,7 +41,7 @@ describe('home route', function () {
 
   it('allow going to help', function (done) {
     this.sandbox.stub(inquirer, 'prompt', function (prompts, cb) {
-      cb({ whatNext: 'help' });
+      cb({whatNext: 'help'});
       sinon.assert.calledOnce(this.helpRoute);
       done();
     }.bind(this));
@@ -51,7 +50,7 @@ describe('home route', function () {
 
   it('allow going to install', function (done) {
     this.sandbox.stub(inquirer, 'prompt', function (prompts, cb) {
-      cb({ whatNext: 'install' });
+      cb({whatNext: 'install'});
       sinon.assert.calledOnce(this.installRoute);
       done();
     }.bind(this));
@@ -77,7 +76,7 @@ describe('home route', function () {
 
     this.sandbox.stub(inquirer, 'prompt', function (prompts, cb) {
       assert(_.pluck(prompts[0].choices, 'value').indexOf('update') >= 0);
-      cb({ whatNext: 'update' });
+      cb({whatNext: 'update'});
       sinon.assert.calledOnce(this.updateRoute);
       done();
     }.bind(this));
@@ -94,7 +93,12 @@ describe('home route', function () {
 
     this.sandbox.stub(inquirer, 'prompt', function (prompts, cb) {
       assert.equal(prompts[0].choices[1].value.generator, 'unicorn:app');
-      cb({ whatNext: { method: 'run', generator: 'unicorn:app' } });
+      cb({
+        whatNext: {
+          method: 'run',
+          generator: 'unicorn:app'
+        }
+      });
       sinon.assert.calledWith(this.runRoute, this.router, 'unicorn:app');
       done();
     }.bind(this));

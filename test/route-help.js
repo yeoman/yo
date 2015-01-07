@@ -1,9 +1,8 @@
 'use strict';
-var assert = require('assert');
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
-var Router = require('../lib/router');
 var inquirer = require('inquirer');
+var Router = require('../lib/router');
 var helpers = require('./helpers');
 
 describe('help route', function () {

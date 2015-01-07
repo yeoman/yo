@@ -1,10 +1,8 @@
 'use strict';
-var _ = require('lodash');
-var assert = require('assert');
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
-var Router = require('../lib/router');
 var inquirer = require('inquirer');
+var Router = require('../lib/router');
 var helpers = require('./helpers');
 
 describe('update route', function () {
@@ -32,7 +30,7 @@ describe('update route', function () {
   it('allows updating generators and return user to home screen', function () {
     var generators = ['generator-cat', 'generator-unicorn'];
     this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
-      cb({ generators: generators });
+      cb({generators: generators});
     });
     this.router.navigate('update');
 

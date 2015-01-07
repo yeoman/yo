@@ -1,11 +1,10 @@
-/*global describe, it, before, beforeEach, after, afterEach */
+/*global describe, it, beforeEach, afterEach */
 'use strict';
-var fs = require('fs');
 var path = require('path');
-var execFile = require('child_process').execFile;
 var assert = require('assert');
-var pkg = require('../package.json');
+var execFile = require('child_process').execFile;
 var mockery = require('mockery');
+var pkg = require('../package.json');
 
 describe('bin', function () {
   describe('mocked', function () {

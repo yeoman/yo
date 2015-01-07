@@ -2,7 +2,6 @@
 var assert = require('assert');
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
-var Configstore = require('configstore');
 var _ = require('lodash');
 var inquirer = require('inquirer');
 var Router = require('../lib/router');
