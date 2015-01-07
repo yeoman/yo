@@ -6,7 +6,7 @@
   "bin": {
     "yo": "lib/cli.js"
   },
-  "author": "The Yeoman Team",
+  "author": "Yeoman team",
   "repository": "yeoman/yo",
   "engines": {
     "node": ">=0.10.0",
@@ -19,21 +19,25 @@
     "prepublish": "nsp audit-package"
   },
   "files": [
-    "lib/"
+    "lib"
   ],
   "keywords": [
+    "cli-app",
+    "cli",
+    "bin",
     "front-end",
     "development",
     "dev",
     "build",
     "web",
     "tool",
-    "cli",
     "scaffold",
     "stack",
     "yeoman",
     "generator",
-    "app"
+    "generate",
+    "app",
+    "boilerplate"
   ],
   "dependencies": {
     "async": "^0.9.0",
