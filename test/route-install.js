@@ -52,7 +52,7 @@ describe('install route', function () {
           .reply(200, { rows: this.rows })
         .filteringPath(/\/registry\/[^\?]+$/g, '/registry/pkg')
           .get('/registry/pkg')
-          .times(2)
+          .times(3)
           .reply(200, this.pkgData);
     });
 
@@ -67,7 +67,7 @@ describe('install route', function () {
           var choices = arg[0].choices;
           assert.equal(_.where(choices, { value: 'generator-foo' }).length, 1);
           assert.equal(_.where(choices, { value: 'generator-unicorn-1' }).length, 1);
-          assert.equal(_.where(choices, { value: 'generator-unicorn' }).length, 0);
+          assert.equal(_.where(choices, { value: 'generator-unicorn' }).length, 1);
           assert.equal(_.where(choices, { value: 'generator-unrelated' }).length, 0);
           done();
         }
