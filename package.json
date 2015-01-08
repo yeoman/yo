@@ -10,7 +10,7 @@
   "repository": "yeoman/yo",
   "engines": {
     "node": ">=0.10.0",
-    "npm": ">=1.4.3"
+    "npm": ">=2.1.0"
   },
   "scripts": {
     "test": "jshint . && mocha test/**/*.js",
