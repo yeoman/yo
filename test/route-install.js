@@ -49,11 +49,25 @@ describe('install route', function () {
 
       nock(urls.npm.domain)
         .get(urls.npm.keyword('yeoman-generator').replace(urls.npm.domain, ''))
-          .reply(200, { rows: this.rows })
-        .filteringPath(/\/registry\/[^\?]+$/g, '/registry/pkg')
-          .get('/registry/pkg')
-          .times(2)
-          .reply(200, this.pkgData);
+        .reply(200, { rows: this.rows })
+        .get('/registry/generator-foo')
+        .times(2)
+        .reply(200, this.pkgData)
+        .get('/registry/generator-unicorn-1')
+        .times(2)
+        .reply(200, this.pkgData)
+        .get('/registry/generator-unicorn')
+        .times(2)
+        .reply(200, this.pkgData)
+        .get('/registry/generator-unrelated')
+        .times(2)
+        .reply(200, this.pkgData);
+
+      //TODO: replace multiple get in nock with a working filteringPath
+      //.filteringPath(/\/registry\/generator-[^\?]+$/g, '/registry/pkg').log(console.log)
+      //  .get('/registry/pkg')
+      //  .times(2)
+      //  .reply(200, this.pkgData);
     });
 
     it('filters already installed generators and match search term', function (done) {
@@ -65,9 +79,11 @@ describe('install route', function () {
         }
         if (call === 2) {
           var choices = arg[0].choices;
-          assert.equal(_.where(choices, { value: 'generator-foo' }).length, 1);
+
+
+          assert.equal(_.where(choices, { value: 'generator-foo' }).length, 1);  // has unicorn in description
           assert.equal(_.where(choices, { value: 'generator-unicorn-1' }).length, 1);
-          assert.equal(_.where(choices, { value: 'generator-unicorn' }).length, 0);
+          assert.equal(_.where(choices, { value: 'generator-unicorn' }).length, 1);
           assert.equal(_.where(choices, { value: 'generator-unrelated' }).length, 0);
           done();
         }
