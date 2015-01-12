@@ -50,7 +50,7 @@
     "findup": "^0.1.5",
     "fullname": "^1.0.0",
     "inquirer": "^0.8.0",
-    "insight": "^0.4.3",
+    "insight": "^0.5.0",
     "lodash": "^2.4.1",
     "meow": "^2.0.0",
     "opn": "^1.0.0",
