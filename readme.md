@@ -21,8 +21,8 @@
 ## Options
 
 - `--no-color` flag to disable colors.
-- `--version` (`-v`) Print the current `yo` version.
-- `--help` (`-h`) Print `yo` help menu with the list of found generators
+- `--version` Print the current `yo` version.
+- `--help` Print `yo` help menu with the list of found generators
 - `--[no-]insight` to toggle anonymous [Insight](https://github.com/yeoman/insight) tracking which helps us improve Yeoman. Using either of these flags on the first run will prevent you from being prompted about it interactively. The flags can also be used to change it later on.
 - `--generators` will output the available generators
 
