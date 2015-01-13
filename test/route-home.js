@@ -104,4 +104,19 @@ describe('home route', function () {
     }.bind(this));
     this.router.navigate('home');
   });
+
+  it('show update available message behind genertor name', function (done) {
+    this.router.generators = [{
+      namespace: 'unicorn:app',
+      appGenerator: true,
+      prettyName: 'unicorn',
+      updateAvailable: true
+    }];
+
+    this.sandbox.stub(inquirer, 'prompt', function (prompts, cb) {
+      assert(prompts[0].choices[1].name.indexOf('♥ Update Available!') >= 0);
+      done();
+    }.bind(this));
+    this.router.navigate('home');
+  });
 });
