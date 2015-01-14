@@ -105,7 +105,7 @@ describe('home route', function () {
     this.router.navigate('home');
   });
 
-  it('show update available message behind genertor name', function (done) {
+  it('show update available message behind generator name', function (done) {
     this.router.generators = [{
       namespace: 'unicorn:app',
       appGenerator: true,
