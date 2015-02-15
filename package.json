@@ -77,6 +77,5 @@
     "registry-url": "^2.1.0",
     "sinon": "^1.12.1"
   },
-  "engineStrict": true,
   "preferGlobal": true
 }
