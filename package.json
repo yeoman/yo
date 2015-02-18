@@ -65,7 +65,8 @@
     "yeoman-character": "^1.0.0",
     "yeoman-doctor": "^1.0.0",
     "yeoman-environment": "^1.0.1",
-    "yosay": "^1.0.0"
+    "yosay": "^1.0.0",
+    "got": "^2.4.0"
   },
   "devDependencies": {
     "jshint": "^2.5.11",

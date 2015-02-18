@@ -39,7 +39,15 @@ describe('install route', function () {
         { key: ['yeoman-generator', 'generator-unicorn', 'some unicorn'] },
         { key: ['yeoman-generator', 'generator-unrelated', 'some description'] },
         { key: ['yeoman-generator', 'generator-unicorn-1', 'foo description'] },
-        { key: ['yeoman-generator', 'generator-foo', 'description with unicorn word'] }
+        { key: ['yeoman-generator', 'generator-foo', 'description with unicorn word'] },
+        { key: ['yeoman-generator', 'generator-blacklist-1', 'foo description'] },
+        { key: ['yeoman-generator', 'generator-blacklist-2', 'foo description'] },
+        { key: ['yeoman-generator', 'generator-blacklist-3', 'foo description'] }
+      ];
+
+      this.blacklist = [
+        'generator-blacklist-1',
+        'generator-blacklist-2'
       ];
 
       this.pkgData = {
@@ -55,6 +63,10 @@ describe('install route', function () {
           .get('/pkg')
           .times(2)
           .reply(200, this.pkgData);
+
+      nock('http://yeoman.io')
+        .get('/blacklist.json')
+        .reply(200, this.blacklist);
     });
 
     it('filters already installed generators and match search term', function (done) {
@@ -70,6 +82,25 @@ describe('install route', function () {
           assert.equal(_.where(choices, { value: 'generator-unicorn-1' }).length, 1);
           assert.equal(_.where(choices, { value: 'generator-unicorn' }).length, 0);
           assert.equal(_.where(choices, { value: 'generator-unrelated' }).length, 0);
+          done();
+        }
+      });
+
+      this.router.navigate('install');
+    });
+
+    it('filters blacklisted generators and match search term', function (done) {
+      var call = 0;
+      this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
+        call++;
+        if (call === 1) {
+          return cb({ searchTerm: 'blacklist' });
+        }
+        if (call === 2) {
+          var choices = arg[0].choices;
+          assert.equal(_.where(choices, { value: 'generator-blacklist-1' }).length, 0);
+          assert.equal(_.where(choices, { value: 'generator-blacklist-2' }).length, 0);
+          assert.equal(_.where(choices, { value: 'generator-blacklist-3' }).length, 1);
           done();
         }
       });
