@@ -54,9 +54,9 @@
     "insight": "^0.5.0",
     "lodash": "^3.2.0",
     "meow": "^3.0.0",
-    "npm-keyword": "^1.0.1",
+    "npm-keyword": "^1.1.1",
     "opn": "^1.0.0",
-    "package-json": "^1.0.1",
+    "package-json": "^1.1.0",
     "root-check": "^1.0.0",
     "sort-on": "^1.0.0",
     "string-length": "^1.0.0",
@@ -75,7 +75,7 @@
     "nock": "^0.59.1",
     "nsp": "*",
     "proxyquire": "^1.0.1",
-    "registry-url": "^2.1.0",
+    "registry-url": "^3.0.0",
     "sinon": "^1.12.1"
   },
   "preferGlobal": true

@@ -6,7 +6,7 @@ var nock = require('nock');
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
 var npmKeyword = require('npm-keyword');
-var registryUrl = require('registry-url');
+var registryUrl = require('registry-url')();
 var Router = require('../lib/router');
 var helpers = require('./helpers');
 
