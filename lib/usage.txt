@@ -1,5 +1,11 @@
 Usage: yo GENERATOR [args] [options]
 
 General options:
-  -h, --help     # Print generator's options and usage
+  -h 		 # Enter interactive help menu
+  --help     	 # Print this info and generator's options and usage
   -f, --force    # Overwrite files that already exist
+  --version	 # Print Yo's version
+  --no-color	 # flag to disable colors.
+  --[no-]insight # toggle anonymous tracking
+  --generators	 # will output the available generators
+  
