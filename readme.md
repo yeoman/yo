@@ -8,7 +8,7 @@
 ┈┈╲▂▂▂▂▂▂▂▂▂▂╱
 
 
-[![Build Status](https://travis-ci.org/yeoman/yo.svg?branch=master)](https://travis-ci.org/yeoman/yo) ![](http://img.shields.io/badge/unicorn-approved-ff69b4.svg)
+[![Build Status](https://travis-ci.org/yeoman/yo.svg?branch=master)](https://travis-ci.org/yeoman/yo) [![](http://img.shields.io/badge/unicorn-approved-ff69b4.svg)](https://www.youtube.com/watch?v=9auOCbH5Ns4)
 
 > CLI tool for running Yeoman [generators](http://yeoman.io/generators/)
 
