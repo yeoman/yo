@@ -23,14 +23,14 @@ describe('run route', function () {
   });
 
   it('run a generator', function () {
-    assert.equal(conf.get('generatorRunCount')['foo:app'], undefined);
+    assert.equal(conf.get('generatorRunCount').foo, undefined);
     this.router.navigate('run', 'foo:app');
 
-    assert.equal(conf.get('generatorRunCount')['foo:app'], 1);
+    assert.equal(conf.get('generatorRunCount').foo, 1);
     sinon.assert.calledWith(this.insight.track, 'yoyo', 'run', 'foo');
     sinon.assert.calledWith(this.env.run, 'foo:app');
 
     this.router.navigate('run', 'foo:app');
-    assert.equal(conf.get('generatorRunCount')['foo:app'], 2);
+    assert.equal(conf.get('generatorRunCount').foo, 2);
   });
 });
