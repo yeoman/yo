@@ -61,7 +61,7 @@
     "sort-on": "^1.0.0",
     "string-length": "^1.0.0",
     "titleize": "^1.0.0",
-    "update-notifier": "^0.3.0",
+    "update-notifier": "^0.4.0",
     "user-home": "^1.1.0",
     "yeoman-character": "^1.0.0",
     "yeoman-doctor": "^1.0.0",
