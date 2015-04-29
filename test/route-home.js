@@ -6,7 +6,6 @@ var inquirer = require('inquirer');
 var Router = require('../lib/router');
 var helpers = require('./helpers');
 
-
 describe('home route', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create();

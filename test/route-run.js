@@ -13,9 +13,7 @@ var helpers = require('./helpers');
 describe('run route', function () {
   beforeEach(function () {
     this.insight = helpers.fakeInsight();
-
     this.env = helpers.fakeEnv();
-
     this.router = new Router(this.env, this.insight, conf);
     this.router.registerRoute('run', runRoute);
   });
