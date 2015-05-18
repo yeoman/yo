@@ -41,14 +41,14 @@ describe('bin', function () {
         assert(arg, 1, 'exit code should be 1');
         cb();
       };
-      process.argv = ['node', path.join(__dirname, '../', pkg.bin.yo), 'notexisting'];
+      process.argv = ['node', path.join(__dirname, '../', pkg.bin), 'notexisting'];
       this.env.lookup = function (cb) { cb(); };
       require('../lib/cli');
     });
   });
 
   it('should return the version', function (cb) {
-    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin.yo), '--version', '--no-insight', '--no-update-notifier']);
+    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin), '--version', '--no-insight', '--no-update-notifier']);
     var expected = pkg.version;
 
     cp.stdout.on('data', function (data) {
@@ -58,7 +58,7 @@ describe('bin', function () {
   });
 
   it('should output available generators when `--generators` flag is supplied', function (cb) {
-    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin.yo), '--generators', '--no-insight', '--no-update-notifier']);
+    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin), '--generators', '--no-insight', '--no-update-notifier']);
 
     cp.stdout.once('data', function (data) {
       assert(data.length > 0);

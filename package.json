@@ -3,9 +3,7 @@
   "version": "1.4.6",
   "description": "CLI tool for running Yeoman generators",
   "license": "BSD",
-  "bin": {
-    "yo": "lib/cli.js"
-  },
+  "bin": "lib/cli.js",
   "author": "Yeoman",
   "repository": "yeoman/yo",
   "engines": {
