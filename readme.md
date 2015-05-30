@@ -48,4 +48,4 @@ See the [release page](https://github.com/yeoman/yo/releases).
 
 ## License
 
-[BSD license](http://opensource.org/licenses/bsd-license.php) and copyright Google.
+BSD-2-Clause © Google
