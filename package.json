@@ -2,7 +2,7 @@
   "name": "yo",
   "version": "1.4.6",
   "description": "CLI tool for running Yeoman generators",
-  "license": "BSD",
+  "license": "MIT",
   "bin": "lib/cli.js",
   "author": "Yeoman",
   "repository": "yeoman/yo",
