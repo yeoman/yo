@@ -7,8 +7,7 @@
   "author": "Yeoman",
   "repository": "yeoman/yo",
   "engines": {
-    "node": ">=0.10.0",
-    "npm": ">=2.8.0"
+    "node": ">=0.12.0"
   },
   "scripts": {
     "test": "jshint . && mocha test/**/*.js",
