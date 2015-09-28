@@ -3,9 +3,9 @@
   "version": "1.4.8",
   "description": "CLI tool for running Yeoman generators",
   "license": "BSD-2-Clause",
-  "bin": "lib/cli.js",
-  "author": "Yeoman",
   "repository": "yeoman/yo",
+  "author": "Yeoman",
+  "bin": "lib/cli.js",
   "engines": {
     "node": ">=0.12.0"
   },
@@ -21,7 +21,6 @@
   "keywords": [
     "cli-app",
     "cli",
-    "bin",
     "front-end",
     "development",
     "dev",
@@ -37,7 +36,6 @@
     "boilerplate"
   ],
   "dependencies": {
-    "array-uniq": "^1.0.2",
     "async": "^1.0.0",
     "chalk": "^1.0.0",
     "configstore": "^1.0.0",
@@ -75,6 +73,5 @@
     "proxyquire": "^1.0.1",
     "registry-url": "^3.0.0",
     "sinon": "^1.12.1"
-  },
-  "preferGlobal": true
+  }
 }
