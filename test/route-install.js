@@ -5,7 +5,6 @@ var inquirer = require('inquirer');
 var nock = require('nock');
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
-var npmKeyword = require('npm-keyword');
 var registryUrl = require('registry-url')();
 var Router = require('../lib/router');
 var helpers = require('./helpers');
@@ -57,7 +56,8 @@ describe('install route', function () {
       };
 
       nock(registryUrl)
-        .get('/' + npmKeyword.url('yeoman-generator').replace(registryUrl, ''))
+        .get('/-/_view/byKeyword')
+          .query(true)
           .reply(200, { rows: this.rows })
         .filteringPath(/\/[^\?]+$/g, '/pkg')
           .get('/pkg')
@@ -66,6 +66,7 @@ describe('install route', function () {
 
       nock('http://yeoman.io')
         .get('/blacklist.json')
+        .times(2)
         .reply(200, this.blacklist);
     });
 
@@ -172,7 +173,8 @@ describe('install route', function () {
       ];
 
       nock(registryUrl)
-        .get('/' + npmKeyword.url('yeoman-generator').replace(registryUrl, ''))
+        .get('/-/_view/byKeyword')
+        .query(true)
         .reply(200, {rows: this.rows});
     });
 
