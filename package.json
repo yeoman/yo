@@ -1,6 +1,6 @@
 {
   "name": "yo",
-  "version": "1.4.8",
+  "version": "1.5.0",
   "description": "CLI tool for running Yeoman generators",
   "license": "BSD-2-Clause",
   "repository": "yeoman/yo",
