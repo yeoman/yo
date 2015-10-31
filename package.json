@@ -60,7 +60,7 @@
     "update-notifier": "^0.5.0",
     "user-home": "^2.0.0",
     "yeoman-character": "^1.0.0",
-    "yeoman-doctor": "^1.0.0",
+    "yeoman-doctor": "^2.0.0",
     "yeoman-environment": "^1.2.7",
     "yosay": "^1.0.0"
   },
