@@ -17,7 +17,7 @@ describe('global config', function () {
     it('when config file exists', function () {
       this.sandbox.stub(fs, 'existsSync').returns(true);
       this.sandbox.stub(fs, 'readFileSync').returns('{"foo": "bar"}');
-      assert.deepEqual(globalConfig.getAll(), { foo: 'bar' });
+      assert.deepEqual(globalConfig.getAll(), {foo: 'bar'});
     });
 
     it('when config file doesn\'t exists', function () {

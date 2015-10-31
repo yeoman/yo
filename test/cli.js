@@ -41,8 +41,13 @@ describe('bin', function () {
         assert(arg, 1, 'exit code should be 1');
         cb();
       };
+
       process.argv = ['node', path.join(__dirname, '../', pkg.bin), 'notexisting'];
-      this.env.lookup = function (cb) { cb(); };
+
+      this.env.lookup = function (cb) {
+        cb();
+      };
+
       require('../lib/cli');
     });
   });

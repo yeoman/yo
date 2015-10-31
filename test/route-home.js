@@ -58,10 +58,10 @@ describe('home route', function () {
 
   it('does not display update options if no generators is installed', function (done) {
     this.router.generator = [];
-    this.sandbox.stub(inquirer, 'prompt', function (prompts, cb) {
+    this.sandbox.stub(inquirer, 'prompt', function (prompts) {
       assert.equal(_.pluck(prompts[0].choices, 'value').indexOf('update'), -1);
       done();
-    }.bind(this));
+    });
     this.router.navigate('home');
   });
 
@@ -112,10 +112,10 @@ describe('home route', function () {
       updateAvailable: true
     }];
 
-    this.sandbox.stub(inquirer, 'prompt', function (prompts, cb) {
+    this.sandbox.stub(inquirer, 'prompt', function (prompts) {
       assert(prompts[0].choices[1].name.indexOf('♥ Update Available!') >= 0);
       done();
-    }.bind(this));
+    });
     this.router.navigate('home');
   });
 });

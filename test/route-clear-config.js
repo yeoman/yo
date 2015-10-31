@@ -14,7 +14,7 @@ describe('clear config route', function () {
     this.globalConfig = {
       remove: sinon.stub(),
       removeAll: sinon.stub(),
-      getAll: function() {
+      getAll: function () {
         return {
           'generator-phoenix': {},
           'generator-unicorn': {}
@@ -22,7 +22,7 @@ describe('clear config route', function () {
       }
     };
     var conf = {
-      get: function() {
+      get: function () {
         return {
           unicorn: 20,
           phoenix: 10
@@ -57,7 +57,7 @@ describe('clear config route', function () {
 
   it('allow returning home', function () {
     this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
-      cb({ whereTo: 'home' });
+      cb({whereTo: 'home'});
     });
     this.router.navigate('clearConfig');
     sinon.assert.calledOnce(this.homeRoute);
@@ -65,16 +65,16 @@ describe('clear config route', function () {
 
   it('track page and answer', function () {
     this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
-      cb({ whatNext: 'generator-angular:0.0.0' });
+      cb({whatNext: 'generator-angular:0.0.0'});
     });
     this.router.navigate('clearConfig');
     sinon.assert.calledWith(this.insight.track, 'yoyo', 'clearGlobalConfig');
-    sinon.assert.calledWith(this.insight.track, 'yoyo', 'clearGlobalConfig', { whatNext: 'generator-angular:0.0.0' });
+    sinon.assert.calledWith(this.insight.track, 'yoyo', 'clearGlobalConfig', {whatNext: 'generator-angular:0.0.0'});
   });
 
   it('allows clearing a generator and return user to home screen', function () {
     this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
-      cb({ whatNext: 'foo' });
+      cb({whatNext: 'foo'});
     });
     this.router.navigate('clearConfig');
     sinon.assert.calledOnce(this.globalConfig.remove);
@@ -84,7 +84,7 @@ describe('clear config route', function () {
 
   it('allows clearing all generators and return user to home screen', function () {
     this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
-      cb({ whatNext: '*' });
+      cb({whatNext: '*'});
     });
     this.router.navigate('clearConfig');
     sinon.assert.calledOnce(this.globalConfig.removeAll);
@@ -96,11 +96,13 @@ describe('clear config route', function () {
 
     this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
       choices = arg[0].choices;
-      cb({ whatNext: 'foo' });
+      cb({whatNext: 'foo'});
     });
     this.router.navigate('clearConfig');
 
-    assert.ok(_.find(choices, {value: '*'})); // Clear all generators entry is present
+    // Clear all generators entry is present
+    assert.ok(_.find(choices, {value: '*'}));
+
     assert.ok(_.find(choices, {value: 'generator-unicorn'}));
     assert.ok(_.find(choices, {value: 'generator-phoenix'}));
     assert.ok(_.find(choices, {name: 'Unicorn'}));

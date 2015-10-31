@@ -26,7 +26,7 @@ describe('help route', function () {
 
   it('allow returning home', function () {
     this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
-      cb({ whereTo: 'home' });
+      cb({whereTo: 'home'});
     });
     this.router.navigate('help');
     sinon.assert.calledOnce(this.homeRoute);
@@ -34,17 +34,17 @@ describe('help route', function () {
 
   it('track page and answer', function () {
     this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
-      cb({ whereTo: 'home' });
+      cb({whereTo: 'home'});
     });
     this.router.navigate('help');
     sinon.assert.calledWith(this.insight.track, 'yoyo', 'help');
-    sinon.assert.calledWith(this.insight.track, 'yoyo', 'help', { whereTo: 'home' });
+    sinon.assert.calledWith(this.insight.track, 'yoyo', 'help', {whereTo: 'home'});
   });
 
   it('open urls in browsers', function () {
     var url = 'http://yeoman.io';
     this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
-      cb({ whereTo: url });
+      cb({whereTo: url});
     });
     this.router.navigate('help');
     sinon.assert.calledWith(this.opn, url);
