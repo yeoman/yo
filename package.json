@@ -13,7 +13,7 @@
     "test": "xo && mocha test/**/*.js",
     "postinstall": "yodoctor",
     "postupdate": "yodoctor",
-    "prepublish": "nsp audit-package"
+    "prepublish": "nsp check"
   },
   "files": [
     "lib"
@@ -68,7 +68,7 @@
     "mocha": "^2.1.0",
     "mockery": "^1.4.0",
     "nock": "^2.0.1",
-    "nsp": "*",
+    "nsp": "^2.2.0",
     "proxyquire": "^1.0.1",
     "registry-url": "^3.0.0",
     "sinon": "^1.12.1",
