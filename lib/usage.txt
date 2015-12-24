@@ -7,3 +7,18 @@ General options:
   --no-color     # Disable colors
   --[no-]insight # Toggle anonymous tracking
   --generators	 # Print available generators
+
+Install a generator:
+
+  Generators can be installed through npm.
+
+  $ npm install generator-angular
+  $ yo angular --help
+
+Troubleshooting:
+
+  For any issues, try running
+
+  $ yo doctor
+
+Full Documentation: http://yeoman.io
