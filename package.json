@@ -2,22 +2,12 @@
   "name": "yo",
   "version": "1.5.1",
   "description": "CLI tool for running Yeoman generators",
-  "license": "BSD-2-Clause",
-  "repository": "yeoman/yo",
+  "homepage": "",
   "author": "Yeoman",
-  "bin": "lib/cli.js",
-  "engines": {
-    "node": ">=0.12.0"
-  },
-  "scripts": {
-    "test": "xo && mocha test/**/*.js",
-    "postinstall": "yodoctor",
-    "postupdate": "yodoctor",
-    "prepublish": "nsp check"
-  },
   "files": [
     "lib"
   ],
+  "main": "lib/index.js",
   "keywords": [
     "cli-app",
     "cli",
@@ -35,6 +25,18 @@
     "app",
     "boilerplate"
   ],
+  "license": "BSD-2-Clause",
+  "repository": "yeoman/yo",
+  "bin": "lib/cli.js",
+  "engines": {
+    "node": ">=0.12.0"
+  },
+  "scripts": {
+    "test": "gulp",
+    "postinstall": "yodoctor",
+    "postupdate": "yodoctor",
+    "prepublish": "gulp prepublish"
+  },
   "dependencies": {
     "async": "^1.0.0",
     "chalk": "^1.0.0",
@@ -72,13 +74,13 @@
     "proxyquire": "^1.0.1",
     "registry-url": "^3.0.0",
     "sinon": "^1.12.1",
-    "xo": "*"
-  },
-  "xo": {
-    "space": true,
-    "envs": [
-      "node",
-      "mocha"
-    ]
+    "gulp": "^3.6.0",
+    "gulp-eslint": "^1.0.0",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-istanbul": "^0.9.0",
+    "gulp-mocha": "^2.0.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-nsp": "^2.1.0",
+    "gulp-coveralls": "^0.1.0"
   }
 }

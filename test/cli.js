@@ -29,7 +29,7 @@ describe('bin', function () {
       process.exit = this.origExit;
     });
 
-    it('should exit with status 1 if there were errors', function (cb) {
+    it('should exit with status 1 if there were errors', function (done) {
       var called = false;
       process.exit = function (arg) {
         if (called) {
@@ -39,7 +39,7 @@ describe('bin', function () {
 
         called = true;
         assert(arg, 1, 'exit code should be 1');
-        cb();
+        done();
       };
 
       process.argv = ['node', path.join(__dirname, '../', pkg.bin), 'notexisting'];
