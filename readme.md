@@ -1,4 +1,4 @@
-# yo [![npm](https://badge.fury.io/js/yo.svg)](http://badge.fury.io/js/yo) [![Build Status](https://travis-ci.org/yeoman/yo.svg?branch=master)](https://travis-ci.org/yeoman/yo) [![Coverage Status](https://coveralls.io/repos/yeoman/yo/badge.svg)](https://coveralls.io/r/yeoman/yo) [![](https://img.shields.io/badge/unicorn-approved-ff69b4.svg)](https://www.youtube.com/watch?v=9auOCbH5Ns4) [![Gitter](https://img.shields.io/badge/Gitter-Join_the_Yeoman_chat_%E2%86%92-00d06f.svg)](https://gitter.im/yeoman/yeoman)
+# yo [![npm](https://badge.fury.io/js/yo.svg)](http://badge.fury.io/js/yo) [![Build Status](https://travis-ci.org/yeoman/yo.svg?branch=master)](https://travis-ci.org/yeoman/yo) [![Coverage Status](https://coveralls.io/repos/yeoman/yo/badge.svg)](https://coveralls.io/r/yeoman/yo) [![](https://img.shields.io/badge/unicorn-approved-ff69b4.svg)](https://www.youtube.com/watch?v=9auOCbH5Ns4) [![Gitter](https://img.shields.io/badge/Gitter-Join_the_Yeoman_chat_%E2%86%92-00d06f.svg)](https://gitter.im/yeoman/yeoman) [![OpenCollective](https://opencollective.com/yeoman/badge/backers.svg)](https://opencollective.com/yeoman#support)
 
 [![](https://raw.githubusercontent.com/yeoman/media/master/optimized/yeoman-masthead.png)](http://yeoman.io)
 
@@ -55,9 +55,9 @@ See the [contributing docs](http://yeoman.io/contributing/).
 
 See the [release page](https://github.com/yeoman/yo/releases).
 
-## Sponsors
+## Backers
 Love Yeoman work and community? Help us keep it alive by donating funds to cover project expenses! <br />
-[[Become a sponsor](https://opencollective.com/yeoman#support)]
+[[Become a backer](https://opencollective.com/yeoman#support)]
 
   <a href="https://opencollective.com/yeoman/backers/0/website" target="_blank">
     <img src="https://opencollective.com/yeoman/backers/0/avatar">
