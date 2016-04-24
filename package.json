@@ -2,12 +2,12 @@
   "name": "yo",
   "version": "1.7.0",
   "description": "CLI tool for running Yeoman generators",
-  "homepage": "",
+  "homepage": "http://yeoman.io",
   "author": "Yeoman",
   "files": [
     "lib"
   ],
-  "main": "lib/index.js",
+  "main": "lib",
   "keywords": [
     "cli-app",
     "cli",
