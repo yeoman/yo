@@ -121,13 +121,20 @@ describe('Completion', function () {
       // SKipping on CI right now, otherwise might introduce an `npm install
       // generator-dummy` as a pretest script
 
-      it.skip('Returns the list of user installed generators as completion candidates', function (done) {
+      before(function(done) {
+        execFile('npm', ['install', 'generator-dummy', '-g'], done);
+      });
+
+      after(function(done) {
+        execFile('npm', ['install', 'generator-dummy', '-g'], done);
+      });
+
+      it('Returns the list of user installed generators as completion candidates', function (done) {
         this.completer.complete({ last: 'yo' }, function (err, results) {
           if (err) {
             return done(err);
           }
 
-          console.log(results);
           var dummy = results.find(function (result) {
             return result.name === 'dummy:yo';
           });
