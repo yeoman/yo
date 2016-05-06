@@ -118,9 +118,6 @@ describe('Completion', function () {
     });
 
     describe('#complete', function () {
-      // SKipping on CI right now, otherwise might introduce an `npm install
-      // generator-dummy` as a pretest script
-
       before(function (done) {
         execFile('npm', ['install', 'generator-dummy', '-g'], done);
       });
