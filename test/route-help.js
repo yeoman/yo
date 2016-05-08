@@ -2,6 +2,7 @@
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
 var inquirer = require('inquirer');
+var Promise = require('pinkie-promise');
 var Router = require('../lib/router');
 var helpers = require('./helpers');
 
@@ -25,29 +26,26 @@ describe('help route', function () {
   });
 
   it('allow returning home', function () {
-    this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
-      cb({whereTo: 'home'});
-    });
-    this.router.navigate('help');
-    sinon.assert.calledOnce(this.homeRoute);
+    this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whereTo: 'home'}));
+    return this.router.navigate('help').then(function () {
+      sinon.assert.calledOnce(this.homeRoute);
+    }.bind(this));
   });
 
   it('track page and answer', function () {
-    this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
-      cb({whereTo: 'home'});
-    });
-    this.router.navigate('help');
-    sinon.assert.calledWith(this.insight.track, 'yoyo', 'help');
-    sinon.assert.calledWith(this.insight.track, 'yoyo', 'help', {whereTo: 'home'});
+    this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whereTo: 'home'}));
+    return this.router.navigate('help').then(function () {
+      sinon.assert.calledWith(this.insight.track, 'yoyo', 'help');
+      sinon.assert.calledWith(this.insight.track, 'yoyo', 'help', {whereTo: 'home'});
+    }.bind(this));
   });
 
   it('open urls in browsers', function () {
     var url = 'http://yeoman.io';
-    this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
-      cb({whereTo: url});
-    });
-    this.router.navigate('help');
-    sinon.assert.calledWith(this.opn, url);
-    sinon.assert.calledOnce(this.opn);
+    this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whereTo: url}));
+    return this.router.navigate('help').then(function () {
+      sinon.assert.calledWith(this.opn, url);
+      sinon.assert.calledOnce(this.opn);
+    }.bind(this));
   });
 });

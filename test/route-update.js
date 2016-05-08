@@ -2,6 +2,7 @@
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
 var inquirer = require('inquirer');
+var Promise = require('pinkie-promise');
 var Router = require('../lib/router');
 var helpers = require('./helpers');
 
@@ -29,15 +30,19 @@ describe('update route', function () {
 
   it('allows updating generators and return user to home screen', function () {
     var generators = ['generator-cat', 'generator-unicorn'];
-    this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
-      cb({generators: generators});
-    });
-    this.router.navigate('update');
-
-    sinon.assert.calledWith(this.crossSpawn, 'npm', ['install', '-g'].concat(generators));
-    sinon.assert.calledWith(this.insight.track, 'yoyo', 'update');
-    sinon.assert.calledWith(this.insight.track, 'yoyo', 'updated');
-    sinon.assert.calledOnce(this.homeRoute);
-    sinon.assert.calledOnce(this.env.lookup);
+    this.sandbox.stub(inquirer, 'prompt').returns(
+      Promise.resolve({generators: generators})
+    );
+    return this.router.navigate('update').then(function () {
+      sinon.assert.calledWith(
+        this.crossSpawn,
+        'npm',
+        ['install', '-g'].concat(generators)
+      );
+      sinon.assert.calledWith(this.insight.track, 'yoyo', 'update');
+      sinon.assert.calledWith(this.insight.track, 'yoyo', 'updated');
+      sinon.assert.calledOnce(this.homeRoute);
+      sinon.assert.calledOnce(this.env.lookup);
+    }.bind(this));
   });
 });
