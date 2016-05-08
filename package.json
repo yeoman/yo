@@ -74,21 +74,21 @@
     "yosay": "^1.0.0"
   },
   "devDependencies": {
+    "gulp": "^3.6.0",
+    "gulp-coveralls": "^0.1.0",
+    "gulp-eslint": "^2.0.0",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-istanbul": "^0.10.4",
+    "gulp-mocha": "^2.0.0",
+    "gulp-nsp": "^2.1.0",
+    "gulp-plumber": "^1.0.0",
     "mocha": "^2.1.0",
     "mockery": "^1.4.0",
-    "nock": "^2.0.1",
+    "nock": "^8.0.0",
     "nsp": "^2.2.0",
     "proxyquire": "^1.0.1",
     "registry-url": "^3.0.0",
-    "sinon": "^1.12.1",
-    "gulp": "^3.6.0",
-    "gulp-eslint": "^1.0.0",
-    "gulp-exclude-gitignore": "^1.0.0",
-    "gulp-istanbul": "^0.9.0",
-    "gulp-mocha": "^2.0.0",
-    "gulp-plumber": "^1.0.0",
-    "gulp-nsp": "^2.1.0",
-    "gulp-coveralls": "^0.1.0"
+    "sinon": "^1.12.1"
   },
   "tabtab": {
     "yo": [
