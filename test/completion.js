@@ -2,8 +2,10 @@
 
 var path = require('path');
 var assert = require('assert');
-var Completer = require('../lib/completion/completer');
+var events = require('events');
 var execFile = require('child_process').execFile;
+var Completer = require('../lib/completion/completer');
+var completion = require('../lib/completion');
 
 var help = [
   '  Usage:',
@@ -54,9 +56,36 @@ describe('Completion', function () {
     });
   });
 
+  describe('Completion', function () {
+    it('Creates tabtab instance', function () {
+      assert.ok(completion instanceof events.EventEmitter);
+    });
+  });
+
   describe('Completer', function () {
     beforeEach(function () {
+      // Mock / Monkey patch env.getGeneratorsMeta() here, since we pass the
+      // instance directly to completer.
+      this.getGeneratorsMeta = this.env.getGeneratorsMeta;
+
+      this.env.getGeneratorsMeta =  function () {
+        return {
+          'dummy:app': {
+            resolved: '/home/user/.nvm/versions/node/v6.1.0/lib/node_modules/generator-dummy/app/index.js',
+            namespace: 'dummy:app'
+          },
+          'dummy:yo': {
+            resolved: '/home/user/.nvm/versions/node/v6.1.0/lib/node_modules/generator-dummy/yo/index.js',
+            namespace: 'dummy:yo'
+          }
+        };
+      };
+
       this.completer = new Completer(this.env);
+    });
+
+    afterEach(function () {
+      this.env.getGeneratorsMeta = this.getGeneratorsMeta;
     });
 
     describe('#parseHelp', function () {
@@ -99,7 +128,7 @@ describe('Completion', function () {
     describe('#generator', function () {
       it('Returns completion candidates from generator help output', function (done) {
         // Here we test against yo --help (could use dummy:yo --help)
-        this.completer.generator({ last: '' }, function (err, results) {
+        this.completer.complete({ last: '' }, function (err, results) {
           if (err) {
             return done(err);
           }
@@ -118,14 +147,6 @@ describe('Completion', function () {
     });
 
     describe('#complete', function () {
-      before(function (done) {
-        execFile('npm', ['install', 'generator-dummy', '-g'], done);
-      });
-
-      after(function (done) {
-        execFile('npm', ['install', 'generator-dummy', '-g'], done);
-      });
-
       it('Returns the list of user installed generators as completion candidates', function (done) {
         this.completer.complete({ last: 'yo' }, function (err, results) {
           if (err) {

@@ -39,8 +39,7 @@
     "postinstall": "yodoctor && npm run tabtab",
     "postupdate": "yodoctor",
     "prepublish": "gulp prepublish",
-    "tabtab": "[ $CI ] || tabtab install --name=yo --completer=yo-complete",
-    "test-completion": "export cmd=\"yo\" && DEBUG=\"tabtab*\" COMP_POINT=\"4\" COMP_LINE=\"$cmd\" COMP_CWORD=\"$cmd\" yo-complete completion -- yo $cmd"
+    "tabtab": "[ $CI ] || tabtab install --name=yo --completer=yo-complete"
   },
   "dependencies": {
     "async": "^1.0.0",
@@ -65,7 +64,7 @@
     "root-check": "^1.0.0",
     "sort-on": "^1.0.0",
     "string-length": "^1.0.0",
-    "tabtab": "^1.1.1",
+    "tabtab": "^1.3.0",
     "titleize": "^1.0.0",
     "update-notifier": "^0.6.0",
     "user-home": "^2.0.0",
