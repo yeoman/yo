@@ -6,6 +6,7 @@ var events = require('events');
 var execFile = require('child_process').execFile;
 var Completer = require('../lib/completion/completer');
 var completion = require('../lib/completion');
+var find = require('lodash').find;
 
 var help = [
   '  Usage:',
@@ -153,7 +154,7 @@ describe('Completion', function () {
             return done(err);
           }
 
-          var dummy = results.find(function (result) {
+          var dummy = find(results, function (result) {
             return result.name === 'dummy:yo';
           });
 
