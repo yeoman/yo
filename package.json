@@ -1,6 +1,6 @@
 {
   "name": "yo",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "CLI tool for running Yeoman generators",
   "homepage": "http://yeoman.io",
   "author": "Yeoman",
@@ -71,7 +71,7 @@
     "user-home": "^2.0.0",
     "yeoman-character": "^1.0.0",
     "yeoman-doctor": "^2.0.0",
-    "yeoman-environment": "^1.5.0",
+    "yeoman-environment": "^1.6.1",
     "yosay": "^1.0.0"
   },
   "devDependencies": {
