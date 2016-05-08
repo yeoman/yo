@@ -32,6 +32,9 @@ gulp.task('pre-test', function () {
 gulp.task('test', ['pre-test'], function (cb) {
   var mochaErr;
 
+  // will disable cache for completion tests
+  process.env.YO_TEST = 1;
+
   gulp.src('test/**/*.js')
     .pipe(plumber())
     .pipe(mocha({reporter: 'spec'}))

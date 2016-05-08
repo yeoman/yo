@@ -42,7 +42,7 @@ describe('bin', function () {
         done();
       };
 
-      process.argv = ['node', path.join(__dirname, '../', pkg.bin), 'notexisting'];
+      process.argv = ['node', path.join(__dirname, '../', pkg.bin.yo), 'notexisting'];
 
       this.env.lookup = function (cb) {
         cb();
@@ -53,7 +53,7 @@ describe('bin', function () {
   });
 
   it('should return the version', function (cb) {
-    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin), '--version', '--no-insight', '--no-update-notifier']);
+    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin.yo), '--version', '--no-insight', '--no-update-notifier']);
     var expected = pkg.version;
 
     cp.stdout.on('data', function (data) {
@@ -63,7 +63,7 @@ describe('bin', function () {
   });
 
   it('should output available generators when `--generators` flag is supplied', function (cb) {
-    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin), '--generators', '--no-insight', '--no-update-notifier']);
+    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin.yo), '--generators', '--no-insight', '--no-update-notifier']);
 
     cp.stdout.once('data', function (data) {
       assert(data.length > 0);
