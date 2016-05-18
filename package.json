@@ -38,8 +38,7 @@
     "test": "gulp",
     "postinstall": "yodoctor && npm run tabtab",
     "postupdate": "yodoctor",
-    "prepublish": "gulp prepublish",
-    "tabtab": "[ $CI ] || tabtab install --name=yo --completer=yo-complete"
+    "prepublish": "gulp prepublish"
   },
   "dependencies": {
     "async": "^1.0.0",
