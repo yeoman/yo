@@ -15,6 +15,12 @@ Install a generator:
   $ npm install generator-angular
   $ yo angular --help
 
+Completion:
+
+  To enable shell completion for the yo command, try running
+
+  $ yo completion
+
 Troubleshooting:
 
   For any issues, try running
