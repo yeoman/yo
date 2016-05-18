@@ -36,7 +36,7 @@
   },
   "scripts": {
     "test": "gulp",
-    "postinstall": "yodoctor && npm run tabtab",
+    "postinstall": "yodoctor",
     "postupdate": "yodoctor",
     "prepublish": "gulp prepublish"
   },
