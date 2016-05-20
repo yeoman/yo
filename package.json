@@ -36,9 +36,10 @@
   },
   "scripts": {
     "test": "gulp",
-    "postinstall": "yodoctor",
+    "postinstall": "yodoctor && tabtab install --auto --name=yo --completer=yo-complete",
     "postupdate": "yodoctor",
-    "prepublish": "gulp prepublish"
+    "prepublish": "gulp prepublish",
+    "postuninstall": "tabtab uninstall --auto"
   },
   "dependencies": {
     "async": "^1.0.0",
@@ -57,13 +58,12 @@
     "npm-keyword": "^4.1.0",
     "opn": "^3.0.2",
     "package-json": "^2.1.0",
-    "parse-help": "^0.1.1",
     "read-pkg-up": "^1.0.1",
     "repeating": "^2.0.0",
     "root-check": "^1.0.0",
     "sort-on": "^1.0.0",
     "string-length": "^1.0.0",
-    "tabtab": "^1.3.0",
+    "tabtab": "^1.4.2",
     "titleize": "^1.0.0",
     "update-notifier": "^0.6.0",
     "user-home": "^2.0.0",

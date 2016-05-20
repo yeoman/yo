@@ -17,7 +17,7 @@ Install a generator:
 
 Completion:
 
-  To enable shell completion for the yo command, try running
+  Run the following to enable shell completion
 
   $ yo completion
 
