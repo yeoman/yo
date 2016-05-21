@@ -17,13 +17,11 @@ describe('Completion', function () {
       var cmd = 'DEBUG="tabtab*" SHELL=zsh COMP_POINT="4" COMP_LINE="yo" COMP_CWORD="yo" ';
       cmd += 'node lib/completion/index.js completion -- yo';
 
-      console.log('cmd', cmd);
       execFile('bash', ['-c', cmd], function (err, out) {
         if (err) {
           return done(err);
         }
 
-        console.log('out:', out);
         assert.ok(/-f/.test(out));
         assert.ok(/--force/.test(out));
         assert.ok(/--version/.test(out));
