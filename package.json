@@ -63,7 +63,7 @@
     "root-check": "^1.0.0",
     "sort-on": "^1.0.0",
     "string-length": "^1.0.0",
-    "tabtab": "^1.4.2",
+    "tabtab": "1.4.x",
     "titleize": "^1.0.0",
     "update-notifier": "^0.6.0",
     "user-home": "^2.0.0",
