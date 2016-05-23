@@ -18,7 +18,7 @@ describe('update route', function () {
 
     this.crossSpawn = helpers.fakeCrossSpawn('close');
     var updateRoute = proxyquire('../lib/routes/update', {
-      'cross-spawn-async': this.crossSpawn
+      'cross-spawn': this.crossSpawn
     });
     this.router.registerRoute('update', updateRoute);
   });

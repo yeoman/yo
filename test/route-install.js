@@ -22,7 +22,7 @@ describe('install route', function () {
 
     this.spawn = helpers.fakeCrossSpawn('close');
     var installRoute = proxyquire('../lib/routes/install', {
-      'cross-spawn-async': this.spawn
+      'cross-spawn': this.spawn
     });
     this.router.registerRoute('install', installRoute);
     this.env.registerStub(_.noop, 'generator-unicorn');
