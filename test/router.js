@@ -59,6 +59,10 @@ describe('Router', function () {
         {
           namespace: 'phoenix:misc',
           resolved: '/phoenix/misc/index.js'
+        },
+        {
+          namespace: 'phoenix:sub-app',
+          resolved: '/phoenix/sub-app/index.js'
         }
       ]);
     });
@@ -76,6 +80,7 @@ describe('Router', function () {
     it('ignores sub-generators', function () {
       this.router.updateAvailableGenerators();
       assert.ok(!this.router.generators['phoenix-misc'], 'phoenix:misc ignored');
+      assert.ok(!this.router.generators['phoenix-sub-app'], 'phoenix:sub-app ignored');
     });
   });
 });
