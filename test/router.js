@@ -3,10 +3,23 @@ var assert = require('assert');
 var _ = require('lodash');
 var sinon = require('sinon');
 var helpers = require('./helpers');
-var fakeReadPkgUp = helpers.fakeReadPkgUp();
 var proxyquire = require('proxyquire');
+var path = require('path');
 var Router = proxyquire('../lib/router', {
-  'read-pkg-up': fakeReadPkgUp
+  'read-pkg-up': {
+    sync: function (options) {
+      // turn /phoenix/app into phoenix-app
+      var name = options.cwd.split(path.sep).filter(function (chunk) {
+        return !!chunk;
+      }).join('-');
+      return {
+        pkg: {
+          name: name,
+          version: '0.1.0'
+        }
+      };
+    }
+  }
 });
 
 describe('Router', function () {
