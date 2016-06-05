@@ -63,7 +63,7 @@
     "root-check": "^1.0.0",
     "sort-on": "^1.0.0",
     "string-length": "^1.0.0",
-    "tabtab": "mklabs/node-tabtab",
+    "tabtab": "file:../node-tabtab",
     "titleize": "^1.0.0",
     "update-notifier": "^0.6.0",
     "user-home": "^2.0.0",
@@ -88,16 +88,5 @@
     "proxyquire": "^1.0.1",
     "registry-url": "^3.0.0",
     "sinon": "^1.12.1"
-  },
-  "tabtab": {
-    "yo": [
-      "-f",
-      "--force",
-      "--version",
-      "--no-color",
-      "--no-insight",
-      "--insight",
-      "--generators"
-    ]
   }
 }
