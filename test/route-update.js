@@ -32,9 +32,63 @@ describe('update route', function () {
     this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
       cb({generators: generators});
     });
+
     this.router.navigate('update');
 
     sinon.assert.calledWith(this.crossSpawn, 'npm', ['install', '-g'].concat(generators));
+    sinon.assert.calledWith(this.insight.track, 'yoyo', 'update');
+    sinon.assert.calledWith(this.insight.track, 'yoyo', 'updated');
+    sinon.assert.calledOnce(this.homeRoute);
+    sinon.assert.calledOnce(this.env.lookup);
+  });
+
+  it('allows updating generators from a custom source (type + url)', function () {
+    var generatorData = {
+      'generator-cat': {
+        repository: {
+          type: 'git',
+          url: 'generator-cat'
+        }
+      }
+    };
+    this.router.generators = generatorData;
+    var generators = Object.keys(generatorData);
+    this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
+      cb({generators: generators});
+    });
+
+    var uris = generators.map(function (generator) {
+      return [generatorData[generator].repository.type, generatorData[generator].repository.url].join('+');
+    });
+
+    this.router.navigate('update');
+
+    sinon.assert.calledWith(this.crossSpawn, 'npm', ['install', '-g'].concat(uris));
+    sinon.assert.calledWith(this.insight.track, 'yoyo', 'update');
+    sinon.assert.calledWith(this.insight.track, 'yoyo', 'updated');
+    sinon.assert.calledOnce(this.homeRoute);
+    sinon.assert.calledOnce(this.env.lookup);
+  });
+
+  it('allows updating generators from a custom source (repository)', function () {
+    var generatorData = {
+      'generator-cat': {
+        repository: 'This-is-the-source'
+      }
+    };
+    this.router.generators = generatorData;
+    var generators = Object.keys(generatorData);
+    this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
+      cb({generators: generators});
+    });
+
+    var uris = generators.map(function (generator) {
+      return generatorData[generator].repository;
+    });
+
+    this.router.navigate('update');
+
+    sinon.assert.calledWith(this.crossSpawn, 'npm', ['install', '-g'].concat(uris));
     sinon.assert.calledWith(this.insight.track, 'yoyo', 'update');
     sinon.assert.calledWith(this.insight.track, 'yoyo', 'updated');
     sinon.assert.calledOnce(this.homeRoute);
