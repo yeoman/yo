@@ -1,6 +1,6 @@
 {
   "name": "yo",
-  "version": "1.8.4",
+  "version": "1.8.5",
   "description": "CLI tool for running Yeoman generators",
   "homepage": "http://yeoman.io",
   "author": "Yeoman",
