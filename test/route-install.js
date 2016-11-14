@@ -2,6 +2,7 @@
 var _ = require('lodash');
 var assert = require('assert');
 var inquirer = require('inquirer');
+var Promise = require('pinkie-promise');
 var nock = require('nock');
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
@@ -61,7 +62,7 @@ describe('install route', function () {
           .reply(200, {rows: this.rows})
         .filteringPath(/\/[^\?]+$/g, '/pkg')
           .get('/pkg')
-          .times(2)
+          .times(4)
           .reply(200, this.pkgData);
 
       nock('http://yeoman.io')
@@ -70,12 +71,16 @@ describe('install route', function () {
         .reply(200, this.blacklist);
     });
 
+    afterEach(function () {
+      nock.cleanAll();
+    });
+
     it('filters already installed generators and match search term', function (done) {
       var call = 0;
-      this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
+      this.sandbox.stub(inquirer, 'prompt', function (arg) {
         call++;
         if (call === 1) {
-          return cb({searchTerm: 'unicorn'});
+          return Promise.resolve({searchTerm: 'unicorn'});
         }
         if (call === 2) {
           var choices = arg[0].choices;
@@ -85,6 +90,8 @@ describe('install route', function () {
           assert.equal(_.where(choices, {value: 'generator-unrelated'}).length, 0);
           done();
         }
+
+        return Promise.resolve({toInstall: 'home'});
       });
 
       this.router.navigate('install');
@@ -92,10 +99,10 @@ describe('install route', function () {
 
     it('filters blacklisted generators and match search term', function (done) {
       var call = 0;
-      this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
+      this.sandbox.stub(inquirer, 'prompt', function (arg) {
         call++;
         if (call === 1) {
-          return cb({searchTerm: 'blacklist'});
+          return Promise.resolve({searchTerm: 'blacklist'});
         }
         if (call === 2) {
           var choices = arg[0].choices;
@@ -104,6 +111,8 @@ describe('install route', function () {
           assert.equal(_.where(choices, {value: 'generator-blacklist-3'}).length, 1);
           done();
         }
+
+        return Promise.resolve({toInstall: 'home'});
       });
 
       this.router.navigate('install');
@@ -111,81 +120,85 @@ describe('install route', function () {
 
     it('allow redo the search', function (done) {
       var call = 0;
-      this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
+      this.sandbox.stub(inquirer, 'prompt', function (arg) {
         call++;
         if (call === 1) {
-          return cb({searchTerm: 'unicorn'});
+          return Promise.resolve({searchTerm: 'unicorn'});
         }
         if (call === 2) {
-          return cb({toInstall: 'install'});
+          return Promise.resolve({toInstall: 'install'});
         }
         if (call === 3) {
           assert.equal(arg[0].name, 'searchTerm');
-          done();
+          return Promise.resolve({searchTerm: 'unicorn'});
         }
+
+        done();
+        return Promise.resolve({toInstall: 'home'});
       });
 
       this.router.navigate('install');
     });
 
-    it('allow going back home', function (done) {
+    it('allow going back home', function () {
       var call = 0;
-      this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
+      this.sandbox.stub(inquirer, 'prompt', function () {
         call++;
         if (call === 1) {
-          return cb({searchTerm: 'unicorn'});
+          return Promise.resolve({searchTerm: 'unicorn'});
         }
-        if (call === 2) {
-          cb({toInstall: 'home'});
-          sinon.assert.calledOnce(this.homeRoute);
-          done();
-        }
-      }.bind(this));
 
-      this.router.navigate('install');
+        return Promise.resolve({toInstall: 'home'});
+      });
+
+      return this.router.navigate('install').then(function () {
+        sinon.assert.calledOnce(this.homeRoute);
+      }.bind(this));
     });
 
-    it('install a generator', function (done) {
+    it('install a generator', function () {
       var call = 0;
-      this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
+      this.sandbox.stub(inquirer, 'prompt', function () {
         call++;
         if (call === 1) {
-          return cb({searchTerm: 'unicorn'});
+          return Promise.resolve({searchTerm: 'unicorn'});
         }
         if (call === 2) {
-          cb({toInstall: 'generator-unicorn'});
-          sinon.assert.calledWith(this.spawn, 'npm', ['install', '-g', 'generator-unicorn'], {stdio: 'inherit'});
-          sinon.assert.calledOnce(this.spawn);
-          sinon.assert.calledOnce(this.homeRoute);
-          done();
+          return Promise.resolve({toInstall: 'generator-unicorn'});
         }
-      }.bind(this));
 
-      this.router.navigate('install');
+        return Promise.resolve({toInstall: 'home'});
+      });
+
+      return this.router.navigate('install').then(function () {
+        sinon.assert.calledWith(this.spawn, 'npm', ['install', '-g', 'generator-unicorn'], {stdio: 'inherit'});
+        sinon.assert.calledOnce(this.spawn);
+        sinon.assert.calledOnce(this.homeRoute);
+      }.bind(this));
     });
   });
 
   describe('npm success without results', function () {
     beforeEach(function () {
-      this.rows = [
-        {key: ['yeoman-generator', 'generator-unrelated', 'some description']},
-        {key: ['yeoman-generator', 'generator-unrelevant', 'some description']}
-      ];
-
       nock(registryUrl)
         .get('/-/_view/byKeyword')
         .query(true)
-        .reply(200, {rows: this.rows});
+        .reply(200, {
+          rows: [
+            {key: ['yeoman-generator', 'generator-unrelated', 'some description']},
+            {key: ['yeoman-generator', 'generator-unrelevant', 'some description']}
+          ]
+        });
     });
 
     it('list options if search have no results', function (done) {
       var call = 0;
 
-      this.sandbox.stub(inquirer, 'prompt', function (arg, cb) {
+      this.sandbox.stub(inquirer, 'prompt', function (arg) {
         call++;
 
         if (call === 1) {
-          return cb({searchTerm: 'unicorn'});
+          return Promise.resolve({searchTerm: 'foo'});
         }
 
         if (call === 2) {
@@ -193,6 +206,8 @@ describe('install route', function () {
           assert.deepEqual(_.pluck(choices, 'value'), ['install', 'home']);
           done();
         }
+
+        return Promise.resolve({toInstall: 'home'});
       });
 
       this.router.navigate('install');
