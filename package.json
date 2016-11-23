@@ -58,7 +58,6 @@
     "opn": "^3.0.2",
     "package-json": "^2.1.0",
     "parse-help": "^0.1.1",
-    "pinkie-promise": "^2.0.1",
     "read-pkg-up": "^1.0.1",
     "repeating": "^2.0.0",
     "root-check": "^1.0.0",

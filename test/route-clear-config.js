@@ -3,7 +3,6 @@ var assert = require('assert');
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
 var _ = require('lodash');
-var Promise = require('pinkie-promise');
 var inquirer = require('inquirer');
 var Router = require('../lib/router');
 var helpers = require('./helpers');
