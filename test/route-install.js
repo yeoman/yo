@@ -2,7 +2,6 @@
 var _ = require('lodash');
 var assert = require('assert');
 var inquirer = require('inquirer');
-var Promise = require('pinkie-promise');
 var nock = require('nock');
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
