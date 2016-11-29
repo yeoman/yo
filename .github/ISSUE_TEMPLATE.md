@@ -25,8 +25,14 @@ Please ensure to provide the following information to make sure we have all we n
 * *OS version/details*: `eg. Windows 10 64-bit`
 * *Node version:* `x.x.x`
 * *npm version:* `x.x.x`
-* *Name of used Yeoman module*: `eg. yo`
-* *Version of Yeoman module:* `x.x.x`
+* *Version of yo:* `x.x.x`
+
+<!--
+How to get those versions via your command line:
+  node --version
+  npm --version
+  yo --version
+-->
 
 ## Expected behavior
 
