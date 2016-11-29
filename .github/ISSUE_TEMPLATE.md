@@ -1,7 +1,7 @@
 <!--
 Allo' allo'! 
 Thanks for taking the time to submit an issue.
-Please keep in mind, that Github issues are meant to be used for reporting bugs and to
+Please keep in mind, that GitHub issues are meant to be used for reporting bugs and to
 request new features.
 
 Use Stack Overflow for support: http://stackoverflow.com/questions/tagged/yeoman
