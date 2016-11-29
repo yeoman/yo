@@ -1,6 +1,6 @@
 <!--
 Allo' allo'! 
-Thanks for taking your time to submit an issue.
+Thanks for taking the time to submit an issue.
 Please keep in mind, that Github issues are meant to be used for reporting bugs and to
 request new features.
 

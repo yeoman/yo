@@ -1,6 +1,6 @@
 <!--
 Allo' allo'! 
-Thanks for taking your time to submit a pull request ❤
+Thanks for taking the time to submit a pull request ❤
 
 Please make sure you read and fulfill our pull request guidelines:
 https://github.com/yeoman/yeoman/blob/master/contributing.md
