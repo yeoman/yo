@@ -11,8 +11,6 @@ http://yeoman.io/contributing/pull-request.html
 
 ## Purpose of this pull request? 
 
-<!-- Put an »X« into square brackets next to item) -->
-
 [ ] Documentation update
 [ ] Bug fix 
 [ ] Enhancement
