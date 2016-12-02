@@ -23,16 +23,9 @@ Please ensure to provide the following information to make sure we have all we n
 ## My environment
 
 * *OS version/details*: `eg. Windows 10 64-bit`
-* *Node version:* `x.x.x`
-* *npm version:* `x.x.x`
-* *Version of yo:* `x.x.x`
-
-<!--
-How to get those versions via your command line:
-  node --version
-  npm --version
-  yo --version
--->
+* *Node version:* `x.x.x` (run `node --version` in your terminal)
+* *npm version:* `x.x.x` (run `npm --version` in your terminal)
+* *Version of yo :* `x.x.x` (run `yo --version` in your terminal)
 
 ## Expected behavior
 
