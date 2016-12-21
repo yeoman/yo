@@ -11,10 +11,10 @@ http://yeoman.io/contributing/pull-request.html
 
 ## Purpose of this pull request? 
 
-[ ] Documentation update
-[ ] Bug fix 
-[ ] Enhancement
-[ ] Other, please explain:
+- [ ] Documentation update
+- [ ] Bug fix 
+- [ ] Enhancement
+- [ ] Other, please explain:
 
 ## What changes did you make?
 
