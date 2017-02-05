@@ -50,7 +50,7 @@
     "fullname": "^3.2.0",
     "got": "^6.7.1",
     "humanize-string": "^1.0.0",
-    "inquirer": "^1.0.2",
+    "inquirer": "^3.0.1",
     "insight": "^0.7.0",
     "lodash": "^3.2.0",
     "meow": "^3.0.0",
