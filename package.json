@@ -58,7 +58,7 @@
     "opn": "^3.0.2",
     "package-json": "^2.1.0",
     "parse-help": "^0.1.1",
-    "read-pkg-up": "^1.0.1",
+    "read-pkg-up": "^2.0.0",
     "repeating": "^2.0.0",
     "root-check": "^1.0.0",
     "sort-on": "^1.0.0",
