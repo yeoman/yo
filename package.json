@@ -52,7 +52,7 @@
     "humanize-string": "^1.0.0",
     "inquirer": "^3.0.1",
     "insight": "^0.7.0",
-    "lodash": "^3.2.0",
+    "lodash": "^4.17.4",
     "meow": "^3.0.0",
     "npm-keyword": "^4.1.0",
     "opn": "^3.0.2",

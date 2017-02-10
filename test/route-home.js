@@ -53,7 +53,7 @@ describe('home route', function () {
   it('does not display update options if no generators is installed', function () {
     this.router.generator = [];
     this.sandbox.stub(inquirer, 'prompt', function (prompts) {
-      assert.equal(_.pluck(prompts[0].choices, 'value').indexOf('update'), -1);
+      assert.equal(_.map(prompts[0].choices, 'value').indexOf('update'), -1);
       return Promise.resolve({whatNext: 'exit'});
     });
     return this.router.navigate('home');
@@ -68,7 +68,7 @@ describe('home route', function () {
     }];
 
     this.sandbox.stub(inquirer, 'prompt', function (prompts) {
-      assert(_.pluck(prompts[0].choices, 'value').indexOf('update') >= 0);
+      assert(_.map(prompts[0].choices, 'value').indexOf('update') >= 0);
       return Promise.resolve({whatNext: 'update'});
     });
     return this.router.navigate('home').then(function () {

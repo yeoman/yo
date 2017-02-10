@@ -83,10 +83,10 @@ describe('install route', function () {
         }
         if (call === 2) {
           var choices = arg[0].choices;
-          assert.equal(_.where(choices, {value: 'generator-foo'}).length, 1);
-          assert.equal(_.where(choices, {value: 'generator-unicorn-1'}).length, 1);
-          assert.equal(_.where(choices, {value: 'generator-unicorn'}).length, 0);
-          assert.equal(_.where(choices, {value: 'generator-unrelated'}).length, 0);
+          assert.equal(_.filter(choices, {value: 'generator-foo'}).length, 1);
+          assert.equal(_.filter(choices, {value: 'generator-unicorn-1'}).length, 1);
+          assert.equal(_.filter(choices, {value: 'generator-unicorn'}).length, 0);
+          assert.equal(_.filter(choices, {value: 'generator-unrelated'}).length, 0);
           done();
         }
 
@@ -105,9 +105,9 @@ describe('install route', function () {
         }
         if (call === 2) {
           var choices = arg[0].choices;
-          assert.equal(_.where(choices, {value: 'generator-blacklist-1'}).length, 0);
-          assert.equal(_.where(choices, {value: 'generator-blacklist-2'}).length, 0);
-          assert.equal(_.where(choices, {value: 'generator-blacklist-3'}).length, 1);
+          assert.equal(_.filter(choices, {value: 'generator-blacklist-1'}).length, 0);
+          assert.equal(_.filter(choices, {value: 'generator-blacklist-2'}).length, 0);
+          assert.equal(_.filter(choices, {value: 'generator-blacklist-3'}).length, 1);
           done();
         }
 
@@ -202,7 +202,7 @@ describe('install route', function () {
 
         if (call === 2) {
           var choices = arg[0].choices;
-          assert.deepEqual(_.pluck(choices, 'value'), ['install', 'home']);
+          assert.deepEqual(_.map(choices, 'value'), ['install', 'home']);
           done();
         }
 
