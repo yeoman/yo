@@ -41,7 +41,7 @@
     "prepublish": "gulp prepublish"
   },
   "dependencies": {
-    "async": "^1.0.0",
+    "async": "^2.1.4",
     "chalk": "^1.0.0",
     "cli-list": "^0.1.1",
     "configstore": "^1.0.0",
