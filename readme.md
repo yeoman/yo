@@ -55,6 +55,7 @@ See the [contributing docs](http://yeoman.io/contributing/).
 
 See the [release page](https://github.com/yeoman/yo/releases).
 
+
 ## Backers
 Love Yeoman work and community? Help us keep it alive by donating funds to cover project expenses! <br />
 [[Become a backer](https://opencollective.com/yeoman#support)]

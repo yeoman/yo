@@ -1,9 +1,9 @@
 'use strict';
-var sinon = require('sinon');
-var Router = require('../lib/router');
-var helpers = require('./helpers');
+const sinon = require('sinon');
+const Router = require('../lib/router');
+const helpers = require('./helpers');
 
-describe('exit route', function () {
+describe('exit route', () => {
   beforeEach(function () {
     this.insight = helpers.fakeInsight();
     this.router = new Router(sinon.stub(), this.insight);

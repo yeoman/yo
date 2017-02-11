@@ -1,30 +1,26 @@
 'use strict';
-var _ = require('lodash');
-var assert = require('assert');
-var inquirer = require('inquirer');
-var nock = require('nock');
-var proxyquire = require('proxyquire');
-var sinon = require('sinon');
-var registryUrl = require('registry-url')();
-var Router = require('../lib/router');
-var helpers = require('./helpers');
+const assert = require('assert');
+const _ = require('lodash');
+const inquirer = require('inquirer');
+const nock = require('nock');
+const proxyquire = require('proxyquire');
+const sinon = require('sinon');
+const registryUrl = require('registry-url')();
+const Router = require('../lib/router');
+const helpers = require('./helpers');
 
-describe('install route', function () {
+describe('install route', () => {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create();
     this.insight = helpers.fakeInsight();
-
     this.env = helpers.fakeEnv();
-
     this.homeRoute = sinon.spy();
     this.router = new Router(this.env, this.insight);
     this.router.registerRoute('home', this.homeRoute);
-
     this.spawn = helpers.fakeCrossSpawn('close');
-    var installRoute = proxyquire('../lib/routes/install', {
+    this.router.registerRoute('install', proxyquire('../lib/routes/install', {
       'cross-spawn': this.spawn
-    });
-    this.router.registerRoute('install', installRoute);
+    }));
     this.env.registerStub(_.noop, 'generator-unicorn');
   });
 
@@ -32,7 +28,7 @@ describe('install route', function () {
     this.sandbox.restore();
   });
 
-  describe('npm success with results', function () {
+  describe('npm success with results', () => {
     beforeEach(function () {
       this.rows = [
         {key: ['yeoman-generator', 'generator-unicorn', 'some unicorn']},
@@ -59,7 +55,7 @@ describe('install route', function () {
         .get('/-/_view/byKeyword')
           .query(true)
           .reply(200, {rows: this.rows})
-        .filteringPath(/\/[^\?]+$/g, '/pkg')
+        .filteringPath(/\/[^?]+$/g, '/pkg')
           .get('/pkg')
           .times(4)
           .reply(200, this.pkgData);
@@ -70,19 +66,19 @@ describe('install route', function () {
         .reply(200, this.blacklist);
     });
 
-    afterEach(function () {
+    afterEach(() => {
       nock.cleanAll();
     });
 
     it('filters already installed generators and match search term', function (done) {
-      var call = 0;
-      this.sandbox.stub(inquirer, 'prompt', function (arg) {
+      let call = 0;
+      this.sandbox.stub(inquirer, 'prompt', arg => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
         }
         if (call === 2) {
-          var choices = arg[0].choices;
+          const choices = arg[0].choices;
           assert.equal(_.filter(choices, {value: 'generator-foo'}).length, 1);
           assert.equal(_.filter(choices, {value: 'generator-unicorn-1'}).length, 1);
           assert.equal(_.filter(choices, {value: 'generator-unicorn'}).length, 0);
@@ -97,14 +93,14 @@ describe('install route', function () {
     });
 
     it('filters blacklisted generators and match search term', function (done) {
-      var call = 0;
-      this.sandbox.stub(inquirer, 'prompt', function (arg) {
+      let call = 0;
+      this.sandbox.stub(inquirer, 'prompt', arg => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'blacklist'});
         }
         if (call === 2) {
-          var choices = arg[0].choices;
+          const choices = arg[0].choices;
           assert.equal(_.filter(choices, {value: 'generator-blacklist-1'}).length, 0);
           assert.equal(_.filter(choices, {value: 'generator-blacklist-2'}).length, 0);
           assert.equal(_.filter(choices, {value: 'generator-blacklist-3'}).length, 1);
@@ -118,8 +114,8 @@ describe('install route', function () {
     });
 
     it('allow redo the search', function (done) {
-      var call = 0;
-      this.sandbox.stub(inquirer, 'prompt', function (arg) {
+      let call = 0;
+      this.sandbox.stub(inquirer, 'prompt', arg => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
@@ -140,8 +136,8 @@ describe('install route', function () {
     });
 
     it('allow going back home', function () {
-      var call = 0;
-      this.sandbox.stub(inquirer, 'prompt', function () {
+      let call = 0;
+      this.sandbox.stub(inquirer, 'prompt', () => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
@@ -150,14 +146,14 @@ describe('install route', function () {
         return Promise.resolve({toInstall: 'home'});
       });
 
-      return this.router.navigate('install').then(function () {
+      return this.router.navigate('install').then(() => {
         sinon.assert.calledOnce(this.homeRoute);
-      }.bind(this));
+      });
     });
 
     it('install a generator', function () {
-      var call = 0;
-      this.sandbox.stub(inquirer, 'prompt', function () {
+      let call = 0;
+      this.sandbox.stub(inquirer, 'prompt', () => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
@@ -169,16 +165,16 @@ describe('install route', function () {
         return Promise.resolve({toInstall: 'home'});
       });
 
-      return this.router.navigate('install').then(function () {
-        sinon.assert.calledWith(this.spawn, 'npm', ['install', '-g', 'generator-unicorn'], {stdio: 'inherit'});
+      return this.router.navigate('install').then(() => {
+        sinon.assert.calledWith(this.spawn, 'npm', ['install', '--global', 'generator-unicorn'], {stdio: 'inherit'});
         sinon.assert.calledOnce(this.spawn);
         sinon.assert.calledOnce(this.homeRoute);
-      }.bind(this));
+      });
     });
   });
 
-  describe('npm success without results', function () {
-    beforeEach(function () {
+  describe('npm success without results', () => {
+    beforeEach(() => {
       nock(registryUrl)
         .get('/-/_view/byKeyword')
         .query(true)
@@ -191,9 +187,9 @@ describe('install route', function () {
     });
 
     it('list options if search have no results', function (done) {
-      var call = 0;
+      let call = 0;
 
-      this.sandbox.stub(inquirer, 'prompt', function (arg) {
+      this.sandbox.stub(inquirer, 'prompt', arg => {
         call++;
 
         if (call === 1) {
@@ -201,7 +197,7 @@ describe('install route', function () {
         }
 
         if (call === 2) {
-          var choices = arg[0].choices;
+          const choices = arg[0].choices;
           assert.deepEqual(_.map(choices, 'value'), ['install', 'home']);
           done();
         }

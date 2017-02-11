@@ -1,10 +1,10 @@
 'use strict';
-var assert = require('assert');
-var fs = require('fs');
-var sinon = require('sinon');
-var globalConfig = require('../lib/utils/global-config');
+const assert = require('assert');
+const fs = require('fs');
+const sinon = require('sinon');
+const globalConfig = require('../lib/utils/global-config');
 
-describe('global config', function () {
+describe('global config', () => {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create();
   });
@@ -13,7 +13,7 @@ describe('global config', function () {
     this.sandbox.restore();
   });
 
-  describe('.getAll()', function () {
+  describe('.getAll()', () => {
     it('when config file exists', function () {
       this.sandbox.stub(fs, 'existsSync').returns(true);
       this.sandbox.stub(fs, 'readFileSync').returns('{"foo": "bar"}');
@@ -26,7 +26,7 @@ describe('global config', function () {
     });
   });
 
-  describe('.hasContent()', function () {
+  describe('.hasContent()', () => {
     it('when config is present', function () {
       this.sandbox.stub(fs, 'existsSync').returns(true);
       this.sandbox.stub(fs, 'readFileSync').returns('{"foo": "bar"}');

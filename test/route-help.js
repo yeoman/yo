@@ -1,20 +1,19 @@
 'use strict';
-var proxyquire = require('proxyquire');
-var sinon = require('sinon');
-var inquirer = require('inquirer');
-var Router = require('../lib/router');
-var helpers = require('./helpers');
+const proxyquire = require('proxyquire');
+const sinon = require('sinon');
+const inquirer = require('inquirer');
+const Router = require('../lib/router');
+const helpers = require('./helpers');
 
-describe('help route', function () {
+describe('help route', () => {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create();
     this.insight = helpers.fakeInsight();
     this.homeRoute = sinon.spy();
     this.router = new Router(sinon.stub(), this.insight);
     this.router.registerRoute('home', this.homeRoute);
-
     this.opn = sinon.stub();
-    var helpRoute = proxyquire('../lib/routes/help', {
+    const helpRoute = proxyquire('../lib/routes/help', {
       opn: this.opn
     });
     this.router.registerRoute('help', helpRoute);
@@ -26,25 +25,25 @@ describe('help route', function () {
 
   it('allow returning home', function () {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whereTo: 'home'}));
-    return this.router.navigate('help').then(function () {
+    return this.router.navigate('help').then(() => {
       sinon.assert.calledOnce(this.homeRoute);
-    }.bind(this));
+    });
   });
 
   it('track page and answer', function () {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whereTo: 'home'}));
-    return this.router.navigate('help').then(function () {
+    return this.router.navigate('help').then(() => {
       sinon.assert.calledWith(this.insight.track, 'yoyo', 'help');
       sinon.assert.calledWith(this.insight.track, 'yoyo', 'help', {whereTo: 'home'});
-    }.bind(this));
+    });
   });
 
   it('open urls in browsers', function () {
-    var url = 'http://yeoman.io';
+    const url = 'http://yeoman.io';
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whereTo: url}));
-    return this.router.navigate('help').then(function () {
+    return this.router.navigate('help').then(() => {
       sinon.assert.calledWith(this.opn, url);
       sinon.assert.calledOnce(this.opn);
-    }.bind(this));
+    });
   });
 });

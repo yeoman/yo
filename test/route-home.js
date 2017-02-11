@@ -1,22 +1,20 @@
 'use strict';
-var _ = require('lodash');
-var assert = require('assert');
-var sinon = require('sinon');
-var inquirer = require('inquirer');
-var Router = require('../lib/router');
-var helpers = require('./helpers');
+const assert = require('assert');
+const _ = require('lodash');
+const sinon = require('sinon');
+const inquirer = require('inquirer');
+const Router = require('../lib/router');
+const helpers = require('./helpers');
 
-describe('home route', function () {
+describe('home route', () => {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create();
     this.insight = helpers.fakeInsight();
     this.env = helpers.fakeEnv();
     this.router = new Router(this.env, this.insight);
     this.router.registerRoute('home', require('../lib/routes/home'));
-
     this.runRoute = sinon.spy();
     this.router.registerRoute('run', this.runRoute);
-
     this.helpRoute = sinon.spy();
     this.router.registerRoute('help', this.helpRoute);
     this.installRoute = sinon.spy();
@@ -31,31 +29,32 @@ describe('home route', function () {
 
   it('track usage', function () {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'exit'}));
-    return this.router.navigate('home').then(function () {
+    return this.router.navigate('home').then(() => {
       sinon.assert.calledWith(this.insight.track, 'yoyo', 'home');
-    }.bind(this));
+    });
   });
 
   it('allow going to help', function () {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'help'}));
-    return this.router.navigate('home').then(function () {
+    return this.router.navigate('home').then(() => {
       sinon.assert.calledOnce(this.helpRoute);
-    }.bind(this));
+    });
   });
 
   it('allow going to install', function () {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'install'}));
-    return this.router.navigate('home').then(function () {
+    return this.router.navigate('home').then(() => {
       sinon.assert.calledOnce(this.installRoute);
-    }.bind(this));
+    });
   });
 
   it('does not display update options if no generators is installed', function () {
     this.router.generator = [];
-    this.sandbox.stub(inquirer, 'prompt', function (prompts) {
+    this.sandbox.stub(inquirer, 'prompt', prompts => {
       assert.equal(_.map(prompts[0].choices, 'value').indexOf('update'), -1);
       return Promise.resolve({whatNext: 'exit'});
     });
+
     return this.router.navigate('home');
   });
 
@@ -67,13 +66,14 @@ describe('home route', function () {
       updateAvailable: false
     }];
 
-    this.sandbox.stub(inquirer, 'prompt', function (prompts) {
+    this.sandbox.stub(inquirer, 'prompt', prompts => {
       assert(_.map(prompts[0].choices, 'value').indexOf('update') >= 0);
       return Promise.resolve({whatNext: 'update'});
     });
-    return this.router.navigate('home').then(function () {
+
+    return this.router.navigate('home').then(() => {
       sinon.assert.calledOnce(this.updateRoute);
-    }.bind(this));
+    });
   });
 
   it('list runnable generators', function () {
@@ -84,7 +84,7 @@ describe('home route', function () {
       updateAvailable: false
     }];
 
-    this.sandbox.stub(inquirer, 'prompt', function (prompts) {
+    this.sandbox.stub(inquirer, 'prompt', prompts => {
       assert.equal(prompts[0].choices[1].value.generator, 'unicorn:app');
       return Promise.resolve({
         whatNext: {
@@ -93,9 +93,10 @@ describe('home route', function () {
         }
       });
     });
-    return this.router.navigate('home').then(function () {
+
+    return this.router.navigate('home').then(() => {
       sinon.assert.calledWith(this.runRoute, this.router, 'unicorn:app');
-    }.bind(this));
+    });
   });
 
   it('show update available message behind generator name', function () {
@@ -106,10 +107,11 @@ describe('home route', function () {
       updateAvailable: true
     }];
 
-    this.sandbox.stub(inquirer, 'prompt', function (prompts) {
+    this.sandbox.stub(inquirer, 'prompt', prompts => {
       assert(prompts[0].choices[1].name.indexOf('♥ Update Available!') >= 0);
       return Promise.resolve({whatNext: 'exit'});
     });
+
     return this.router.navigate('home');
   });
 });

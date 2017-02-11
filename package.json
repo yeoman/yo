@@ -15,7 +15,7 @@
     "node": ">=4"
   },
   "scripts": {
-    "test": "gulp",
+    "test": "xo && gulp",
     "postinstall": "yodoctor",
     "postupdate": "yodoctor",
     "prepublish": "gulp prepublish"
@@ -62,7 +62,7 @@
     "root-check": "^1.0.0",
     "sort-on": "^1.0.0",
     "string-length": "^1.0.0",
-    "tabtab": "^2.2.2",
+    "tabtab": "^1.3.2",
     "titleize": "^1.0.0",
     "update-notifier": "^1.0.3",
     "user-home": "^2.0.0",
@@ -74,8 +74,6 @@
   "devDependencies": {
     "gulp": "^3.6.0",
     "gulp-coveralls": "^0.1.0",
-    "gulp-eslint": "^3.0.1",
-    "gulp-exclude-gitignore": "^1.0.0",
     "gulp-istanbul": "^1.0.0",
     "gulp-mocha": "^3.0.1",
     "gulp-nsp": "^2.1.0",
@@ -86,7 +84,8 @@
     "nsp": "^2.2.0",
     "proxyquire": "^1.0.1",
     "registry-url": "^3.0.0",
-    "sinon": "^1.12.1"
+    "sinon": "^1.12.1",
+    "xo": "^0.17.1"
   },
   "tabtab": {
     "yo": [
@@ -97,6 +96,18 @@
       "--no-insight",
       "--insight",
       "--generators"
+    ]
+  },
+  "xo": {
+    "space": true,
+    "overrides": [
+      {
+        "files": "test/**",
+        "envs": [
+          "node",
+          "mocha"
+        ]
+      }
     ]
   }
 }

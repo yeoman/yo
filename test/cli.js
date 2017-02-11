@@ -1,12 +1,12 @@
 'use strict';
-var path = require('path');
-var assert = require('assert');
-var execFile = require('child_process').execFile;
-var mockery = require('mockery');
-var pkg = require('../package.json');
+const path = require('path');
+const assert = require('assert');
+const execFile = require('child_process').execFile;
+const mockery = require('mockery');
+const pkg = require('../package.json');
 
-describe('bin', function () {
-  describe('mocked', function () {
+describe('bin', () => {
+  describe('mocked', () => {
     beforeEach(function () {
       this.origArgv = process.argv;
       this.origExit = process.exit;
@@ -17,9 +17,7 @@ describe('bin', function () {
       });
 
       mockery.registerMock('yeoman-environment', {
-        createEnv: function () {
-          return this.env;
-        }.bind(this)
+        createEnv: () => this.env
       });
     });
 
@@ -30,10 +28,10 @@ describe('bin', function () {
     });
 
     it('should exit with status 1 if there were errors', function (done) {
-      var called = false;
-      process.exit = function (arg) {
+      let called = false;
+      process.exit = arg => {
         if (called) {
-          // Exit can be called more than once.
+          // Exit can be called more than once
           return;
         }
 
@@ -42,35 +40,35 @@ describe('bin', function () {
         done();
       };
 
-      process.argv = ['node', path.join(__dirname, '../', pkg.bin.yo), 'notexisting'];
+      process.argv = ['node', path.resolve(__dirname, '..', pkg.bin.yo), 'notexisting'];
 
-      this.env.lookup = function (cb) {
+      this.env.lookup = cb => {
         cb();
       };
 
-      require('../lib/cli');
+      require('../lib/cli'); // eslint-disable-line import/no-unassigned-import
     });
   });
 
-  it('should return the version', function (cb) {
-    var cp = execFile('node', [
-      path.join(__dirname, '../', pkg.bin.yo),
+  it('should return the version', cb => {
+    const cp = execFile('node', [
+      path.resolve(__dirname, '..', pkg.bin.yo),
       '--version',
       '--no-insight',
       '--no-update-notifier'
     ]);
-    var expected = pkg.version;
+    const expected = pkg.version;
 
-    cp.stdout.on('data', function (data) {
+    cp.stdout.on('data', data => {
       assert.equal(data.toString().replace(/\r\n|\n/g, ''), expected);
       cb();
     });
   });
 
-  it('should output available generators when `--generators` flag is supplied', function (cb) {
-    var cp = execFile('node', [path.join(__dirname, '../', pkg.bin.yo), '--generators', '--no-insight', '--no-update-notifier']);
+  it('should output available generators when `--generators` flag is supplied', cb => {
+    const cp = execFile('node', [path.resolve(__dirname, '..', pkg.bin.yo), '--generators', '--no-insight', '--no-update-notifier']);
 
-    cp.stdout.once('data', function (data) {
+    cp.stdout.once('data', data => {
       assert(data.length > 0);
       assert(!/\[/.test(data));
       cb();

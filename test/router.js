@@ -1,20 +1,19 @@
 'use strict';
-var assert = require('assert');
-var _ = require('lodash');
-var sinon = require('sinon');
-var helpers = require('./helpers');
-var proxyquire = require('proxyquire');
-var path = require('path');
-var Router = proxyquire('../lib/router', {
+const path = require('path');
+const assert = require('assert');
+const _ = require('lodash');
+const sinon = require('sinon');
+const proxyquire = require('proxyquire');
+const helpers = require('./helpers');
+
+const Router = proxyquire('../lib/router', {
   'read-pkg-up': {
-    sync: function (options) {
-      // turn /phoenix/app into phoenix-app
-      var name = options.cwd.split(path.sep).filter(function (chunk) {
-        return !!chunk;
-      }).join('-');
+    sync(options) {
+      // Turn `/phoenix/app` into `phoenix-app`
+      const name = options.cwd.split(path.sep).filter(chunk => Boolean(chunk)).join('-');
       return {
         pkg: {
-          name: name,
+          name,
           version: '0.1.0'
         }
       };
@@ -22,20 +21,20 @@ var Router = proxyquire('../lib/router', {
   }
 });
 
-describe('Router', function () {
+describe('Router', () => {
   beforeEach(function () {
     this.env = helpers.fakeEnv();
     this.env.getGeneratorsMeta = sinon.stub();
     this.router = new Router(this.env);
   });
 
-  describe('#registerRoute()', function () {
+  describe('#registerRoute()', () => {
     it('is chainable', function () {
       assert.equal(this.router.registerRoute('foo', _.noop), this.router);
     });
   });
 
-  describe('#navigate()', function () {
+  describe('#navigate()', () => {
     beforeEach(function () {
       this.route = sinon.spy();
       this.router.registerRoute('foo', this.route);
@@ -58,7 +57,7 @@ describe('Router', function () {
     });
   });
 
-  describe('#updateAvailableGenerators()', function () {
+  describe('#updateAvailableGenerators()', () => {
     beforeEach(function () {
       this.env.getGeneratorsMeta.returns([
         {

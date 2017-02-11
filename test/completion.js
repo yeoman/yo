@@ -1,47 +1,45 @@
 'use strict';
+const path = require('path');
+const assert = require('assert');
+const events = require('events');
+const execFile = require('child_process').execFile;
+const find = require('lodash').find;
+const Completer = require('../lib/completion/completer');
+const completion = require('../lib/completion');
 
-var path = require('path');
-var assert = require('assert');
-var events = require('events');
-var execFile = require('child_process').execFile;
-var Completer = require('../lib/completion/completer');
-var completion = require('../lib/completion');
-var find = require('lodash').find;
+const help = `
+  Usage:
+  yo backbone:app [options] [<app_name>]
 
-var help = [
-  '  Usage:',
-  '  yo backbone:app [options] [<app_name>]',
-  '',
-  '  Options:',
-  '    -h,   --help                # Print the generator\'s options and usage',
-  '          --skip-cache          # Do not remember prompt answers                         Default: false',
-  '          --skip-install        # Do not automatically install dependencies              Default: false',
-  '          --appPath             # Name of application directory                          Default: app',
-  '          --requirejs           # Support requirejs                                      Default: false',
-  '          --template-framework  # Choose template framework. lodash/handlebars/mustache  Default: lodash',
-  '          --test-framework      # Choose test framework. mocha/jasmine                   Default: mocha',
-  '',
-  '  Arguments:',
-  '    app_name    Type: String  Required: false'
-].join('\n');
+  Options:
+    -h,   --help                # Print the generator's options and usage
+          --skip-cache          # Do not remember prompt answers                         Default: false
+          --skip-install        # Do not automatically install dependencies              Default: false
+          --appPath             # Name of application directory                          Default: app
+          --requirejs           # Support requirejs                                      Default: false
+          --template-framework  # Choose template framework. lodash/handlebars/mustache  Default: lodash
+          --test-framework      # Choose test framework. mocha/jasmine                   Default: mocha
 
-describe('Completion', function () {
+  Arguments:
+    app_name    Type: String  Required: false`;
 
+describe('Completion', () => {
   before(function () {
     this.env = require('yeoman-environment').createEnv();
   });
 
-  describe('Test completion STDOUT output', function () {
-    it('Returns the completion candidates for both options and installed generators', function (done) {
-      var yocomplete = path.join(__dirname, '../lib/completion/index.js');
-      var yo = path.join(__dirname, '../lib/cli');
+  describe('Test completion STDOUT output', () => {
+    it('Returns the completion candidates for both options and installed generators', done => {
+      const yocomplete = path.join(__dirname, '../lib/completion/index.js');
+      const yo = path.join(__dirname, '../lib/cli');
 
-      var cmd = 'export cmd=\"yo\" && DEBUG=\"tabtab*\" COMP_POINT=\"4\" COMP_LINE=\"$cmd\" COMP_CWORD=\"$cmd\"';
-      cmd += 'node ' + yocomplete + ' completion -- ' + yo + ' $cmd';
+      let cmd = 'export cmd="yo" && DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
+      cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
 
-      execFile('bash', ['-c', cmd], function (err, out) {
+      execFile('bash', ['-c', cmd], (err, out) => {
         if (err) {
-          return done(err);
+          done(err);
+          return;
         }
 
         assert.ok(/-f/.test(out));
@@ -57,30 +55,28 @@ describe('Completion', function () {
     });
   });
 
-  describe('Completion', function () {
-    it('Creates tabtab instance', function () {
-      assert.ok(completion instanceof events.EventEmitter);
+  describe('Completion', () => {
+    it('Creates tabtab instance', () => {
+      assert.ok(completion instanceof events);
     });
   });
 
-  describe('Completer', function () {
+  describe('Completer', () => {
     beforeEach(function () {
       // Mock / Monkey patch env.getGeneratorsMeta() here, since we pass the
       // instance directly to completer.
       this.getGeneratorsMeta = this.env.getGeneratorsMeta;
 
-      this.env.getGeneratorsMeta =  function () {
-        return {
-          'dummy:app': {
-            resolved: '/home/user/.nvm/versions/node/v6.1.0/lib/node_modules/generator-dummy/app/index.js',
-            namespace: 'dummy:app'
-          },
-          'dummy:yo': {
-            resolved: '/home/user/.nvm/versions/node/v6.1.0/lib/node_modules/generator-dummy/yo/index.js',
-            namespace: 'dummy:yo'
-          }
-        };
-      };
+      this.env.getGeneratorsMeta = () => ({
+        'dummy:app': {
+          resolved: '/home/user/.nvm/versions/node/v6.1.0/lib/node_modules/generator-dummy/app/index.js',
+          namespace: 'dummy:app'
+        },
+        'dummy:yo': {
+          resolved: '/home/user/.nvm/versions/node/v6.1.0/lib/node_modules/generator-dummy/yo/index.js',
+          namespace: 'dummy:yo'
+        }
+      });
 
       this.completer = new Completer(this.env);
     });
@@ -89,10 +85,10 @@ describe('Completion', function () {
       this.env.getGeneratorsMeta = this.getGeneratorsMeta;
     });
 
-    describe('#parseHelp', function () {
+    describe('#parseHelp', () => {
       it('Returns completion items based on help output', function () {
-        var results = this.completer.parseHelp('backbone:app', help);
-        var first = results[0];
+        const results = this.completer.parseHelp('backbone:app', help);
+        const first = results[0];
 
         assert.equal(results.length, 6);
         assert.deepEqual(first, {
@@ -102,10 +98,10 @@ describe('Completion', function () {
       });
     });
 
-    describe('#item', function () {
+    describe('#item', () => {
       it('Format results into { name, description }', function () {
-        var list = ['foo', 'bar'];
-        var results = list.map(this.completer.item('yo!', '--'));
+        const list = ['foo', 'bar'];
+        const results = list.map(this.completer.item('yo!', '--'));
         assert.deepEqual(results, [{
           name: '--foo',
           description: 'yo!'
@@ -116,30 +112,31 @@ describe('Completion', function () {
       });
 
       it('Escapes certain characters before consumption by shell scripts', function () {
-        var list = ['foo'];
+        const list = ['foo'];
 
-        var desc = '#  yo I\'m a very subtle description, with chars that likely will break your Shell: yeah I\'m mean';
-        var expected = 'yo I m a very subtle description, with chars that likely will break your Shell-> yeah I m mean';
-        var results = list.map(this.completer.item(desc, '-'));
+        const desc = '#  yo I\'m a very subtle description, with chars that likely will break your Shell: yeah I\'m mean';
+        const expected = 'yo I m a very subtle description, with chars that likely will break your Shell-> yeah I m mean';
+        const results = list.map(this.completer.item(desc, '-'));
 
         assert.equal(results[0].description, expected);
       });
     });
 
-    describe('#generator', function () {
+    describe('#generator', () => {
       it('Returns completion candidates from generator help output', function (done) {
         // Here we test against yo --help (could use dummy:yo --help)
-        this.completer.complete({ last: '' }, function (err, results) {
+        this.completer.complete({last: ''}, (err, results) => {
           if (err) {
-            return done(err);
+            done(err);
+            return;
           }
 
           /* eslint no-multi-spaces: 0 */
           assert.deepEqual(results, [
-            { name: '--force',    description: 'Overwrite files that already exist' },
-            { name: '--version',  description: 'Print version' },
-            { name: '--no-color', description: 'Disable colors' },
-            { name: '-f',         description: 'Overwrite files that already exist' }
+            {name: '--force',    description: 'Overwrite files that already exist'},
+            {name: '--version',  description: 'Print version'},
+            {name: '--no-color', description: 'Disable colors'},
+            {name: '-f',         description: 'Overwrite files that already exist'}
           ]);
 
           done();
@@ -147,17 +144,15 @@ describe('Completion', function () {
       });
     });
 
-    describe('#complete', function () {
+    describe('#complete', () => {
       it('Returns the list of user installed generators as completion candidates', function (done) {
-        this.completer.complete({ last: 'yo' }, function (err, results) {
+        this.completer.complete({last: 'yo'}, (err, results) => {
           if (err) {
-            return done(err);
+            done(err);
+            return;
           }
 
-          var dummy = find(results, function (result) {
-            return result.name === 'dummy:yo';
-          });
-
+          const dummy = find(results, result => result.name === 'dummy:yo');
           assert.equal(dummy.name, 'dummy:yo');
           assert.equal(dummy.description, 'yo');
 
@@ -166,5 +161,4 @@ describe('Completion', function () {
       });
     });
   });
-
 });

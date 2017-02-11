@@ -1,11 +1,11 @@
 'use strict';
-var proxyquire = require('proxyquire');
-var sinon = require('sinon');
-var inquirer = require('inquirer');
-var Router = require('../lib/router');
-var helpers = require('./helpers');
+const proxyquire = require('proxyquire');
+const sinon = require('sinon');
+const inquirer = require('inquirer');
+const Router = require('../lib/router');
+const helpers = require('./helpers');
 
-describe('update route', function () {
+describe('update route', () => {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create();
     this.insight = helpers.fakeInsight();
@@ -17,7 +17,7 @@ describe('update route', function () {
     this.router.registerRoute('home', this.homeRoute);
 
     this.crossSpawn = helpers.fakeCrossSpawn('close');
-    var updateRoute = proxyquire('../lib/routes/update', {
+    const updateRoute = proxyquire('../lib/routes/update', {
       'cross-spawn': this.crossSpawn
     });
     this.router.registerRoute('update', updateRoute);
@@ -28,20 +28,20 @@ describe('update route', function () {
   });
 
   it('allows updating generators and return user to home screen', function () {
-    var generators = ['generator-cat', 'generator-unicorn'];
+    const generators = ['generator-cat', 'generator-unicorn'];
     this.sandbox.stub(inquirer, 'prompt').returns(
-      Promise.resolve({generators: generators})
+      Promise.resolve({generators})
     );
-    return this.router.navigate('update').then(function () {
+    return this.router.navigate('update').then(() => {
       sinon.assert.calledWith(
         this.crossSpawn,
         'npm',
-        ['install', '-g'].concat(generators)
+        ['install', '--global'].concat(generators)
       );
       sinon.assert.calledWith(this.insight.track, 'yoyo', 'update');
       sinon.assert.calledWith(this.insight.track, 'yoyo', 'updated');
       sinon.assert.calledOnce(this.homeRoute);
       sinon.assert.calledOnce(this.env.lookup);
-    }.bind(this));
+    });
   });
 });
