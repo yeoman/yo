@@ -155,3 +155,8 @@ Love Yeoman work and community? Help us keep it alive by donating funds to cover
 ## License
 
 BSD-2-Clause © Google
+
+
+## Books
+
+- [Front-End Tooling with Gulp, Bower, and Yeoman](https://manning.com/books/front-end-tooling-with-gulp-bower-and-yeoman) by Stefan Baumgartner (Manning Publications). [Chapter 1](https://manning-content.s3.amazonaws.com/download/c/9612eac-ea92-4192-a4a5-fc3df4ecf29d/FET_MEAP_ch1.pdf)
