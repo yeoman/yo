@@ -68,7 +68,7 @@
     "user-home": "^2.0.0",
     "yeoman-character": "^1.0.0",
     "yeoman-doctor": "^2.0.0",
-    "yeoman-environment": "^1.6.1",
+    "yeoman-environment": "^2.0.0",
     "yosay": "^2.0.0"
   },
   "devDependencies": {
