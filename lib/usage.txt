@@ -15,6 +15,12 @@ Install a generator:
   $ npm install generator-angular
   $ yo angular --help
 
+Run local generators:
+  
+  Additionally, you can also run local generators without installing via the npm.
+
+  $ yo ./path/to/some/generator
+
 Completion:
 
   To enable shell completion for the yo command, try running

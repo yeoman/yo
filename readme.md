@@ -27,6 +27,12 @@ yo webapp
 
 *To create and distribute your own generator, refer to [our official documentation](http://yeoman.io/authoring/)*
 
+You can also run a local generator on your computer as such:
+
+```sh
+# Running a local generator
+yo ./path/to/local/generator
+```
 
 ## Options
 
