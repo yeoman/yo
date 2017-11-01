@@ -17,7 +17,7 @@ Install a generator:
 
 Run local generators:
   
-  Additionally, you can also run local generators without installing via the npm.
+  Additionally, you can also run local generators without installing via npm.
 
   $ yo ./path/to/some/generator
 
