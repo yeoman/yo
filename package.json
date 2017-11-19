@@ -54,7 +54,7 @@
     "insight": "^0.8.4",
     "lodash": "^4.17.4",
     "meow": "^3.0.0",
-    "npm-keyword": "^4.1.0",
+    "npm-keyword": "^5.0.0",
     "opn": "^4.0.2",
     "package-json": "^2.1.0",
     "parse-help": "^0.1.1",
