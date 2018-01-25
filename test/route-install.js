@@ -30,14 +30,35 @@ describe('install route', () => {
 
   describe('npm success with results', () => {
     beforeEach(function () {
-      this.rows = [
-        {key: ['yeoman-generator', 'generator-unicorn', 'some unicorn']},
-        {key: ['yeoman-generator', 'generator-unrelated', 'some description']},
-        {key: ['yeoman-generator', 'generator-unicorn-1', 'foo description']},
-        {key: ['yeoman-generator', 'generator-foo', 'description with unicorn word']},
-        {key: ['yeoman-generator', 'generator-blacklist-1', 'foo description']},
-        {key: ['yeoman-generator', 'generator-blacklist-2', 'foo description']},
-        {key: ['yeoman-generator', 'generator-blacklist-3', 'foo description']}
+      this.packages = [
+        {
+          name: 'generator-unicorn',
+          description: 'some unicorn'
+        },
+        {
+          name: 'generator-unrelated',
+          description: 'some description'
+        },
+        {
+          name: 'generator-unicorn-1',
+          description: 'foo description'
+        },
+        {
+          name: 'generator-foo',
+          description: 'description with unicorn word'
+        },
+        {
+          name: 'generator-blacklist-1',
+          description: 'foo description'
+        },
+        {
+          name: 'generator-blacklist-2',
+          description: 'foo description'
+        },
+        {
+          name: 'generator-blacklist-3',
+          description: 'foo description'
+        }
       ];
 
       this.blacklist = [
@@ -46,15 +67,20 @@ describe('install route', () => {
       ];
 
       this.pkgData = {
-        author: {
-          name: 'Simon'
+        'dist-tags': {
+          latest: '1.0.0'
+        },
+        versions: {
+          '1.0.0': {
+            name: 'test'
+          }
         }
       };
 
       nock(registryUrl)
-        .get('/-/_view/byKeyword')
+        .get('/-/v1/search')
           .query(true)
-          .reply(200, {rows: this.rows})
+          .reply(200, {objects: this.packages.map(data => ({package: data}))})
         .filteringPath(/\/[^?]+$/g, '/pkg')
           .get('/pkg')
           .times(4)
@@ -176,12 +202,22 @@ describe('install route', () => {
   describe('npm success without results', () => {
     beforeEach(() => {
       nock(registryUrl)
-        .get('/-/_view/byKeyword')
+        .get('/-/v1/search')
         .query(true)
         .reply(200, {
-          rows: [
-            {key: ['yeoman-generator', 'generator-unrelated', 'some description']},
-            {key: ['yeoman-generator', 'generator-unrelevant', 'some description']}
+          objects: [
+            {
+              package: {
+                name: 'generator-unrelated',
+                description: 'some description'
+              }
+            },
+            {
+              package: {
+                name: 'generator-unrelevant',
+                description: 'some description'
+              }
+            }
           ]
         });
     });
