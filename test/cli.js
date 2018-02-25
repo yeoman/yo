@@ -40,7 +40,7 @@ describe('bin', () => {
         done();
       };
 
-      process.argv = ['node', path.resolve(__dirname, '..', pkg.bin.yo), 'notexisting'];
+      process.argv = ['node', path.resolve(__dirname, '..', pkg.bin.yo), 'non-existent'];
 
       this.env.lookup = cb => {
         cb();
