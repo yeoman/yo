@@ -12,7 +12,7 @@
     "yo-complete": "lib/completion/index.js"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "scripts": {
     "test": "xo && gulp",
@@ -86,7 +86,7 @@
     "proxyquire": "^1.0.1",
     "registry-url": "^3.0.0",
     "sinon": "^1.12.1",
-    "xo": "^0.18.1"
+    "xo": "^0.21.1"
   },
   "tabtab": {
     "yo": [

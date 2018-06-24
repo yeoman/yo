@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const assert = require('assert');
-const execFile = require('child_process').execFile;
+const {execFile} = require('child_process');
 const mockery = require('mockery');
 const pkg = require('../package.json');
 
