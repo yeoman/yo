@@ -17,8 +17,7 @@
   "scripts": {
     "test": "xo && gulp",
     "postinstall": "yodoctor",
-    "postupdate": "yodoctor",
-    "prepublish": "gulp prepublish"
+    "postupdate": "yodoctor"
   },
   "files": [
     "lib"
@@ -77,12 +76,10 @@
     "gulp-coveralls": "^0.1.0",
     "gulp-istanbul": "^1.0.0",
     "gulp-mocha": "^3.0.1",
-    "gulp-nsp": "^2.1.0",
     "gulp-plumber": "^1.0.0",
     "mocha": "^3.2.0",
     "mockery": "^2.0.0",
     "nock": "^9.0.5",
-    "nsp": "^2.2.0",
     "proxyquire": "^1.0.1",
     "registry-url": "^3.0.0",
     "sinon": "^1.12.1",

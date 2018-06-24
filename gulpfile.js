@@ -3,13 +3,8 @@ const path = require('path');
 const gulp = require('gulp');
 const mocha = require('gulp-mocha');
 const istanbul = require('gulp-istanbul');
-const nsp = require('gulp-nsp');
 const plumber = require('gulp-plumber');
 const coveralls = require('gulp-coveralls');
-
-gulp.task('nsp', cb => {
-  nsp({package: path.resolve('package.json')}, cb);
-});
 
 gulp.task('pre-test', () =>
   gulp.src('lib/**/*.js')
@@ -44,5 +39,4 @@ gulp.task('coveralls', ['test'], () => {
     .pipe(coveralls());
 });
 
-gulp.task('prepublish', ['nsp']);
 gulp.task('default', ['test', 'coveralls']);
