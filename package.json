@@ -47,7 +47,7 @@
     "cross-spawn": "^6.0.5",
     "figures": "^2.0.0",
     "fullname": "^3.2.0",
-    "global-tunnel-ng": "^2.1.1",
+    "global-tunnel-ng": "^2.2.0",
     "got": "^8.0.3",
     "humanize-string": "^1.0.0",
     "inquirer": "^6.0.0",
