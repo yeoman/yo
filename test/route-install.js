@@ -79,12 +79,12 @@ describe('install route', () => {
 
       nock(registryUrl)
         .get('/-/v1/search')
-          .query(true)
-          .reply(200, {objects: this.packages.map(data => ({package: data}))})
+        .query(true)
+        .reply(200, {objects: this.packages.map(data => ({package: data}))})
         .filteringPath(/\/[^?]+$/g, '/pkg')
-          .get('/pkg')
-          .times(4)
-          .reply(200, this.pkgData);
+        .get('/pkg')
+        .times(4)
+        .reply(200, this.pkgData);
 
       nock('http://yeoman.io')
         .get('/blacklist.json')
@@ -104,7 +104,7 @@ describe('install route', () => {
           return Promise.resolve({searchTerm: 'unicorn'});
         }
         if (call === 2) {
-          const choices = arg[0].choices;
+          const {choices} = arg[0];
           assert.equal(_.filter(choices, {value: 'generator-foo'}).length, 1);
           assert.equal(_.filter(choices, {value: 'generator-unicorn-1'}).length, 1);
           assert.equal(_.filter(choices, {value: 'generator-unicorn'}).length, 0);
@@ -126,7 +126,7 @@ describe('install route', () => {
           return Promise.resolve({searchTerm: 'blacklist'});
         }
         if (call === 2) {
-          const choices = arg[0].choices;
+          const {choices} = arg[0];
           assert.equal(_.filter(choices, {value: 'generator-blacklist-1'}).length, 0);
           assert.equal(_.filter(choices, {value: 'generator-blacklist-2'}).length, 0);
           assert.equal(_.filter(choices, {value: 'generator-blacklist-3'}).length, 1);
@@ -233,7 +233,7 @@ describe('install route', () => {
         }
 
         if (call === 2) {
-          const choices = arg[0].choices;
+          const {choices} = arg[0];
           assert.deepEqual(_.map(choices, 'value'), ['install', 'home']);
           done();
         }

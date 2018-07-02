@@ -2,8 +2,8 @@
 const path = require('path');
 const assert = require('assert');
 const events = require('events');
-const execFile = require('child_process').execFile;
-const find = require('lodash').find;
+const {execFile} = require('child_process');
+const {find} = require('lodash');
 const Completer = require('../lib/completion/completer');
 const completion = require('../lib/completion');
 

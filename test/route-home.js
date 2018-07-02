@@ -51,7 +51,7 @@ describe('home route', () => {
   it('does not display update options if no generators is installed', function () {
     this.router.generator = [];
     this.sandbox.stub(inquirer, 'prompt', prompts => {
-      assert.equal(_.map(prompts[0].choices, 'value').indexOf('update'), -1);
+      assert.equal(_.map(prompts[0].choices, 'value').includes('update'), false);
       return Promise.resolve({whatNext: 'exit'});
     });
 
@@ -67,7 +67,7 @@ describe('home route', () => {
     }];
 
     this.sandbox.stub(inquirer, 'prompt', prompts => {
-      assert(_.map(prompts[0].choices, 'value').indexOf('update') >= 0);
+      assert(_.map(prompts[0].choices, 'value').includes('update'));
       return Promise.resolve({whatNext: 'update'});
     });
 
@@ -108,7 +108,7 @@ describe('home route', () => {
     }];
 
     this.sandbox.stub(inquirer, 'prompt', prompts => {
-      assert(prompts[0].choices[1].name.indexOf('♥ Update Available!') >= 0);
+      assert(prompts[0].choices[1].name.includes('♥ Update Available!'));
       return Promise.resolve({whatNext: 'exit'});
     });
 
