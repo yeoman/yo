@@ -15,9 +15,11 @@
     "node": ">=6"
   },
   "scripts": {
-    "test": "xo && gulp",
     "postinstall": "yodoctor",
-    "postupdate": "yodoctor"
+    "postupdate": "yodoctor",
+    "pretest": "xo",
+    "test": "nyc mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "files": [
     "lib"
@@ -72,14 +74,11 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "gulp": "^3.6.0",
-    "gulp-coveralls": "^0.1.0",
-    "gulp-istanbul": "^1.0.0",
-    "gulp-mocha": "^3.0.1",
-    "gulp-plumber": "^1.0.0",
+    "coveralls": "^3.0.2",
     "mocha": "^5.2.0",
     "mockery": "^2.0.0",
     "nock": "^9.4.1",
+    "nyc": "^12.0.2",
     "proxyquire": "^2.0.1",
     "registry-url": "^4.0.0",
     "sinon": "^1.12.1",
