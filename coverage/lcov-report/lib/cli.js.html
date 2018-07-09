@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/cli.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">lib/</a> cli.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">53.51% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>61/114</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">50% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>20/40</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">54.46% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>61/112</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">#!/usr/bin/env node
+'use strict';
+const fs = require('fs');
+const path = require('path');
+const chalk = require('chalk');
+const updateNotifier = require('update-notifier');
+const Insight = require('insight');
+const yosay = require('yosay');
+const stringLength = require('string-length');
+const rootCheck = require('root-check');
+const meow = require('meow');
+const list = require('cli-list');
+const Tabtab = require('tabtab');
+const pkg = require('../package.json');
+const Router = require('./router');
+&nbsp;
+const gens = list(process.argv.slice(2));
+&nbsp;
+// Override http networking to go through a proxy ifone is configured
+require('global-tunnel-ng').initialize();
+&nbsp;
+/* eslint new-cap: 0, no-extra-parens: 0 */
+const tabtab = new Tabtab.Commands.default({
+  name: 'yo',
+  completer: 'yo-complete'
+});
+&nbsp;
+const cli = gens.map(gen =&gt; {
+  const minicli = meow({help: false, pkg, argv: gen});
+  const opts = minicli.flags;
+  const args = minicli.input;
+&nbsp;
+  // Add un-camelized options too, for legacy
+  // TODO: Remove some time in the future when generators have upgraded
+  for (const key of Object.keys(opts)) {
+<span class="cstat-no" title="statement not covered" >    const legacyKey = key.replace(/[A-Z]/g, m =&gt; <span class="cstat-no" title="statement not covered" >`-${m.toLowerCase()}`)</span>;</span>
+<span class="cstat-no" title="statement not covered" >    opts[legacyKey] = opts[key];</span>
+  }
+&nbsp;
+  return {opts, args};
+});
+&nbsp;
+const firstCmd = cli[0] || <span class="branch-1 cbranch-no" title="branch not covered" >{opts: {}, args: {}};</span>
+const cmd = firstCmd.args[0];
+&nbsp;
+const insight = new Insight({
+  trackingCode: 'UA-31537568-1',
+  pkg
+});
+&nbsp;
+function updateCheck() {
+  const notifier = updateNotifier({pkg});
+  const message = [];
+&nbsp;
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (notifier.update) {
+<span class="cstat-no" title="statement not covered" >    message.push('Update available: ' + chalk.green.bold(notifier.update.latest) + chalk.gray(' (current: ' + notifier.update.current + ')'));</span>
+<span class="cstat-no" title="statement not covered" >    message.push('Run ' + chalk.magenta('npm install -g ' + pkg.name) + ' to update.');</span>
+<span class="cstat-no" title="statement not covered" >    console.log(yosay(message.join(' '), {maxLength: stringLength(message[0])}));</span>
+  }
+}
+&nbsp;
+function pre() {
+  // Debugging helper
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (cmd === 'doctor') {
+<span class="cstat-no" title="statement not covered" >    require('yeoman-doctor')();</span>
+<span class="cstat-no" title="statement not covered" >    return;</span>
+  }
+&nbsp;
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (cmd === 'completion') {
+<span class="cstat-no" title="statement not covered" >    return tabtab.install();</span>
+  }
+&nbsp;
+  // Easteregg
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (cmd === 'yeoman' || cmd === 'yo') {
+<span class="cstat-no" title="statement not covered" >    console.log(require('yeoman-character'));</span>
+<span class="cstat-no" title="statement not covered" >    return;</span>
+  }
+&nbsp;
+  init();
+}
+&nbsp;
+function createGeneratorList(env) {
+  const generators = Object.keys(env.getGeneratorsMeta()).reduce((namesByGenerator, generator) =&gt; {
+<span class="cstat-no" title="statement not covered" >    const parts = generator.split(':');</span>
+<span class="cstat-no" title="statement not covered" >    const generatorName = parts.shift();</span>
+&nbsp;
+    // If first time we found this generator, prepare to save all its sub-generators
+<span class="cstat-no" title="statement not covered" >    if (!namesByGenerator[generatorName]) {</span>
+<span class="cstat-no" title="statement not covered" >      namesByGenerator[generatorName] = [];</span>
+    }
+&nbsp;
+    // If sub-generator (!== app), save it
+<span class="cstat-no" title="statement not covered" >    if (parts[0] !== 'app') {</span>
+<span class="cstat-no" title="statement not covered" >      namesByGenerator[generatorName].push(parts.join(':'));</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return namesByGenerator;</span>
+  }, {});
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (Object.keys(generators).length === 0) {
+    return '  Couldn\'t find any generators, did you install any? Troubleshoot issues by running\n\n  $ yo doctor';
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return Object.keys(generators).map(generator =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const subGenerators = generators[generator].map(subGenerator =&gt; <span class="cstat-no" title="statement not covered" >`    ${subGenerator}`)</span>.join('\n');</span>
+<span class="cstat-no" title="statement not covered" >    return `  ${generator}\n${subGenerators}`;</span>
+  }).join('\n');
+}
+&nbsp;
+function init() {
+  const env = require('yeoman-environment').createEnv();
+&nbsp;
+  env.on('error', err =&gt; {
+    console.error('Error', process.argv.slice(2).join(' '), '\n');
+    console.error(firstCmd.opts.debug ? <span class="branch-0 cbranch-no" title="branch not covered" >err.stack </span>: err.message);
+    process.exit(err.code || 1);
+  });
+&nbsp;
+  // Lookup for every namespaces, within the environments.paths and lookups
+  env.lookup(() =&gt; {
+    const generatorList = createGeneratorList(env);
+&nbsp;
+    // List generators
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (firstCmd.opts.generators) {
+<span class="cstat-no" title="statement not covered" >      console.log('Available Generators:\n\n' + generatorList);</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+    // Start the interactive UI if no generator is passed
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!cmd) {
+<span class="cstat-no" title="statement not covered" >      if (firstCmd.opts.help) {</span>
+<span class="cstat-no" title="statement not covered" >        const usageText = fs.readFileSync(path.join(__dirname, 'usage.txt'), 'utf8');</span>
+<span class="cstat-no" title="statement not covered" >        console.log(`${usageText}\nAvailable Generators:\n\n${generatorList}`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      runYo(env);</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+    // More detailed error message
+    // If users type in generator name with prefix 'generator-'
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (cmd.startsWith('generator-')) {
+<span class="cstat-no" title="statement not covered" >      const generatorName = cmd.replace('generator-', '');</span>
+<span class="cstat-no" title="statement not covered" >      const generatorCommand = chalk.yellow('yo ' + generatorName);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      console.log(chalk.red('Installed generators don\'t need the "generator-" prefix.'));</span>
+<span class="cstat-no" title="statement not covered" >      console.log(`In the future, run ${generatorCommand} instead!\n`);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      env.run(generatorName, firstCmd.opts);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+    // Note: at some point, nopt needs to know about the generator options, the
+    // one that will be triggered by the below args. Maybe the nopt parsing
+    // should be done internally, from the args.
+    for (const gen of cli) {
+      env.run(gen.args, gen.opts);
+    }
+  });
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function runYo(env) {</span>
+<span class="cstat-no" title="statement not covered" >  const router = new Router(env, insight);</span>
+<span class="cstat-no" title="statement not covered" >  router.insight.track('yoyo', 'init');</span>
+<span class="cstat-no" title="statement not covered" >  router.registerRoute('help', require('./routes/help'));</span>
+<span class="cstat-no" title="statement not covered" >  router.registerRoute('update', require('./routes/update'));</span>
+<span class="cstat-no" title="statement not covered" >  router.registerRoute('run', require('./routes/run'));</span>
+<span class="cstat-no" title="statement not covered" >  router.registerRoute('install', require('./routes/install'));</span>
+<span class="cstat-no" title="statement not covered" >  router.registerRoute('exit', require('./routes/exit'));</span>
+<span class="cstat-no" title="statement not covered" >  router.registerRoute('clearConfig', require('./routes/clear-config'));</span>
+<span class="cstat-no" title="statement not covered" >  router.registerRoute('home', require('./routes/home'));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  process.once('exit', router.navigate.bind(router, 'exit'));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  router.updateAvailableGenerators();</span>
+<span class="cstat-no" title="statement not covered" >  router.navigate('home');</span>
+}
+&nbsp;
+rootCheck('\n' + chalk.red('Easy with the `sudo`. Yeoman is the master around here.') + '\n\nSince yo is a user command, there is no need to execute it with root\npermissions. If you\'re having permission errors when using yo without sudo,\nplease spend a few minutes learning more about how your system should work\nand make any necessary repairs.\n\nA quick solution would be to change where npm stores global packages by\nputting ~/npm/bin in your PATH and running:\n' + chalk.blue('npm config set prefix ~/npm') + '\n\nSee: https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md');
+&nbsp;
+const insightMsg = chalk.gray('==========================================================================') +
+chalk.yellow('\nWe\'re constantly looking for ways to make ') + chalk.bold.red(pkg.name) +
+chalk.yellow(
+  ' better! \nMay we anonymously report usage statistics to improve the tool over time? \n' +
+  'More info: https://github.com/yeoman/insight &amp; http://yeoman.io'
+) +
+chalk.gray('\n==========================================================================');
+&nbsp;
+<span class="missing-if-branch" title="if path not taken" >I</span>if (firstCmd.opts.insight === false) {
+<span class="cstat-no" title="statement not covered" >  insight.config.set('optOut', true);</span>
+} else <span class="missing-if-branch" title="if path not taken" >I</span>if (firstCmd.opts.insight) {
+<span class="cstat-no" title="statement not covered" >  insight.config.set('optOut', false);</span>
+}
+&nbsp;
+<span class="missing-if-branch" title="if path not taken" >I</span>if (firstCmd.opts.insight !== false &amp;&amp; insight.optOut === undefined) {
+<span class="cstat-no" title="statement not covered" >  insight.optOut = insight.config.get('optOut');</span>
+<span class="cstat-no" title="statement not covered" >  insight.track('downloaded');</span>
+<span class="cstat-no" title="statement not covered" >  insight.askPermission(insightMsg, pre);</span>
+} else {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (firstCmd.opts.insight !== false) {
+    // Only track the two first subcommands
+    insight.track(...firstCmd.args.slice(0, 2));
+  }
+&nbsp;
+  updateCheck();
+  pre();
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jul 02 2018 20:15:53 GMT-0300 (Argentina Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
