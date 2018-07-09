@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/routes/install.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">lib/routes/</a> install.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">28.99% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>20/69</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">30.3% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>20/66</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+/* eslint-disable promise/no-callback-in-promise */
+const _ = require('lodash');
+const async = require('async');
+const chalk = require('chalk');
+const inquirer = require('inquirer');
+const spawn = require('cross-spawn');
+const sortOn = require('sort-on');
+const figures = require('figures');
+const npmKeyword = require('npm-keyword');
+const packageJson = require('package-json');
+const got = require('got');
+&nbsp;
+const OFFICIAL_GENERATORS = [
+  'generator-angular',
+  'generator-backbone',
+  'generator-bootstrap',
+  'generator-chrome-extension',
+  'generator-chromeapp',
+  'generator-commonjs',
+  'generator-generator',
+  'generator-gruntplugin',
+  'generator-gulp-webapp',
+  'generator-jasmine',
+  'generator-jquery',
+  'generator-karma',
+  'generator-mobile',
+  'generator-mocha',
+  'generator-node',
+  'generator-polymer',
+  'generator-webapp'
+];
+&nbsp;
+module.exports = app =&gt; {
+<span class="cstat-no" title="statement not covered" >  app.insight.track('yoyo', 'install');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return inquirer.prompt([{</span>
+    name: 'searchTerm',
+    message: 'Search npm for generators:'
+  }]).then(answers =&gt; <span class="cstat-no" title="statement not covered" >searchNpm(app, answers.searchTerm))</span>;
+};
+&nbsp;
+const generatorMatchTerm = (generator, term) =&gt; <span class="cstat-no" title="statement not covered" >`${generator.name} ${generator.description}`.includes(term);</span>
+const getAllGenerators = _.memoize(() =&gt; <span class="cstat-no" title="statement not covered" >npmKeyword('yeoman-generator'))</span>;
+&nbsp;
+<span class="fstat-no" title="function not covered" >function searchMatchingGenerators(app, term, cb) {</span>
+<span class="fstat-no" title="function not covered" >  function handleBlacklist(blacklist) {</span>
+<span class="cstat-no" title="statement not covered" >    const installedGenerators = app.env.getGeneratorNames();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    getAllGenerators().then(allGenerators =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      cb(null, allGenerators.filter(generator =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if (blacklist.includes(generator.name)) {</span>
+<span class="cstat-no" title="statement not covered" >          return false;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (installedGenerators.includes(generator.name)) {</span>
+<span class="cstat-no" title="statement not covered" >          return false;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return generatorMatchTerm(generator, term);</span>
+      }));
+    }, cb);
+  }
+<span class="cstat-no" title="statement not covered" >  got('http://yeoman.io/blacklist.json', {json: true})</span>
+    .then(response =&gt; <span class="cstat-no" title="statement not covered" >handleBlacklist(response.body))</span>
+    .catch(() =&gt; <span class="cstat-no" title="statement not covered" >handleBlacklist([]))</span>;
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function fetchGeneratorInfo(generator, cb) {</span>
+<span class="cstat-no" title="statement not covered" >  packageJson(generator.name, {fullMetadata: true}).then(pkg =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const official = OFFICIAL_GENERATORS.includes(pkg.name);</span>
+<span class="cstat-no" title="statement not covered" >    const mustache = official ? chalk.green(` ${figures.mustache} `) : '';</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    cb(null, {</span>
+      name: generator.name.replace(/^generator-/, '') + mustache + ' ' + chalk.dim(pkg.description),
+      value: generator.name,
+      official: -official
+    });
+  }).catch(cb);
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function searchNpm(app, term) {</span>
+<span class="cstat-no" title="statement not covered" >  const promise = new Promise((resolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    searchMatchingGenerators(app, term, (err, matches) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (err) {</span>
+<span class="cstat-no" title="statement not covered" >        reject(err);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      async.map(matches, fetchGeneratorInfo, (err2, choices) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if (err2) {</span>
+<span class="cstat-no" title="statement not covered" >          reject(err2);</span>
+<span class="cstat-no" title="statement not covered" >          return;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        resolve(choices);</span>
+      });
+    });
+  });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return promise.then(choices =&gt; <span class="cstat-no" title="statement not covered" >promptInstallOptions(app, sortOn(choices, ['official', 'name'])))</span>;</span>
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function promptInstallOptions(app, choices) {</span>
+<span class="cstat-no" title="statement not covered" >  let introMessage = 'Sorry, no results matches your search term';</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (choices.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    introMessage = 'Here\'s what I found. ' + chalk.gray('Official generator → ' + chalk.green(figures.mustache)) + '\n  Install one?';</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  const resultsPrompt = [{</span>
+    name: 'toInstall',
+    type: 'list',
+    message: introMessage,
+    choices: choices.concat([{
+      name: 'Search again',
+      value: 'install'
+    }, {
+      name: 'Return home',
+      value: 'home'
+    }])
+  }];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return inquirer.prompt(resultsPrompt).then(answer =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (answer.toInstall === 'home' || answer.toInstall === 'install') {</span>
+<span class="cstat-no" title="statement not covered" >      return app.navigate(answer.toInstall);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    installGenerator(app, answer.toInstall);</span>
+  });
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function installGenerator(app, pkgName) {</span>
+<span class="cstat-no" title="statement not covered" >  app.insight.track('yoyo', 'install', pkgName);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return spawn('npm', ['install', '--global', pkgName], {stdio: 'inherit'})</span>
+    .on('error', err =&gt; {
+<span class="cstat-no" title="statement not covered" >      app.insight.track('yoyo:err', 'install', pkgName);</span>
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    })
+    .on('close', () =&gt; {
+<span class="cstat-no" title="statement not covered" >      app.insight.track('yoyo', 'installed', pkgName);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      console.log(</span>
+        '\nI just installed a generator by running:\n' +
+        chalk.blue.bold('\n    npm install -g ' + pkgName + '\n')
+      );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      app.env.lookup(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        app.updateAvailableGenerators();</span>
+<span class="cstat-no" title="statement not covered" >        app.navigate('home');</span>
+      });
+    });
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jul 02 2018 20:15:53 GMT-0300 (Argentina Standard Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
