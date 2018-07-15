@@ -33,7 +33,7 @@ describe('Completion', () => {
       const yocomplete = path.join(__dirname, '../lib/completion/index.js');
       const yo = path.join(__dirname, '../lib/cli');
 
-      let cmd = 'export cmd="yo" && DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
+      let cmd = 'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
       cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
 
       execFile('bash', ['-c', cmd], (err, out) => {
