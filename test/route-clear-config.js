@@ -9,7 +9,7 @@ const helpers = require('./helpers');
 
 describe('clear config route', () => {
   beforeEach(function () {
-    this.sandbox = sinon.sandbox.create();
+    this.sandbox = sinon.createSandbox();
     this.insight = helpers.fakeInsight();
     this.globalConfig = {
       remove: sinon.stub(),
@@ -97,7 +97,7 @@ describe('clear config route', () => {
   it('shows generator with global config entry', function () {
     let choices = [];
 
-    this.sandbox.stub(inquirer, 'prompt', arg => {
+    this.sandbox.stub(inquirer, 'prompt').callsFake(arg => {
       ({choices} = arg[0]);
       return Promise.resolve({whatNext: 'foo'});
     });
