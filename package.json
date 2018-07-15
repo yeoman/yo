@@ -18,7 +18,7 @@
     "postinstall": "yodoctor",
     "postupdate": "yodoctor",
     "pretest": "xo",
-    "test": "nyc mocha",
+    "test": "nyc mocha --timeout=10000",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "files": [
