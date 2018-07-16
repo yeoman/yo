@@ -19,7 +19,7 @@
     "postupdate": "yodoctor",
     "pretest": "xo",
     "test": "nyc mocha --timeout=10000",
-    "tabtab-install": "tabtab install --stdout --name yo >> ~/.bashrc",
+    "tabtab-install": "tabtab install --auto --name yo --completer yo-complete",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "files": [
