@@ -1,10 +1,17 @@
 sudo: true
 language: node_js
-node_js:
-  - 10
-  - 8
-  - 6
+
+matrix:
+  include:
+    - node_js: "10"
+    - node_js: "8"
+    - node_js: "6"
+      env: RUN_RECIPES=1
 before_install:
   - npm install --global npm@latest
+install:
+  -  npm install -s --no-progress
+before_script:
+  - npm run tabtab-install
 after_success:
   - npm run coverage
