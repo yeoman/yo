@@ -8,7 +8,7 @@ const helpers = require('./helpers');
 
 describe('home route', () => {
   beforeEach(function () {
-    this.sandbox = sinon.sandbox.create();
+    this.sandbox = sinon.createSandbox();
     this.insight = helpers.fakeInsight();
     this.env = helpers.fakeEnv();
     this.router = new Router(this.env, this.insight);
@@ -50,7 +50,7 @@ describe('home route', () => {
 
   it('does not display update options if no generators is installed', function () {
     this.router.generator = [];
-    this.sandbox.stub(inquirer, 'prompt', prompts => {
+    this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
       assert.equal(_.map(prompts[0].choices, 'value').includes('update'), false);
       return Promise.resolve({whatNext: 'exit'});
     });
@@ -66,7 +66,7 @@ describe('home route', () => {
       updateAvailable: false
     }];
 
-    this.sandbox.stub(inquirer, 'prompt', prompts => {
+    this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
       assert(_.map(prompts[0].choices, 'value').includes('update'));
       return Promise.resolve({whatNext: 'update'});
     });
@@ -84,7 +84,7 @@ describe('home route', () => {
       updateAvailable: false
     }];
 
-    this.sandbox.stub(inquirer, 'prompt', prompts => {
+    this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
       assert.equal(prompts[0].choices[1].value.generator, 'unicorn:app');
       return Promise.resolve({
         whatNext: {
@@ -107,7 +107,7 @@ describe('home route', () => {
       updateAvailable: true
     }];
 
-    this.sandbox.stub(inquirer, 'prompt', prompts => {
+    this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
       assert(prompts[0].choices[1].name.includes('♥ Update Available!'));
       return Promise.resolve({whatNext: 'exit'});
     });

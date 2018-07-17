@@ -7,7 +7,7 @@ const helpers = require('./helpers');
 
 describe('help route', () => {
   beforeEach(function () {
-    this.sandbox = sinon.sandbox.create();
+    this.sandbox = sinon.createSandbox();
     this.insight = helpers.fakeInsight();
     this.homeRoute = sinon.spy();
     this.router = new Router(sinon.stub(), this.insight);

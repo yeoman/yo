@@ -7,7 +7,7 @@ const helpers = require('./helpers');
 
 describe('update route', () => {
   beforeEach(function () {
-    this.sandbox = sinon.sandbox.create();
+    this.sandbox = sinon.createSandbox();
     this.insight = helpers.fakeInsight();
 
     this.env = helpers.fakeEnv();
