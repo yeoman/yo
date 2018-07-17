@@ -1,6 +1,6 @@
 {
   "name": "yo",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "CLI tool for running Yeoman generators",
   "license": "BSD-2-Clause",
   "repository": "yeoman/yo",
@@ -18,7 +18,7 @@
     "postinstall": "yodoctor",
     "postupdate": "yodoctor",
     "pretest": "xo",
-    "test": "nyc mocha",
+    "test": "nyc mocha --timeout=10000",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "files": [
