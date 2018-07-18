@@ -2,7 +2,7 @@
 const path = require('path');
 const assert = require('assert');
 const events = require('events');
-const {execSync} = require('child_process');
+const {exec} = require('child_process');
 const {find} = require('lodash');
 const Completer = require('../lib/completion/completer');
 const completion = require('../lib/completion');
@@ -35,17 +35,21 @@ describe('Completion', () => {
 
       let cmd = 'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
       cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
-      const out = execSync(cmd).toString();
 
-      console.log('OUT', String(out));
-
-      assert.ok(/-f/.test(out));
-      assert.ok(/--force/.test(out));
-      assert.ok(/--version/.test(out));
-      assert.ok(/--no-color/.test(out));
-      assert.ok(/--no-insight/.test(out));
-      assert.ok(/--insight/.test(out));
-      assert.ok(/--generators/.test(out));
+      exec(cmd, (error, out, stderr) => {
+        console.log('stdout: ', out);
+        console.log('stderr: ', stderr);
+        if (error !== null) {
+          console.log('exec error: ', error);
+        }
+        assert.ok(/-f/.test(out));
+        assert.ok(/--force/.test(out));
+        assert.ok(/--version/.test(out));
+        assert.ok(/--no-color/.test(out));
+        assert.ok(/--no-insight/.test(out));
+        assert.ok(/--insight/.test(out));
+        assert.ok(/--generators/.test(out));
+      });
     });
   });
 
