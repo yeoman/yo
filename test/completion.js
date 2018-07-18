@@ -2,7 +2,7 @@
 const path = require('path');
 const assert = require('assert');
 const events = require('events');
-const {execSync} = require('child_process');
+const {execFileSync} = require('child_process');
 const {find} = require('lodash');
 const Completer = require('../lib/completion/completer');
 const completion = require('../lib/completion');
@@ -36,34 +36,15 @@ describe('Completion', () => {
       let cmd = 'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
       cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
 
-      const out = execSync(`bash -c ${cmd}`).toString();
-
-      console.log('>>>>>>>> OUT');
-      console.log(String(out));
-      console.log('>>>>>>>> OUT');
-      // , (err, out, stderr) => {
-      //   if (err) {
-      //     done(err);
-      //     return;
-      //   }
-      //   console.log('>>>>>>>> OUT');
-      //   console.log(String(out));
-      //   console.log('>>>>>>>> OUT');
-
-      //   console.log('>>>>>>>> STDERR');
-      //   console.log(stderr);
-      //   console.log('>>>>>>>> STDERR');
-
-      //   assert.ok(/-f/.test(out));
-      //   assert.ok(/--force/.test(out));
-      //   assert.ok(/--version/.test(out));
-      //   assert.ok(/--no-color/.test(out));
-      //   assert.ok(/--no-insight/.test(out));
-      //   assert.ok(/--insight/.test(out));
-      //   assert.ok(/--generators/.test(out));
-
-      //   done();
-      // });
+      const out = execFileSync('bash', ['-c', cmd], {stdio: [0]}).toString();
+      console.log(out);
+      assert.ok(/-f/.test(out));
+      assert.ok(/--force/.test(out));
+      assert.ok(/--version/.test(out));
+      assert.ok(/--no-color/.test(out));
+      assert.ok(/--no-insight/.test(out));
+      assert.ok(/--insight/.test(out));
+      assert.ok(/--generators/.test(out));
     });
   });
 
