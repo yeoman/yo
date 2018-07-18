@@ -36,7 +36,7 @@ describe('Completion', () => {
       let cmd = 'YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="yo" COMP_CWORD="yo"';
       cmd += `node ${yocomplete} completion -- ${yo}`;
 
-      exec(cmd, (error, out, stderr) => {
+      exec(`bash -c '${cmd}'`, (error, out, stderr) => {
         console.log('stdout: ', out);
         console.log('stderr: ', stderr);
         if (error !== null) {
