@@ -34,7 +34,7 @@ describe('Completion', () => {
       const yo = path.join(__dirname, '../lib/cli');
 
       let cmd = 'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
-      cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
+      cmd += `node ${yocomplete} completion -- ${yo}`;
 
       exec(cmd, (error, out, stderr) => {
         console.log('stdout: ', out);
