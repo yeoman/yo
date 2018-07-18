@@ -35,8 +35,9 @@ describe('Completion', () => {
 
       let cmd = 'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
       cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
-
       const out = execSync(cmd).toString();
+
+      console.log('OUT', String(out));
 
       assert.ok(/-f/.test(out));
       assert.ok(/--force/.test(out));
