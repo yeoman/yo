@@ -33,11 +33,11 @@ describe('Completion', () => {
       const yocomplete = path.join(__dirname, '../lib/completion/index.js');
       const yo = path.join(__dirname, '../lib/cli');
 
-      let cmd = 'YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="yo" COMP_CWORD="yo"';
+      let cmd = 'YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="yo" COMP_CWORD="yo" ';
       cmd += `node ${yocomplete} completion -- ${yo}`;
 
       exec(`bash -c '${cmd}'`, (error, out, stderr) => {
-        console.log('stdout: ', out);
+        console.log('stdout: ', String(out));
         console.log('stderr: ', stderr);
         if (error !== null) {
           console.log('exec error: ', error);
