@@ -2,7 +2,7 @@
 const path = require('path');
 const assert = require('assert');
 const events = require('events');
-const {execFile} = require('child_process');
+const {exec} = require('child_process');
 const {find} = require('lodash');
 const Completer = require('../lib/completion/completer');
 const completion = require('../lib/completion');
@@ -29,19 +29,19 @@ describe('Completion', () => {
   });
 
   describe('Test completion STDOUT output', () => {
-    it('Returns the completion candidates for both options and installed generators', done => {
+    it.only('Returns the completion candidates for both options and installed generators', () => {
       const yocomplete = path.join(__dirname, '../lib/completion/index.js');
       const yo = path.join(__dirname, '../lib/cli');
 
-      let cmd = 'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
-      cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
+      let cmd = 'YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="yo" COMP_CWORD="yo" ';
+      cmd += `node ${yocomplete} completion -- ${yo}`;
 
-      execFile('bash', ['-c', cmd], (err, out) => {
-        if (err) {
-          done(err);
-          return;
+      exec(`bash -c '${cmd}'`, (error, out, stderr) => {
+        console.log('stdout: ', String(out));
+        console.log('stderr: ', stderr);
+        if (error !== null) {
+          console.log('exec error: ', error);
         }
-
         assert.ok(/-f/.test(out));
         assert.ok(/--force/.test(out));
         assert.ok(/--version/.test(out));
@@ -49,8 +49,6 @@ describe('Completion', () => {
         assert.ok(/--no-insight/.test(out));
         assert.ok(/--insight/.test(out));
         assert.ok(/--generators/.test(out));
-
-        done();
       });
     });
   });

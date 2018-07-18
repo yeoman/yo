@@ -1,9 +1,14 @@
+sudo: true
 language: node_js
-node_js:
-  - 10
-  - 8
-  - 6
+
+matrix:
+  include:
+    - node_js: "10"
+    - node_js: "8"
+    - node_js: "6"
 before_install:
   - npm install --global npm@latest
+install:
+  -  npm install -s --no-progress
 after_success:
   - npm run coverage
