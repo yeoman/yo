@@ -13,5 +13,6 @@ install:
   -  npm install -s --no-progress
 before_script:
   - npm run tabtab-install
+  - source /home/travis/.bashrc
 after_success:
   - npm run coverage
