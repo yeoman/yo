@@ -29,18 +29,25 @@ describe('Completion', () => {
   });
 
   describe('Test completion STDOUT output', () => {
-    it('Returns the completion candidates for both options and installed generators', done => {
+    it.only('Returns the completion candidates for both options and installed generators', done => {
       const yocomplete = path.join(__dirname, '../lib/completion/index.js');
       const yo = path.join(__dirname, '../lib/cli');
 
       let cmd = 'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
       cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
 
-      execFile('bash', ['-c', cmd], (err, out) => {
+      execFile('bash', ['-c', cmd], (err, out, stderr) => {
         if (err) {
           done(err);
           return;
         }
+        console.log('>>>>>>>> OUT');
+        console.log(out);
+        console.log('>>>>>>>> OUT');
+
+        console.log('>>>>>>>> STDERR');
+        console.log(stderr);
+        console.log('>>>>>>>> STDERR');
 
         assert.ok(/-f/.test(out));
         assert.ok(/--force/.test(out));
