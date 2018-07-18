@@ -2,7 +2,7 @@
 const path = require('path');
 const assert = require('assert');
 const events = require('events');
-const {execFileSync} = require('child_process');
+const {execSync} = require('child_process');
 const {find} = require('lodash');
 const Completer = require('../lib/completion/completer');
 const completion = require('../lib/completion');
@@ -36,8 +36,8 @@ describe('Completion', () => {
       let cmd = 'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
       cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
 
-      const out = execFileSync('bash', ['-c', cmd], {stdio: [0]}).toString();
-      console.log('>>>>', out);
+      const out = execSync(cmd).toString();
+
       assert.ok(/-f/.test(out));
       assert.ok(/--force/.test(out));
       assert.ok(/--version/.test(out));
