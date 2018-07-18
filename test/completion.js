@@ -37,7 +37,7 @@ describe('Completion', () => {
       cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
 
       const out = execFileSync('bash', ['-c', cmd], {stdio: [0]}).toString();
-      console.log(out);
+      console.log('>>>>', out);
       assert.ok(/-f/.test(out));
       assert.ok(/--force/.test(out));
       assert.ok(/--version/.test(out));
