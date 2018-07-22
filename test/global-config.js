@@ -6,7 +6,7 @@ const globalConfig = require('../lib/utils/global-config');
 
 describe('global config', () => {
   beforeEach(function () {
-    this.sandbox = sinon.sandbox.create();
+    this.sandbox = sinon.createSandbox();
   });
 
   afterEach(function () {

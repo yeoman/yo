@@ -11,7 +11,7 @@ const helpers = require('./helpers');
 
 describe('install route', () => {
   beforeEach(function () {
-    this.sandbox = sinon.sandbox.create();
+    this.sandbox = sinon.createSandbox();
     this.insight = helpers.fakeInsight();
     this.env = helpers.fakeEnv();
     this.homeRoute = sinon.spy();
@@ -98,7 +98,7 @@ describe('install route', () => {
 
     it('filters already installed generators and match search term', function (done) {
       let call = 0;
-      this.sandbox.stub(inquirer, 'prompt', arg => {
+      this.sandbox.stub(inquirer, 'prompt').callsFake(arg => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
@@ -120,7 +120,7 @@ describe('install route', () => {
 
     it('filters blacklisted generators and match search term', function (done) {
       let call = 0;
-      this.sandbox.stub(inquirer, 'prompt', arg => {
+      this.sandbox.stub(inquirer, 'prompt').callsFake(arg => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'blacklist'});
@@ -141,7 +141,7 @@ describe('install route', () => {
 
     it('allow redo the search', function (done) {
       let call = 0;
-      this.sandbox.stub(inquirer, 'prompt', arg => {
+      this.sandbox.stub(inquirer, 'prompt').callsFake(arg => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
@@ -163,7 +163,7 @@ describe('install route', () => {
 
     it('allow going back home', function () {
       let call = 0;
-      this.sandbox.stub(inquirer, 'prompt', () => {
+      this.sandbox.stub(inquirer, 'prompt').callsFake(() => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
@@ -179,7 +179,7 @@ describe('install route', () => {
 
     it('install a generator', function () {
       let call = 0;
-      this.sandbox.stub(inquirer, 'prompt', () => {
+      this.sandbox.stub(inquirer, 'prompt').callsFake(() => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
@@ -225,7 +225,7 @@ describe('install route', () => {
     it('list options if search have no results', function (done) {
       let call = 0;
 
-      this.sandbox.stub(inquirer, 'prompt', arg => {
+      this.sandbox.stub(inquirer, 'prompt').callsFake(arg => {
         call++;
 
         if (call === 1) {
