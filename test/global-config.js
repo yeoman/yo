@@ -17,12 +17,12 @@ describe('global config', () => {
     it('when config file exists', function () {
       this.sandbox.stub(fs, 'existsSync').returns(true);
       this.sandbox.stub(fs, 'readFileSync').returns('{"foo": "bar"}');
-      assert.deepEqual(globalConfig.getAll(), {foo: 'bar'});
+      assert.deepStrictEqual(globalConfig.getAll(), {foo: 'bar'});
     });
 
     it('when config file doesn\'t exists', function () {
       this.sandbox.stub(fs, 'existsSync').returns(false);
-      assert.deepEqual(globalConfig.getAll(), {});
+      assert.deepStrictEqual(globalConfig.getAll(), {});
     });
   });
 

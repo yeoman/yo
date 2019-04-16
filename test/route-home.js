@@ -51,7 +51,7 @@ describe('home route', () => {
   it('does not display update options if no generators is installed', function () {
     this.router.generator = [];
     this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
-      assert.equal(_.map(prompts[0].choices, 'value').includes('update'), false);
+      assert.strictEqual(_.map(prompts[0].choices, 'value').includes('update'), false);
       return Promise.resolve({whatNext: 'exit'});
     });
 
@@ -85,7 +85,7 @@ describe('home route', () => {
     }];
 
     this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
-      assert.equal(prompts[0].choices[1].value.generator, 'unicorn:app');
+      assert.strictEqual(prompts[0].choices[1].value.generator, 'unicorn:app');
       return Promise.resolve({
         whatNext: {
           method: 'run',
