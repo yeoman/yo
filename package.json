@@ -82,7 +82,7 @@
     "proxyquire": "^2.0.1",
     "registry-url": "^4.0.0",
     "sinon": "^6.1.3",
-    "xo": "^0.21.1"
+    "xo": "^0.24.0"
   },
   "resolutions": {
     "natives": "1.1.3"

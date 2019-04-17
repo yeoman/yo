@@ -90,8 +90,8 @@ describe('Completion', () => {
         const results = this.completer.parseHelp('backbone:app', help);
         const first = results[0];
 
-        assert.equal(results.length, 6);
-        assert.deepEqual(first, {
+        assert.strictEqual(results.length, 6);
+        assert.deepStrictEqual(first, {
           name: '--skip-cache',
           description: 'Do not remember prompt answers                         Default-> false'
         });
@@ -102,7 +102,7 @@ describe('Completion', () => {
       it('Format results into { name, description }', function () {
         const list = ['foo', 'bar'];
         const results = list.map(this.completer.item('yo!', '--'));
-        assert.deepEqual(results, [{
+        assert.deepStrictEqual(results, [{
           name: '--foo',
           description: 'yo!'
         }, {
@@ -118,7 +118,7 @@ describe('Completion', () => {
         const expected = 'yo I m a very subtle description, with chars that likely will break your Shell-> yeah I m mean';
         const results = list.map(this.completer.item(desc, '-'));
 
-        assert.equal(results[0].description, expected);
+        assert.strictEqual(results[0].description, expected);
       });
     });
 
@@ -132,7 +132,7 @@ describe('Completion', () => {
           }
 
           /* eslint no-multi-spaces: 0 */
-          assert.deepEqual(results, [
+          assert.deepStrictEqual(results, [
             {name: '--force',    description: 'Overwrite files that already exist'},
             {name: '--version',  description: 'Print version'},
             {name: '--no-color', description: 'Disable colors'},
@@ -153,8 +153,8 @@ describe('Completion', () => {
           }
 
           const dummy = find(results, result => result.name === 'dummy:yo');
-          assert.equal(dummy.name, 'dummy:yo');
-          assert.equal(dummy.description, 'yo');
+          assert.strictEqual(dummy.name, 'dummy:yo');
+          assert.strictEqual(dummy.description, 'yo');
 
           done();
         });

@@ -30,7 +30,7 @@ describe('Router', () => {
 
   describe('#registerRoute()', () => {
     it('is chainable', function () {
-      assert.equal(this.router.registerRoute('foo', _.noop), this.router);
+      assert.strictEqual(this.router.registerRoute('foo', _.noop), this.router);
     });
   });
 

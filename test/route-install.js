@@ -103,12 +103,13 @@ describe('install route', () => {
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
         }
+
         if (call === 2) {
           const {choices} = arg[0];
-          assert.equal(_.filter(choices, {value: 'generator-foo'}).length, 1);
-          assert.equal(_.filter(choices, {value: 'generator-unicorn-1'}).length, 1);
-          assert.equal(_.filter(choices, {value: 'generator-unicorn'}).length, 0);
-          assert.equal(_.filter(choices, {value: 'generator-unrelated'}).length, 0);
+          assert.strictEqual(_.filter(choices, {value: 'generator-foo'}).length, 1);
+          assert.strictEqual(_.filter(choices, {value: 'generator-unicorn-1'}).length, 1);
+          assert.strictEqual(_.filter(choices, {value: 'generator-unicorn'}).length, 0);
+          assert.strictEqual(_.filter(choices, {value: 'generator-unrelated'}).length, 0);
           done();
         }
 
@@ -125,11 +126,12 @@ describe('install route', () => {
         if (call === 1) {
           return Promise.resolve({searchTerm: 'blacklist'});
         }
+
         if (call === 2) {
           const {choices} = arg[0];
-          assert.equal(_.filter(choices, {value: 'generator-blacklist-1'}).length, 0);
-          assert.equal(_.filter(choices, {value: 'generator-blacklist-2'}).length, 0);
-          assert.equal(_.filter(choices, {value: 'generator-blacklist-3'}).length, 1);
+          assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-1'}).length, 0);
+          assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-2'}).length, 0);
+          assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-3'}).length, 1);
           done();
         }
 
@@ -146,11 +148,13 @@ describe('install route', () => {
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
         }
+
         if (call === 2) {
           return Promise.resolve({toInstall: 'install'});
         }
+
         if (call === 3) {
-          assert.equal(arg[0].name, 'searchTerm');
+          assert.strictEqual(arg[0].name, 'searchTerm');
           return Promise.resolve({searchTerm: 'unicorn'});
         }
 
@@ -184,6 +188,7 @@ describe('install route', () => {
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
         }
+
         if (call === 2) {
           return Promise.resolve({toInstall: 'generator-unicorn'});
         }
@@ -234,7 +239,7 @@ describe('install route', () => {
 
         if (call === 2) {
           const {choices} = arg[0];
-          assert.deepEqual(_.map(choices, 'value'), ['install', 'home']);
+          assert.deepStrictEqual(_.map(choices, 'value'), ['install', 'home']);
           done();
         }
 

@@ -60,7 +60,7 @@ describe('bin', () => {
     const expected = pkg.version;
 
     cp.stdout.on('data', data => {
-      assert.equal(data.toString().replace(/\r\n|\n/g, ''), expected);
+      assert.strictEqual(data.toString().replace(/\r\n|\n/g, ''), expected);
       cb();
     });
   });
