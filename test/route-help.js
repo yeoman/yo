@@ -12,9 +12,9 @@ describe('help route', () => {
     this.homeRoute = sinon.spy();
     this.router = new Router(sinon.stub(), this.insight);
     this.router.registerRoute('home', this.homeRoute);
-    this.opn = sinon.stub();
+    this.open = sinon.stub();
     const helpRoute = proxyquire('../lib/routes/help', {
-      opn: this.opn
+      open: this.open
     });
     this.router.registerRoute('help', helpRoute);
   });
@@ -42,8 +42,8 @@ describe('help route', () => {
     const url = 'http://yeoman.io';
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whereTo: url}));
     return this.router.navigate('help').then(() => {
-      sinon.assert.calledWith(this.opn, url);
-      sinon.assert.calledOnce(this.opn);
+      sinon.assert.calledWith(this.open, url);
+      sinon.assert.calledOnce(this.open);
     });
   });
 });
