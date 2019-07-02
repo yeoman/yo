@@ -49,6 +49,7 @@ describe('Completion', () => {
         assert.ok(/--no-insight/.test(out));
         assert.ok(/--insight/.test(out));
         assert.ok(/--generators/.test(out));
+        assert.ok(/--local-only/.test(out));
 
         done();
       });
@@ -133,10 +134,11 @@ describe('Completion', () => {
 
           /* eslint no-multi-spaces: 0 */
           assert.deepStrictEqual(results, [
-            {name: '--force',    description: 'Overwrite files that already exist'},
-            {name: '--version',  description: 'Print version'},
-            {name: '--no-color', description: 'Disable colors'},
-            {name: '-f',         description: 'Overwrite files that already exist'}
+            {name: '--force',      description: 'Overwrite files that already exist'},
+            {name: '--version',    description: 'Print version'},
+            {name: '--no-color',   description: 'Disable colors'},
+            {name: '--local-only', description: 'Disable lookup of globally-installed generators'},
+            {name: '-f',           description: 'Overwrite files that already exist'}
           ]);
 
           done();

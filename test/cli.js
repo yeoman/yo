@@ -3,6 +3,7 @@ const path = require('path');
 const assert = require('assert');
 const {execFile} = require('child_process');
 const mockery = require('mockery');
+const sinon = require('sinon');
 const pkg = require('../package.json');
 
 describe('bin', () => {
@@ -42,9 +43,7 @@ describe('bin', () => {
 
       process.argv = ['node', path.resolve(__dirname, '..', pkg.bin.yo), 'non-existent'];
 
-      this.env.lookup = cb => {
-        cb();
-      };
+      sinon.stub(this.env, 'lookup').yields();
 
       require('../lib/cli'); // eslint-disable-line import/no-unassigned-import
     });
