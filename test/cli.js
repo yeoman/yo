@@ -73,4 +73,20 @@ describe('bin', () => {
       cb();
     });
   });
+
+  it('should support the `--local-only` flag', cb => {
+    const cp = execFile('node', [
+      path.resolve(__dirname, '..', pkg.bin.yo),
+      '--generators',
+      '--local-only',
+      '--no-insight',
+      '--no-update-notifier'
+    ]);
+
+    cp.stdout.once('data', data => {
+      assert(data.length > 0);
+      assert(!/\[/.test(data));
+      cb();
+    });
+  });
 });
