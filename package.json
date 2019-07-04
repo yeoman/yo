@@ -96,7 +96,8 @@
       "--no-color",
       "--no-insight",
       "--insight",
-      "--generators"
+      "--generators",
+      "--local-only"
     ]
   },
   "xo": {

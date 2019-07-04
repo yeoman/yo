@@ -6,7 +6,8 @@ General options:
   --version      # Print version
   --no-color     # Disable colors
   --[no-]insight # Toggle anonymous tracking
-  --generators	 # Print available generators
+  --generators   # Print available generators
+  --local-only   # Disable lookup of globally-installed generators
 
 Install a generator:
 
@@ -16,7 +17,7 @@ Install a generator:
   $ yo angular --help
 
 Run local generators:
-  
+
   Additionally, you can also run local generators without installing via npm.
 
   $ yo ./path/to/some/generator

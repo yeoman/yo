@@ -20,9 +20,7 @@ exports.fakeCrossSpawn = event => {
 
 exports.fakeEnv = () => {
   const env = yeoman.createEnv();
-  env.lookup = sinon.spy(cb => {
-    cb();
-  });
-  env.run = sinon.stub();
+  sinon.stub(env, 'lookup').yields();
+  sinon.stub(env, 'run');
   return env;
 };
