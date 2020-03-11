@@ -97,7 +97,8 @@
       "--no-insight",
       "--insight",
       "--generators",
-      "--local-only"
+      "--local-only",
+      "--env"
     ]
   },
   "xo": {
