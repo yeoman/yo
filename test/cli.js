@@ -4,7 +4,6 @@ const assert = require('assert');
 const {execFile} = require('child_process');
 const mockery = require('mockery');
 const sinon = require('sinon');
-const fs = require('fs-extra');
 const pkg = require('../package.json');
 
 const YEOMAN_INSTALL_VERSION = '2.8.0';
