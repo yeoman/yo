@@ -8,6 +8,7 @@ General options:
   --[no-]insight # Toggle anonymous tracking
   --generators   # Print available generators
   --local-only   # Disable lookup of globally-installed generators
+  --env          # Run with specific environment version
 
 Install a generator:
 

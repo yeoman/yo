@@ -4,7 +4,10 @@ const assert = require('assert');
 const {execFile} = require('child_process');
 const mockery = require('mockery');
 const sinon = require('sinon');
+const fs = require('fs-extra');
 const pkg = require('../package.json');
+
+const YEOMAN_INSTALL_VERSION = '2.8.0';
 
 describe('bin', () => {
   describe('mocked', () => {
@@ -12,13 +15,18 @@ describe('bin', () => {
       this.origArgv = process.argv;
       this.origExit = process.exit;
       this.env = require('yeoman-environment').createEnv();
+      this.env.registerStub(() => {}, 'unknownnamespace', 'unknown');
 
       mockery.enable({
         warnOnUnregistered: false
       });
 
       mockery.registerMock('yeoman-environment', {
-        createEnv: () => this.env
+        createEnv: () => this.env,
+        createEnvWithVersion: () => this.env,
+        repository: {
+          getPackageVersion: () => YEOMAN_INSTALL_VERSION
+        }
       });
     });
 
@@ -26,6 +34,13 @@ describe('bin', () => {
       mockery.disable();
       process.argv = this.origArgv;
       process.exit = this.origExit;
+
+      const yoPath = path.resolve(__dirname, '..', pkg.bin.yo);
+      Object.keys(require.cache).forEach(cache => {
+        if (cache.startsWith(yoPath)) {
+          delete require.cache[cache];
+        }
+      });
     });
 
     it('should exit with status 1 if there were errors', function (done) {
@@ -42,6 +57,17 @@ describe('bin', () => {
       };
 
       process.argv = ['node', path.resolve(__dirname, '..', pkg.bin.yo), 'non-existent'];
+
+      sinon.stub(this.env, 'lookup').yields();
+
+      require('../lib/cli'); // eslint-disable-line import/no-unassigned-import
+    });
+
+    it('should call createEnvWithVersion if --env is passed', function (done) {
+      this.timeout(10000);
+      this.env.on('finished', done);
+
+      process.argv = ['node', path.resolve(__dirname, '..', pkg.bin.yo), '--no-insight', '--generators', '--env', YEOMAN_INSTALL_VERSION];
 
       sinon.stub(this.env, 'lookup').yields();
 

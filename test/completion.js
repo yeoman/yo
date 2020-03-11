@@ -50,6 +50,7 @@ describe('Completion', () => {
         assert.ok(/--insight/.test(out));
         assert.ok(/--generators/.test(out));
         assert.ok(/--local-only/.test(out));
+        assert.ok(/--env/.test(out));
 
         done();
       });
@@ -139,6 +140,7 @@ describe('Completion', () => {
             {name: '--no-color',   description: 'Disable colors'},
             {name: '--generators', description: 'Print available generators'},
             {name: '--local-only', description: 'Disable lookup of globally-installed generators'},
+            {name: '--env',        description: 'Run with specific environment version'},
             {name: '-f',           description: 'Overwrite files that already exist'}
           ]);
 

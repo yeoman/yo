@@ -42,6 +42,7 @@ yo ./path/to/local/generator
 - `--[no-]insight` - Toggle anonymous [Insight](https://github.com/yeoman/insight) tracking which helps us improve Yeoman. Using either of these flags on the first run will prevent you from being prompted about it interactively. The flags can also be used to change it later on.
 - `--generators` - Print available generators.
 - `--local-only` - Disable lookup of globally-installed generators.
+- `--env` - Run with specific yeoman-environment version.
 
 
 ## Troubleshooting
