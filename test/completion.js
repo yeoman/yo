@@ -4,6 +4,7 @@ const assert = require('assert');
 const events = require('events');
 const {execFile} = require('child_process');
 const {find} = require('lodash');
+const os = require('os');
 const Completer = require('../lib/completion/completer');
 const completion = require('../lib/completion');
 
@@ -29,7 +30,7 @@ describe('Completion', () => {
   });
 
   describe('Test completion STDOUT output', () => {
-    it('Returns the completion candidates for both options and installed generators', done => {
+    (os.platform() === 'win32' ? it.skip : it)('Returns the completion candidates for both options and installed generators', done => {
       const yocomplete = path.join(__dirname, '../lib/completion/index.js');
       const yo = path.join(__dirname, '../lib/cli');
 
