@@ -12,7 +12,7 @@ describe('update route', () => {
 
     this.env = helpers.fakeEnv();
 
-    this.homeRoute = sinon.spy();
+    this.homeRoute = sinon.stub().returns(Promise.resolve());
     this.router = new Router(this.env, this.insight);
     this.router.registerRoute('home', this.homeRoute);
 

@@ -29,7 +29,7 @@ describe('clear config route', () => {
         };
       }
     };
-    this.homeRoute = sinon.spy();
+    this.homeRoute = sinon.stub().returns(Promise.resolve());
     this.router = new Router(sinon.stub(), this.insight, conf);
     this.router.registerRoute('home', this.homeRoute);
     const clearConfig = proxyquire('../lib/routes/clear-config', {
