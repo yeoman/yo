@@ -36,7 +36,7 @@ describe('update route', () => {
       sinon.assert.calledWith(
         this.crossSpawn,
         'npm',
-        ['install', '--global'].concat(generators)
+        ['install', '--global', ...generators]
       );
       sinon.assert.calledWith(this.insight.track, 'yoyo', 'update');
       sinon.assert.calledWith(this.insight.track, 'yoyo', 'updated');

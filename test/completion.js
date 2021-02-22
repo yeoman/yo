@@ -36,9 +36,9 @@ describe('Completion', () => {
       let cmd = 'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
       cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
 
-      execFile('bash', ['-c', cmd], (err, out) => {
-        if (err) {
-          done(err);
+      execFile('bash', ['-c', cmd], (error, out) => {
+        if (error) {
+          done(error);
           return;
         }
 
@@ -126,9 +126,9 @@ describe('Completion', () => {
     describe('#generator', () => {
       it('Returns completion candidates from generator help output', function (done) {
         // Here we test against yo --help (could use dummy:yo --help)
-        this.completer.complete({last: ''}, (err, results) => {
-          if (err) {
-            done(err);
+        this.completer.complete({last: ''}, (error, results) => {
+          if (error) {
+            done(error);
             return;
           }
 
@@ -149,9 +149,9 @@ describe('Completion', () => {
 
     describe('#complete', () => {
       it('Returns the list of user installed generators as completion candidates', function (done) {
-        this.completer.complete({last: 'yo'}, (err, results) => {
-          if (err) {
-            done(err);
+        this.completer.complete({last: 'yo'}, (error, results) => {
+          if (error) {
+            done(error);
             return;
           }
 

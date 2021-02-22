@@ -83,7 +83,7 @@
     "proxyquire": "^2.0.1",
     "registry-url": "^4.0.0",
     "sinon": "^6.1.3",
-    "xo": "^0.24.0"
+    "xo": "^0.38.1"
   },
   "resolutions": {
     "natives": "1.1.3"
@@ -112,7 +112,8 @@
       }
     ],
     "rules": {
-      "promise/prefer-await-to-then": 0
+      "promise/prefer-await-to-then": 0,
+      "unicorn/no-array-reduce": "off"
     }
   }
 }
