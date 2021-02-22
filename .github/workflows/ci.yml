@@ -1,5 +1,8 @@
 name: NPM Test
 
+env:
+  FORCE_COLOR: 1
+
 on:
   push:
     branches-ignore:
