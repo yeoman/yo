@@ -1,0 +1,29 @@
+name: NPM Test
+
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [12.x, 14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2.1.4
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install -g npm@latest
+    - run: npm ci
+    - run: npm test
