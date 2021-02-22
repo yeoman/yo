@@ -62,19 +62,19 @@ describe('Router', () => {
       this.env.getGeneratorsMeta.returns({
         'xanadu:all': {
           namespace: 'xanadu:all',
-          resolved: '/xanadu/all/index.js'
+          resolved: path.join('xanadu', 'all', 'index.js')
         },
         'phoenix:app': {
           namespace: 'phoenix:app',
-          resolved: '/phoenix/app/index.js'
+          resolved: path.join('phoenix', 'app', 'index.js')
         },
         'phoenix:misc': {
           namespace: 'phoenix:misc',
-          resolved: '/phoenix/misc/index.js'
+          resolved: path.join('phoenix', 'misc', 'index.js')
         },
         'phoenix:sub-app': {
           namespace: 'phoenix:sub-app',
-          resolved: '/phoenix/sub-app/index.js'
+          resolved: path.join('phoenix', 'sub-app', 'index.js')
         }
       });
     });
