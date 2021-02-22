@@ -13,13 +13,13 @@ describe('home route', () => {
     this.env = helpers.fakeEnv();
     this.router = new Router(this.env, this.insight);
     this.router.registerRoute('home', require('../lib/routes/home'));
-    this.runRoute = sinon.spy();
+    this.runRoute = sinon.stub().returns(Promise.resolve());
     this.router.registerRoute('run', this.runRoute);
-    this.helpRoute = sinon.spy();
+    this.helpRoute = sinon.stub().returns(Promise.resolve());
     this.router.registerRoute('help', this.helpRoute);
-    this.installRoute = sinon.spy();
+    this.installRoute = sinon.stub().returns(Promise.resolve());
     this.router.registerRoute('install', this.installRoute);
-    this.updateRoute = sinon.spy();
+    this.updateRoute = sinon.stub().returns(Promise.resolve());
     this.router.registerRoute('update', this.updateRoute);
   });
 

@@ -36,12 +36,12 @@ describe('Router', () => {
 
   describe('#navigate()', () => {
     beforeEach(function () {
-      this.route = sinon.spy();
+      this.route = sinon.stub().returns(Promise.resolve());
       this.router.registerRoute('foo', this.route);
     });
 
-    it('call a route passing router as first argument', function () {
-      this.router.navigate('foo');
+    it('call a route passing router as first argument', async function () {
+      await this.router.navigate('foo');
       sinon.assert.calledWith(this.route, this.router);
       sinon.assert.calledOnce(this.route);
     });
