@@ -43,7 +43,7 @@ describe('bin', () => {
 
       process.argv = ['node', path.resolve(__dirname, '..', pkg.bin.yo), 'non-existent'];
 
-      sinon.stub(this.env, 'lookup').yields();
+      sinon.stub(this.env, 'lookup');
 
       require('../lib/cli'); // eslint-disable-line import/no-unassigned-import
     });
