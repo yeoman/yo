@@ -59,24 +59,24 @@ describe('Router', () => {
 
   describe('#updateAvailableGenerators()', () => {
     beforeEach(function () {
-      this.env.getGeneratorsMeta.returns([
-        {
+      this.env.getGeneratorsMeta.returns({
+        'xanadu:all': {
           namespace: 'xanadu:all',
           resolved: '/xanadu/all/index.js'
         },
-        {
+        'phoenix:app': {
           namespace: 'phoenix:app',
           resolved: '/phoenix/app/index.js'
         },
-        {
+        'phoenix:misc': {
           namespace: 'phoenix:misc',
           resolved: '/phoenix/misc/index.js'
         },
-        {
+        'phoenix:sub-app': {
           namespace: 'phoenix:sub-app',
           resolved: '/phoenix/sub-app/index.js'
         }
-      ]);
+      });
     });
 
     it('finds generators where an `all` generator is implemented', function () {
