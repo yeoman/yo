@@ -71,7 +71,7 @@
     "update-notifier": "^2.5.0",
     "user-home": "^2.0.0",
     "yeoman-character": "^1.0.0",
-    "yeoman-doctor": "^4.0.0",
+    "yeoman-doctor": "^5.0.0",
     "yeoman-environment": "^3.5.1",
     "yosay": "^2.0.2"
   },
