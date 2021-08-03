@@ -1,6 +1,6 @@
 {
   "name": "yo",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "description": "CLI tool for running Yeoman generators",
   "license": "BSD-2-Clause",
   "repository": "yeoman/yo",
@@ -71,8 +71,8 @@
     "update-notifier": "^2.5.0",
     "user-home": "^2.0.0",
     "yeoman-character": "^1.0.0",
-    "yeoman-doctor": "^4.0.0",
-    "yeoman-environment": "~3.4.0",
+    "yeoman-doctor": "^5.0.0",
+    "yeoman-environment": "^3.5.1",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
