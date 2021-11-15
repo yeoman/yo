@@ -57,7 +57,7 @@
     "insight": "^0.10.3",
     "lodash": "^4.17.15",
     "mem-fs-editor": "^9.0.1",
-    "meow": "^3.0.0",
+    "meow": "^9.0.0",
     "npm-keyword": "^5.0.0",
     "open": "^6.3.0",
     "package-json": "^5.0.0",
