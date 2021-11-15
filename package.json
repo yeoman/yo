@@ -64,7 +64,7 @@
     "parse-help": "^1.0.0",
     "read-pkg-up": "^4.0.0",
     "root-check": "^1.0.0",
-    "sort-on": "^3.0.0",
+    "sort-on": "^4.1.1",
     "string-length": "^2.0.0",
     "tabtab": "^1.3.2",
     "titleize": "^1.0.1",
