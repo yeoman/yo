@@ -46,7 +46,7 @@
     "chalk": "^2.4.1",
     "cli-list": "^0.2.0",
     "configstore": "^3.1.2",
-    "cross-spawn": "^6.0.5",
+    "cross-spawn": "^7.0.3",
     "figures": "^3.2.0",
     "fullname": "^4.0.1",
     "global-agent": "^3.0.0",
