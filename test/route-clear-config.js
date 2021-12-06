@@ -94,7 +94,7 @@ describe('clear config route', () => {
     });
   });
 
-  it.only('shows generator with global config entry', function () {
+  it('shows generator with global config entry', function () {
     let choices = [];
 
     this.sandbox.stub(inquirer, 'prompt').callsFake(arg => {
