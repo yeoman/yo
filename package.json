@@ -60,7 +60,7 @@
     "meow": "^5.0.0",
     "npm-keyword": "^6.1.0",
     "open": "^8.4.0",
-    "package-json": "^5.0.0",
+    "package-json": "^7.0.0",
     "parse-help": "^1.0.0",
     "read-pkg-up": "^4.0.0",
     "root-check": "^1.0.0",
