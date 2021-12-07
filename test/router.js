@@ -12,7 +12,7 @@ const Router = proxyquire('../lib/router', {
       // Turn `/phoenix/app` into `phoenix-app`
       const name = options.cwd.split(path.sep).filter(chunk => Boolean(chunk)).join('-');
       return {
-        pkg: {
+        packageJson: {
           name,
           version: '0.1.0'
         }
