@@ -52,7 +52,7 @@
     "global-agent": "^3.0.0",
     "global-tunnel-ng": "^2.7.1",
     "got": "^8.3.2",
-    "humanize-string": "^1.0.2",
+    "humanize-string": "^2.1.0",
     "inquirer": "^6.0.0",
     "insight": "^0.10.3",
     "lodash": "^4.17.15",
