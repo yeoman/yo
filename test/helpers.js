@@ -2,10 +2,6 @@
 const sinon = require('sinon');
 const yeoman = require('yeoman-environment');
 
-exports.fakeInsight = () => ({
-  track: sinon.stub()
-});
-
 exports.fakeCrossSpawn = event => {
   return sinon.stub().returns({
     on(name, cb) {

@@ -13,9 +13,8 @@ const conf = new Configstore('yoyo-test-purposes', {
 
 describe('run route', () => {
   beforeEach(function () {
-    this.insight = helpers.fakeInsight();
     this.env = helpers.fakeEnv();
-    this.router = new Router(this.env, this.insight, conf);
+    this.router = new Router(this.env, conf);
     this.router.registerRoute('run', runRoute);
   });
 
@@ -28,7 +27,6 @@ describe('run route', () => {
     this.router.navigate('run', 'foo:app');
 
     assert.strictEqual(conf.get('generatorRunCount').foo, 1);
-    sinon.assert.calledWith(this.insight.track, 'yoyo', 'run', 'foo');
     sinon.assert.calledWith(this.env.run, 'foo:app');
 
     this.router.navigate('run', 'foo:app');

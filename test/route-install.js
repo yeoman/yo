@@ -12,10 +12,9 @@ const helpers = require('./helpers');
 describe('install route', () => {
   beforeEach(function () {
     this.sandbox = sinon.createSandbox();
-    this.insight = helpers.fakeInsight();
     this.env = helpers.fakeEnv();
     this.homeRoute = sinon.stub().returns(Promise.resolve());
-    this.router = new Router(this.env, this.insight);
+    this.router = new Router(this.env);
     this.router.registerRoute('home', this.homeRoute);
     this.spawn = helpers.fakeCrossSpawn('close');
     this.router.registerRoute('install', proxyquire('../lib/routes/install', {

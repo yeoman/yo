@@ -47,8 +47,6 @@ describe('Completion', () => {
         assert.ok(/--force/.test(out));
         assert.ok(/--version/.test(out));
         assert.ok(/--no-color/.test(out));
-        assert.ok(/--no-insight/.test(out));
-        assert.ok(/--insight/.test(out));
         assert.ok(/--generators/.test(out));
         assert.ok(/--local-only/.test(out));
 

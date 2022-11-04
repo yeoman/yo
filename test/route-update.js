@@ -8,12 +8,11 @@ const helpers = require('./helpers');
 describe('update route', () => {
   beforeEach(function () {
     this.sandbox = sinon.createSandbox();
-    this.insight = helpers.fakeInsight();
 
     this.env = helpers.fakeEnv();
 
     this.homeRoute = sinon.stub().returns(Promise.resolve());
-    this.router = new Router(this.env, this.insight);
+    this.router = new Router(this.env);
     this.router.registerRoute('home', this.homeRoute);
 
     this.crossSpawn = helpers.fakeCrossSpawn('close');
@@ -38,8 +37,6 @@ describe('update route', () => {
         'npm',
         ['install', '--global', ...generators]
       );
-      sinon.assert.calledWith(this.insight.track, 'yoyo', 'update');
-      sinon.assert.calledWith(this.insight.track, 'yoyo', 'updated');
       sinon.assert.calledOnce(this.homeRoute);
       sinon.assert.calledOnce(this.env.lookup);
     });

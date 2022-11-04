@@ -5,7 +5,6 @@ General options:
   -f, --force    # Overwrite files that already exist
   --version      # Print version
   --no-color     # Disable colors
-  --[no-]insight # Toggle anonymous tracking
   --generators   # Print available generators
   --local-only   # Disable lookup of globally-installed generators
 

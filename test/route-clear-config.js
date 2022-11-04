@@ -5,12 +5,10 @@ const sinon = require('sinon');
 const _ = require('lodash');
 const inquirer = require('inquirer');
 const Router = require('../lib/router');
-const helpers = require('./helpers');
 
 describe('clear config route', () => {
   beforeEach(function () {
     this.sandbox = sinon.createSandbox();
-    this.insight = helpers.fakeInsight();
     this.globalConfig = {
       remove: sinon.stub(),
       removeAll: sinon.stub(),
@@ -30,7 +28,7 @@ describe('clear config route', () => {
       }
     };
     this.homeRoute = sinon.stub().returns(Promise.resolve());
-    this.router = new Router(sinon.stub(), this.insight, conf);
+    this.router = new Router(sinon.stub(), conf);
     this.router.registerRoute('home', this.homeRoute);
     const clearConfig = proxyquire('../lib/routes/clear-config', {
       '../utils/global-config': this.globalConfig
@@ -59,21 +57,6 @@ describe('clear config route', () => {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'home'}));
     return this.router.navigate('clearConfig').then(() => {
       sinon.assert.calledOnce(this.homeRoute);
-    });
-  });
-
-  it('track page and answer', function () {
-    this.sandbox.stub(inquirer, 'prompt').returns(
-      Promise.resolve({whatNext: 'generator-angular:0.0.0'})
-    );
-    return this.router.navigate('clearConfig').then(() => {
-      sinon.assert.calledWith(this.insight.track, 'yoyo', 'clearGlobalConfig');
-      sinon.assert.calledWith(
-        this.insight.track,
-        'yoyo',
-        'clearGlobalConfig',
-        {whatNext: 'generator-angular:0.0.0'}
-      );
     });
   });
 
