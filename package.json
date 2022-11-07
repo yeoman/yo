@@ -56,7 +56,7 @@
     "inquirer": "^8.2.0",
     "lodash": "^4.17.15",
     "mem-fs-editor": "^9.0.1",
-    "meow": "^5.0.0",
+    "meow": "^11.0.0",
     "npm-keyword": "^6.1.0",
     "open": "^8.4.0",
     "package-json": "^7.0.0",
