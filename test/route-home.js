@@ -9,9 +9,8 @@ const helpers = require('./helpers');
 describe('home route', () => {
   beforeEach(function () {
     this.sandbox = sinon.createSandbox();
-    this.insight = helpers.fakeInsight();
     this.env = helpers.fakeEnv();
-    this.router = new Router(this.env, this.insight);
+    this.router = new Router(this.env);
     this.router.registerRoute('home', require('../lib/routes/home'));
     this.runRoute = sinon.stub().returns(Promise.resolve());
     this.router.registerRoute('run', this.runRoute);
@@ -25,13 +24,6 @@ describe('home route', () => {
 
   afterEach(function () {
     this.sandbox.restore();
-  });
-
-  it('track usage', function () {
-    this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'exit'}));
-    return this.router.navigate('home').then(() => {
-      sinon.assert.calledWith(this.insight.track, 'yoyo', 'home');
-    });
   });
 
   it('allow going to help', function () {

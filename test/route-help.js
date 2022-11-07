@@ -3,14 +3,12 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 const inquirer = require('inquirer');
 const Router = require('../lib/router');
-const helpers = require('./helpers');
 
 describe('help route', () => {
   beforeEach(function () {
     this.sandbox = sinon.createSandbox();
-    this.insight = helpers.fakeInsight();
     this.homeRoute = sinon.stub().returns(Promise.resolve());
-    this.router = new Router(sinon.stub(), this.insight);
+    this.router = new Router(sinon.stub());
     this.router.registerRoute('home', this.homeRoute);
     this.open = sinon.stub();
     const helpRoute = proxyquire('../lib/routes/help', {
@@ -27,14 +25,6 @@ describe('help route', () => {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whereTo: 'home'}));
     return this.router.navigate('help').then(() => {
       sinon.assert.calledOnce(this.homeRoute);
-    });
-  });
-
-  it('track page and answer', function () {
-    this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whereTo: 'home'}));
-    return this.router.navigate('help').then(() => {
-      sinon.assert.calledWith(this.insight.track, 'yoyo', 'help');
-      sinon.assert.calledWith(this.insight.track, 'yoyo', 'help', {whereTo: 'home'});
     });
   });
 

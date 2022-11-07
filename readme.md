@@ -39,7 +39,6 @@ yo ./path/to/local/generator
 - `--no-color` - Disable colors.
 - `--version` - Print the current `yo` version.
 - `--help` - Print `yo` help menu with the list of found generators.
-- `--[no-]insight` - Toggle anonymous [Insight](https://github.com/yeoman/insight) tracking which helps us improve Yeoman. Using either of these flags on the first run will prevent you from being prompted about it interactively. The flags can also be used to change it later on.
 - `--generators` - Print available generators.
 - `--local-only` - Disable lookup of globally-installed generators.
 

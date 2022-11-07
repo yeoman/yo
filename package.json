@@ -54,7 +54,6 @@
     "got": "^8.3.2",
     "humanize-string": "^2.1.0",
     "inquirer": "^8.2.0",
-    "insight": "^0.10.3",
     "lodash": "^4.17.15",
     "mem-fs-editor": "^9.0.1",
     "meow": "^5.0.0",
@@ -95,8 +94,6 @@
       "--force",
       "--version",
       "--no-color",
-      "--no-insight",
-      "--insight",
       "--generators",
       "--local-only"
     ]
