@@ -55,7 +55,6 @@
     "humanize-string": "^2.1.0",
     "inquirer": "^8.2.0",
     "lodash": "^4.17.15",
-    "mem-fs-editor": "^9.0.1",
     "meow": "^5.0.0",
     "npm-keyword": "^6.1.0",
     "open": "^8.4.0",
@@ -71,7 +70,7 @@
     "user-home": "^2.0.0",
     "yeoman-character": "^1.0.0",
     "yeoman-doctor": "^5.0.0",
-    "yeoman-environment": "^3.5.1",
+    "yeoman-environment": "^4.0.0",
     "yosay": "^2.0.2"
   },
   "devDependencies": {

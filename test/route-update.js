@@ -6,10 +6,10 @@ const Router = require('../lib/router');
 const helpers = require('./helpers');
 
 describe('update route', () => {
-  beforeEach(function () {
+  beforeEach(async function () {
     this.sandbox = sinon.createSandbox();
 
-    this.env = helpers.fakeEnv();
+    this.env = await helpers.fakeEnv();
 
     this.homeRoute = sinon.stub().returns(Promise.resolve());
     this.router = new Router(this.env);

@@ -7,10 +7,10 @@ const Router = require('../lib/router');
 const helpers = require('./helpers');
 
 describe('home route', () => {
-  beforeEach(function () {
+  beforeEach(async function () {
     this.sandbox = sinon.createSandbox();
-    this.env = helpers.fakeEnv();
-    this.router = new Router(this.env);
+    this.env = await helpers.fakeEnv();
+    this.router = new Router(this.env, this.insight);
     this.router.registerRoute('home', require('../lib/routes/home'));
     this.runRoute = sinon.stub().returns(Promise.resolve());
     this.router.registerRoute('run', this.runRoute);

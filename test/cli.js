@@ -8,10 +8,12 @@ const pkg = require('../package.json');
 
 describe('bin', () => {
   describe('mocked', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       this.origArgv = process.argv;
       this.origExit = process.exit;
-      this.env = require('yeoman-environment').createEnv();
+      // eslint-disable-next-line node/no-unsupported-features/es-syntax
+      const {createEnv} = await import('yeoman-environment');
+      this.env = createEnv();
 
       mockery.enable({
         warnOnUnregistered: false
