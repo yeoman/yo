@@ -12,7 +12,7 @@
     "yo-complete": "lib/completion/index.js"
   },
   "engines": {
-    "node": ">=12.10.0"
+    "node": "^18.17.0 || >=20.5.0"
   },
   "scripts": {
     "postinstall": "yodoctor",
