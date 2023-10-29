@@ -12,8 +12,8 @@ const conf = new Configstore('yoyo-test-purposes', {
 });
 
 describe('run route', () => {
-  beforeEach(function () {
-    this.env = helpers.fakeEnv();
+  beforeEach(async function () {
+    this.env = await helpers.fakeEnv();
     this.router = new Router(this.env, conf);
     this.router.registerRoute('run', runRoute);
   });
@@ -22,14 +22,14 @@ describe('run route', () => {
     fs.unlinkSync(conf.path);
   });
 
-  it('run a generator', function () {
+  it('run a generator', async function () {
     assert.strictEqual(conf.get('generatorRunCount').foo, undefined);
-    this.router.navigate('run', 'foo:app');
+    await this.router.navigate('run', 'foo:app');
 
     assert.strictEqual(conf.get('generatorRunCount').foo, 1);
     sinon.assert.calledWith(this.env.run, 'foo:app');
 
-    this.router.navigate('run', 'foo:app');
+    await this.router.navigate('run', 'foo:app');
     assert.strictEqual(conf.get('generatorRunCount').foo, 2);
   });
 });

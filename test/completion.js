@@ -25,8 +25,10 @@ const help = `
     app_name    Type: String  Required: false`;
 
 describe('Completion', () => {
-  before(function () {
-    this.env = require('yeoman-environment').createEnv();
+  before(async function () {
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const {createEnv} = await import('yeoman-environment');
+    this.env = createEnv();
   });
 
   describe('Test completion STDOUT output', () => {

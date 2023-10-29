@@ -22,8 +22,8 @@ const Router = proxyquire('../lib/router', {
 });
 
 describe('Router', () => {
-  beforeEach(function () {
-    this.env = helpers.fakeEnv();
+  beforeEach(async function () {
+    this.env = await helpers.fakeEnv();
     this.env.getGeneratorsMeta = sinon.stub();
     this.router = new Router(this.env);
   });
