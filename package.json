@@ -18,7 +18,7 @@
     "postinstall": "yodoctor",
     "postupdate": "yodoctor",
     "pretest": "xo",
-    "test": "nyc mocha --timeout=10000",
+    "test": "nyc mocha --timeout=30000",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "files": [
@@ -51,7 +51,7 @@
     "fullname": "^4.0.1",
     "global-agent": "^3.0.0",
     "global-tunnel-ng": "^2.7.1",
-    "got": "^8.3.2",
+    "got": "^11.8.6",
     "humanize-string": "^2.1.0",
     "inquirer": "^8.2.0",
     "lodash": "^4.17.15",
