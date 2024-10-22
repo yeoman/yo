@@ -54,8 +54,7 @@ describe('bin', () => {
   it('should return the version', cb => {
     const cp = execFile('node', [
       path.resolve(__dirname, '..', pkg.bin.yo),
-      '--version',
-      '--no-update-notifier'
+      '--version'
     ]);
     const expected = pkg.version;
 
