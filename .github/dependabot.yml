@@ -15,6 +15,9 @@ updates:
           # ESM only version
           - dependency-name: 'figures'
             versions: ['>=4']
+          # ESM only version
+          - dependency-name: 'fullname'
+            versions: ['>=5']
           # Avoid breaking changes to existing generators, kebab-case vs camelCase argument behavior changes needs to be properly tested
           - dependency-name: 'meow'
             versions: ['>=6']
