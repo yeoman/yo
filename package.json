@@ -71,7 +71,7 @@
     "yeoman-character": "^1.0.0",
     "yeoman-doctor": "^5.0.0",
     "yeoman-environment": "^4.4.1",
-    "yosay": "^2.0.2"
+    "yosay": "^3.0.0"
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
