@@ -7,9 +7,23 @@ updates:
       open-pull-requests-limit: 10
       ignore:
           # ESM only version
+          - dependency-name: 'got'
+            versions: ['>=9']
+          # Avoid breaking changes to existing generators, kebab-case vs camelCase argument behavior changes needs to be properly tested
+          - dependency-name: 'meow'
+            versions: ['>=6']
+          # ESM only version
+          - dependency-name: 'npm-keyword'
+            versions: ['>=7']
+          # ESM only version
           - dependency-name: 'p-queue'
             versions: ['>=7']
-            update-types: ["version-update:semver-minor", "version-update:semver-patch"]
+          # ESM only version
+          - dependency-name: 'package-json'
+            versions: ['>=7']
+          # ESM only version
+          - dependency-name: 'update-notifier'
+            versions: ['>=7']
           - dependency-name: '*'
             update-types: ["version-update:semver-minor", "version-update:semver-patch"]
     - package-ecosystem: "github-actions"
