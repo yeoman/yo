@@ -70,7 +70,7 @@
     "user-home": "^2.0.0",
     "yeoman-character": "^1.0.0",
     "yeoman-doctor": "^5.0.0",
-    "yeoman-environment": "^4.4.1",
+    "yeoman-environment": "^4.4.3",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
