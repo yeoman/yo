@@ -64,7 +64,7 @@
     "root-check": "^1.0.0",
     "sort-on": "^4.1.1",
     "string-length": "^4.0.2",
-    "tabtab": "^1.3.2",
+    "tabtab": "^3.0.2",
     "titleize": "^2.1.0",
     "update-notifier": "^5.1.0",
     "yeoman-character": "^1.0.0",
