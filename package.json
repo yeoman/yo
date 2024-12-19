@@ -42,6 +42,7 @@
     "boilerplate"
   ],
   "dependencies": {
+    "@yeoman/types": "^1.5.0",
     "async": "^3.2.2",
     "chalk": "^4.1.2",
     "cli-list": "^1.0.0",
