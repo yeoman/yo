@@ -25,6 +25,12 @@ npm install --global generator-webapp
 yo webapp
 ```
 
+or via `brew`:
+
+```sh
+brew install yo
+```
+
 *To create and distribute your own generator, refer to [our official documentation](http://yeoman.io/authoring/)*
 
 You can also run a local generator on your computer as such:
