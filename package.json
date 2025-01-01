@@ -54,7 +54,7 @@
     "global-tunnel-ng": "^2.7.1",
     "got": "^11.8.6",
     "humanize-string": "^2.1.0",
-    "inquirer": "^8.2.0",
+    "inquirer": "^12.3.0",
     "lodash": "^4.17.15",
     "meow": "^5.0.0",
     "npm-keyword": "^6.1.0",
