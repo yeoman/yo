@@ -51,7 +51,6 @@
     "figures": "^3.2.0",
     "fullname": "^4.0.1",
     "global-agent": "^3.0.0",
-    "global-tunnel-ng": "^2.7.1",
     "got": "^11.8.6",
     "humanize-string": "^2.1.0",
     "inquirer": "^8.2.0",
