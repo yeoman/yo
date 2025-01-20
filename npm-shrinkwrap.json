@@ -4050,9 +4050,10 @@
       }
     },
     "node_modules/clone-stats": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/clone-stats/-/clone-stats-1.0.0.tgz",
-      "integrity": "sha512-au6ydSpg6nsrigcZ4m8Bc9hxjeW+GJ8xh5G3BJCMt4WXe1H10UNaVOamqQTmrx1kjVuxAHIQSNU6hY4Nsn9/ag==",
+      "name": "clone-stats-node22",
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/clone-stats-node22/-/clone-stats-node22-1.0.1.tgz",
+      "integrity": "sha512-Drr/D3UQBUFuwpFdCcnlJLOD0P7tosF8vF9jVjoRjl9gitDVDpNVoAAF9+h3pILY30t0MpMRzmxCs/vRQ6MvtQ==",
       "license": "MIT"
     },
     "node_modules/cmd-shim": {
