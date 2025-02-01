@@ -77,7 +77,7 @@
     "coveralls": "^3.0.2",
     "mocha": "^11.0.1",
     "mockery": "^2.0.0",
-    "nock": "^13.2.1",
+    "nock": "^14.0.0",
     "nyc": "^17.1.0",
     "proxyquire": "^2.0.1",
     "registry-url": "^5.1.0",
