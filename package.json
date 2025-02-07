@@ -22,7 +22,8 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "files": [
-    "lib"
+    "lib",
+    "npm-shrinkwrap.json"
   ],
   "keywords": [
     "cli-app",
@@ -83,6 +84,9 @@
     "registry-url": "^5.1.0",
     "sinon": "^19.0.2",
     "xo": "0.38.0"
+  },
+  "overrides": {
+    "clone-stats": "npm:clone-stats-node22"
   },
   "resolutions": {
     "natives": "1.1.3"
