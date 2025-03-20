@@ -25,6 +25,7 @@ describe('update route', () => {
   });
 
   afterEach(function () {
+    td.reset();
     this.sandbox.restore();
   });
 

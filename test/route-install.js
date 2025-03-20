@@ -30,6 +30,7 @@ describe('install route', () => {
 
   afterEach(function () {
     this.sandbox.restore();
+    td.reset();
   });
 
   describe('npm success with results', () => {

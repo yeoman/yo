@@ -21,6 +21,7 @@ describe('help route', () => {
 
   afterEach(function () {
     this.sandbox.restore();
+    td.reset();
   });
 
   it('allow returning home', function () {
