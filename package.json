@@ -41,6 +41,9 @@
     "app",
     "boilerplate"
   ],
+  "overrides": {
+    "ansi-regex": "3.0.1"
+  }
   "dependencies": {
     "@yeoman/types": "^1.5.0",
     "async": "^3.2.2",
