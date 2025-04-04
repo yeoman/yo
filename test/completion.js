@@ -2,11 +2,11 @@
 import path from 'path';
 import assert from 'assert';
 import events from 'events';
-import {execFile} from 'node:child_process';
+import {execFileSync} from 'node:child_process';
 import _ from 'lodash';
 import os from 'node:os';
-import Completer from '../lib/completion/completer.js';
-import completion from '../lib/completion/index.js';
+import Completer from '../lib/completion/completer.cjs';
+import completion from '../lib/completion/index.cjs';
 import {getDirname} from '../lib/utils/node-shims.js';
 
 const __dirname = getDirname(import.meta.url);
@@ -34,30 +34,27 @@ describe('Completion', () => {
     this.env = createEnv();
   });
 
-  describe.skip('Test completion STDOUT output', () => {
-    (os.platform() === 'win32' ? it.skip : it)('Returns the completion candidates for both options and installed generators', done => {
-      const yocomplete = path.join(__dirname, '../lib/completion/index.js');
-      const yo = path.join(__dirname, '../lib/cli');
+  describe('Test completion STDOUT output', () => {
+    (os.platform() === 'win32' ? it.skip : it)(
+      'Returns the completion candidates for both options and installed generators',
+      () => {
+        const yocomplete = path.join(__dirname, '../lib/completion/index.cjs');
+        const yo = path.join(__dirname, '../lib/cli');
 
-      let cmd = 'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
-      cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
+        let cmd =
+          'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="yo" COMP_CWORD="yo"';
+        cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
 
-      execFile('bash', ['-c', cmd], (error, out) => {
-        if (error) {
-          done(error);
-          return;
-        }
-
-        assert.ok(/-f/.test(out));
-        assert.ok(/--force/.test(out));
-        assert.ok(/--version/.test(out));
-        assert.ok(/--no-color/.test(out));
-        assert.ok(/--generators/.test(out));
-        assert.ok(/--local-only/.test(out));
-
-        done();
-      });
-    });
+        const result = execFileSync(cmd, {encoding: 'utf8', shell: true});
+        console.log('result', result);
+        assert.ok(/-f/.test(result));
+        assert.ok(/--force/.test(result));
+        assert.ok(/--version/.test(result));
+        assert.ok(/--no-color/.test(result));
+        assert.ok(/--generators/.test(result));
+        assert.ok(/--local-only/.test(result));
+      }
+    );
   });
 
   describe('Completion', () => {
