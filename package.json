@@ -10,7 +10,7 @@
   "type": "module",
   "bin": {
     "yo": "lib/cli.js",
-    "yo-complete": "lib/completion/index.js"
+    "yo-complete": "lib/completion/index.cjs"
   },
   "engines": {
     "node": "^18.17.0 || >=20.5.0"
