@@ -1,17 +1,18 @@
 'use strict';
-const assert = require('assert');
-const _ = require('lodash');
-const sinon = require('sinon');
-const inquirer = require('inquirer');
-const Router = require('../lib/router');
-const helpers = require('./helpers');
+import assert from 'assert';
+import _ from 'lodash';
+import sinon from 'sinon';
+import inquirer from 'inquirer';
+import Router from '../lib/router.js';
+import {fakeEnv} from './helpers.js';
+import {home} from '../lib/routes/home.js';
 
 describe('home route', () => {
   beforeEach(async function () {
     this.sandbox = sinon.createSandbox();
-    this.env = await helpers.fakeEnv();
+    this.env = await fakeEnv();
     this.router = new Router(this.env, this.insight);
-    this.router.registerRoute('home', require('../lib/routes/home'));
+    this.router.registerRoute('home', home);
     this.runRoute = sinon.stub().returns(Promise.resolve());
     this.router.registerRoute('run', this.runRoute);
     this.helpRoute = sinon.stub().returns(Promise.resolve());

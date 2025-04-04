@@ -1,11 +1,11 @@
 'use strict';
-const assert = require('assert');
-const fs = require('fs');
-const sinon = require('sinon');
-const Configstore = require('configstore');
-const Router = require('../lib/router');
-const runRoute = require('../lib/routes/run');
-const helpers = require('./helpers');
+import assert from 'assert';
+import fs from 'fs';
+import sinon from 'sinon';
+import Configstore from 'configstore';
+import Router from '../lib/router.js';
+import {run as runRoute} from '../lib/routes/run.js';
+import {fakeEnv} from './helpers.js';
 
 const conf = new Configstore('yoyo-test-purposes', {
   generatorRunCount: {}
@@ -13,7 +13,7 @@ const conf = new Configstore('yoyo-test-purposes', {
 
 describe('run route', () => {
   beforeEach(async function () {
-    this.env = await helpers.fakeEnv();
+    this.env = await fakeEnv();
     this.router = new Router(this.env, conf);
     this.router.registerRoute('run', runRoute);
   });

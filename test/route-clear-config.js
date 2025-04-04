@@ -1,13 +1,13 @@
 'use strict';
-const assert = require('assert');
-const proxyquire = require('proxyquire');
-const sinon = require('sinon');
-const _ = require('lodash');
-const inquirer = require('inquirer');
-const Router = require('../lib/router');
+import assert from 'assert';
+import * as td from 'testdouble';
+import sinon from 'sinon';
+import _ from 'lodash';
+import inquirer from 'inquirer';
+import Router from '../lib/router.js';
 
 describe('clear config route', () => {
-  beforeEach(function () {
+  beforeEach(async function () {
     this.sandbox = sinon.createSandbox();
     this.globalConfig = {
       remove: sinon.stub(),
@@ -30,9 +30,10 @@ describe('clear config route', () => {
     this.homeRoute = sinon.stub().returns(Promise.resolve());
     this.router = new Router(sinon.stub(), conf);
     this.router.registerRoute('home', this.homeRoute);
-    const clearConfig = proxyquire('../lib/routes/clear-config', {
-      '../utils/global-config': this.globalConfig
-    });
+    await td.replaceEsm('../lib/utils/global-config.js', undefined, this.globalConfig);
+
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const {clearConfig} = (await import('../lib/routes/clear-config.js'));
 
     this.router.registerRoute('clearConfig', clearConfig);
     this.router.generators = {
@@ -51,6 +52,7 @@ describe('clear config route', () => {
 
   afterEach(function () {
     this.sandbox.restore();
+    td.reset();
   });
 
   it('allow returning home', function () {
@@ -62,7 +64,7 @@ describe('clear config route', () => {
 
   it('allows clearing a generator and return user to home screen', function () {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'foo'}));
-    this.router.navigate('clearConfig').then(() => {
+    return this.router.navigate('clearConfig').then(() => {
       sinon.assert.calledOnce(this.globalConfig.remove);
       sinon.assert.calledWith(this.globalConfig.remove, 'foo');
       sinon.assert.calledOnce(this.homeRoute);

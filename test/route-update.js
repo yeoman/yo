@@ -1,9 +1,9 @@
 'use strict';
-const proxyquire = require('proxyquire');
-const sinon = require('sinon');
-const inquirer = require('inquirer');
-const Router = require('../lib/router');
-const helpers = require('./helpers');
+import * as td from 'testdouble';
+import sinon from 'sinon';
+import inquirer from 'inquirer';
+import Router from '../lib/router.js';
+import * as helpers from './helpers.js';
 
 describe('update route', () => {
   beforeEach(async function () {
@@ -16,13 +16,16 @@ describe('update route', () => {
     this.router.registerRoute('home', this.homeRoute);
 
     this.crossSpawn = helpers.fakeCrossSpawn('close');
-    const updateRoute = proxyquire('../lib/routes/update', {
-      'cross-spawn': this.crossSpawn
-    });
-    this.router.registerRoute('update', updateRoute);
+    await td.replaceEsm('cross-spawn', undefined, this.crossSpawn);
+
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const {update} = await import('../lib/routes/update.js');
+
+    this.router.registerRoute('update', update);
   });
 
   afterEach(function () {
+    td.reset();
     this.sandbox.restore();
   });
 

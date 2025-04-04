@@ -1,24 +1,27 @@
 'use strict';
-const proxyquire = require('proxyquire');
-const sinon = require('sinon');
-const inquirer = require('inquirer');
-const Router = require('../lib/router');
+import * as td from 'testdouble';
+import sinon from 'sinon';
+import inquirer from 'inquirer';
+import Router from '../lib/router.js';
 
 describe('help route', () => {
-  beforeEach(function () {
+  beforeEach(async function () {
     this.sandbox = sinon.createSandbox();
     this.homeRoute = sinon.stub().returns(Promise.resolve());
     this.router = new Router(sinon.stub());
     this.router.registerRoute('home', this.homeRoute);
     this.open = sinon.stub();
-    const helpRoute = proxyquire('../lib/routes/help', {
-      open: this.open
-    });
+    await td.replaceEsm('open', undefined, this.open);
+
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const {help: helpRoute} = await import('../lib/routes/help.js');
+
     this.router.registerRoute('help', helpRoute);
   });
 
   afterEach(function () {
     this.sandbox.restore();
+    td.reset();
   });
 
   it('allow returning home', function () {

@@ -1,13 +1,15 @@
 'use strict';
-const assert = require('assert');
-const _ = require('lodash');
-const inquirer = require('inquirer');
-const nock = require('nock');
-const proxyquire = require('proxyquire');
-const sinon = require('sinon');
-const registryUrl = require('registry-url')();
-const Router = require('../lib/router');
-const helpers = require('./helpers');
+import assert from 'assert';
+import _ from 'lodash';
+import inquirer from 'inquirer';
+import nock from 'nock';
+import * as td from 'testdouble';
+import sinon from 'sinon';
+import registryUrlFactory from 'registry-url';
+import Router from '../lib/router.js';
+import * as helpers from './helpers.js';
+
+const registryUrl = registryUrlFactory();
 
 describe('install route', () => {
   beforeEach(async function () {
@@ -17,14 +19,18 @@ describe('install route', () => {
     this.router = new Router(this.env);
     this.router.registerRoute('home', this.homeRoute);
     this.spawn = helpers.fakeCrossSpawn('close');
-    this.router.registerRoute('install', proxyquire('../lib/routes/install', {
-      'cross-spawn': this.spawn
-    }));
+    await td.replaceEsm('cross-spawn', undefined, this.spawn);
+
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const {install} = await import('../lib/routes/install.js');
+
+    this.router.registerRoute('install', install);
     this.env.registerStub(_.noop, 'generator-unicorn');
   });
 
   afterEach(function () {
     this.sandbox.restore();
+    td.reset();
   });
 
   describe('npm success with results', () => {
