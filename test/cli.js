@@ -1,6 +1,7 @@
 'use strict';
-import path from 'path';
-import assert from 'assert';
+import path from 'node:path';
+import assert from 'node:assert';
+import process from 'node:process';
 import {execFile} from 'node:child_process';
 import mockery from 'mockery';
 import sinon from 'sinon';
@@ -8,6 +9,9 @@ import pkg from '../lib/utils/project-package.js';
 import {getDirname} from '../lib/utils/node-shims.js';
 
 const __dirname = getDirname(import.meta.url);
+
+// Disable update-notifier
+process.env.NODE_ENV = 'test';
 
 describe('bin', () => {
   describe('mocked', () => {
@@ -60,8 +64,7 @@ describe('bin', () => {
   it('should return the version', cb => {
     const cp = execFile('node', [
       path.resolve(__dirname, '..', pkg.bin.yo),
-      '--version',
-      '--no-update-notifier'
+      '--version'
     ]);
     const expected = pkg.version;
 
@@ -72,7 +75,7 @@ describe('bin', () => {
   });
 
   it('should output available generators when `--generators` flag is supplied', cb => {
-    const cp = execFile('node', [path.resolve(__dirname, '..', pkg.bin.yo), '--generators', '--no-update-notifier']);
+    const cp = execFile('node', [path.resolve(__dirname, '..', pkg.bin.yo), '--generators']);
 
     cp.stdout.once('data', data => {
       assert(data.length > 0);
@@ -85,8 +88,7 @@ describe('bin', () => {
     const cp = execFile('node', [
       path.resolve(__dirname, '..', pkg.bin.yo),
       '--generators',
-      '--local-only',
-      '--no-update-notifier'
+      '--local-only'
     ]);
 
     cp.stdout.once('data', data => {
