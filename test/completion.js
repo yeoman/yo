@@ -46,7 +46,6 @@ describe('Completion', () => {
         cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
 
         const result = execFileSync(cmd, {encoding: 'utf8', shell: true});
-        console.log('result', result);
         assert.ok(/-f/.test(result));
         assert.ok(/--force/.test(result));
         assert.ok(/--version/.test(result));
