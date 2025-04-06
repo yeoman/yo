@@ -61,7 +61,7 @@
     "open": "^8.4.0",
     "package-json": "^7.0.0",
     "parse-help": "^1.0.0",
-    "read-pkg-up": "^7.0.1",
+    "read-pkg-up": "^10.1.0",
     "root-check": "^1.0.0",
     "sort-on": "^4.1.1",
     "string-length": "^4.0.2",
