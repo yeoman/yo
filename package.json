@@ -49,7 +49,7 @@
     "cli-list": "^1.0.0",
     "configstore": "^5.0.1",
     "cross-spawn": "^7.0.3",
-    "figures": "^3.2.0",
+    "figures": "^6.1.0",
     "fullname": "^4.0.1",
     "global-agent": "^3.0.0",
     "got": "^14.4.7",
