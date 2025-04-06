@@ -8,8 +8,8 @@ import {fakeEnv} from './helpers.js';
 
 describe('Router', () => {
   beforeEach(async function () {
-    await td.replaceEsm('read-pkg-up', undefined, {
-      sync(options) {
+    await td.replaceEsm('read-pkg-up', {
+      readPackageUpSync(options) {
         // Turn `/phoenix/app` into `phoenix-app`
         const name = options.cwd.split(path.sep).filter(chunk => Boolean(chunk)).join('-');
         return {
