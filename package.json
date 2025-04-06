@@ -47,7 +47,7 @@
     "async": "^3.2.2",
     "chalk": "^4.1.2",
     "cli-list": "^1.0.0",
-    "configstore": "^5.0.1",
+    "configstore": "^7.0.0",
     "cross-spawn": "^7.0.3",
     "figures": "^6.1.0",
     "fullname": "^4.0.1",
