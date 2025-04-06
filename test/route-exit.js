@@ -1,6 +1,6 @@
 'use strict';
-const sinon = require('sinon');
-const Router = require('../lib/router');
+import sinon from 'sinon';
+import Router from '../lib/router.js';
 
 describe('exit route', () => {
   beforeEach(function () {

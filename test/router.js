@@ -1,31 +1,36 @@
 'use strict';
-const path = require('path');
-const assert = require('assert');
-const _ = require('lodash');
-const sinon = require('sinon');
-const proxyquire = require('proxyquire');
-const helpers = require('./helpers');
-
-const Router = proxyquire('../lib/router', {
-  'read-pkg-up': {
-    sync(options) {
-      // Turn `/phoenix/app` into `phoenix-app`
-      const name = options.cwd.split(path.sep).filter(chunk => Boolean(chunk)).join('-');
-      return {
-        packageJson: {
-          name,
-          version: '0.1.0'
-        }
-      };
-    }
-  }
-});
+import path from 'path';
+import assert from 'assert';
+import _ from 'lodash';
+import sinon from 'sinon';
+import * as td from 'testdouble';
+import {fakeEnv} from './helpers.js';
 
 describe('Router', () => {
   beforeEach(async function () {
-    this.env = await helpers.fakeEnv();
+    await td.replaceEsm('read-pkg-up', undefined, {
+      sync(options) {
+        // Turn `/phoenix/app` into `phoenix-app`
+        const name = options.cwd.split(path.sep).filter(chunk => Boolean(chunk)).join('-');
+        return {
+          packageJson: {
+            name,
+            version: '0.1.0'
+          }
+        };
+      }
+    });
+
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const Router = (await import('../lib/router.js')).default;
+
+    this.env = await fakeEnv();
     this.env.getGeneratorsMeta = sinon.stub();
     this.router = new Router(this.env);
+  });
+
+  afterEach(() => {
+    td.reset();
   });
 
   describe('#registerRoute()', () => {

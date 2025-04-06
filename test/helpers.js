@@ -1,7 +1,7 @@
 'use strict';
-const sinon = require('sinon');
+import sinon from 'sinon';
 
-exports.fakeCrossSpawn = event => {
+export const fakeCrossSpawn = event => {
   return sinon.stub().returns({
     on(name, cb) {
       if (name === event) {
@@ -13,7 +13,7 @@ exports.fakeCrossSpawn = event => {
   });
 };
 
-exports.fakeEnv = async () => {
+export const fakeEnv = async () => {
   // eslint-disable-next-line node/no-unsupported-features/es-syntax
   const {createEnv} = await import('yeoman-environment');
   const env = createEnv();
