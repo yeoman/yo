@@ -52,7 +52,7 @@
     "figures": "^3.2.0",
     "fullname": "^4.0.1",
     "global-agent": "^3.0.0",
-    "got": "^11.8.6",
+    "got": "^14.4.7",
     "humanize-string": "^2.1.0",
     "inquirer": "^8.2.0",
     "lodash": "^4.17.15",
