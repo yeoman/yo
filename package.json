@@ -50,7 +50,7 @@
     "configstore": "^7.0.0",
     "cross-spawn": "^7.0.3",
     "figures": "^6.1.0",
-    "fullname": "^4.0.1",
+    "fullname": "^5.0.0",
     "global-agent": "^3.0.0",
     "got": "^14.4.7",
     "humanize-string": "^2.1.0",
