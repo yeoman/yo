@@ -71,7 +71,7 @@
     "yeoman-character": "^2.0.0",
     "yeoman-doctor": "^5.0.0",
     "yeoman-environment": "^4.4.3",
-    "yosay": "^2.0.2"
+    "yosay": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
