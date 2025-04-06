@@ -80,7 +80,7 @@
     "mocha": "^11.0.1",
     "mockery": "^2.0.0",
     "nock": "^13.2.1",
-    "registry-url": "^5.1.0",
+    "registry-url": "^7.0.0",
     "sinon": "^20.0.0",
     "testdouble": "^3.20.2",
     "xo": "0.38.0"
