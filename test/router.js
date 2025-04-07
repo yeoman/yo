@@ -1,26 +1,26 @@
-import path from 'node:path';
 import assert from 'node:assert';
+import path from 'node:path';
+import {esmocha} from 'esmocha';
 import _ from 'lodash';
 import sinon from 'sinon';
-import * as td from 'testdouble';
 import {fakeEnv} from './helpers.js';
+
+const {readPackageUpSync} = await esmocha.mock('read-pkg-up');
+const {default: Router} = await import('../lib/router.js');
+esmocha.reset();
 
 describe('Router', () => {
   beforeEach(async function () {
-    await td.replaceEsm('read-pkg-up', {
-      readPackageUpSync(options) {
-        // Turn `/phoenix/app` into `phoenix-app`
-        const name = options.cwd.split(path.sep).filter(Boolean).join('-');
-        return {
-          packageJson: {
-            name,
-            version: '0.1.0',
-          },
-        };
-      },
+    readPackageUpSync.mockImplementation(options => {
+      // Turn `/phoenix/app` into `phoenix-app`
+      const name = options.cwd.split(path.sep).filter(Boolean).join('-');
+      return {
+        packageJson: {
+          name,
+          version: '0.1.0',
+        },
+      };
     });
-
-    const {default: Router} = await import('../lib/router.js');
 
     this.env = await fakeEnv();
     this.env.getGeneratorsMeta = sinon.stub();
@@ -28,7 +28,7 @@ describe('Router', () => {
   });
 
   afterEach(() => {
-    td.reset();
+    esmocha.clearAllMocks();
   });
 
   describe('#registerRoute()', () => {

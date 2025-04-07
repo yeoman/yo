@@ -1,24 +1,30 @@
 import assert from 'node:assert';
-import * as td from 'testdouble';
+import {esmocha} from 'esmocha';
 import sinon from 'sinon';
 import _ from 'lodash';
 import inquirer from 'inquirer';
 import Router from '../lib/router.js';
 
+const globalConfig = {
+  remove: sinon.stub(),
+  removeAll: sinon.stub(),
+  getAll() {
+    return {
+      'generator-phoenix': {},
+      'generator-unicorn': {},
+    };
+  },
+};
+
+await esmocha.mock('../lib/utils/global-config.js', {default: globalConfig});
+const {clearConfig} = (await import('../lib/routes/clear-config.js'));
+esmocha.reset();
+
 describe('clear config route', () => {
   beforeEach(async function () {
     this.sandbox = sinon.createSandbox();
-    this.globalConfig = {
-      remove: sinon.stub(),
-      removeAll: sinon.stub(),
-      getAll() {
-        return {
-          'generator-phoenix': {},
-          'generator-unicorn': {},
-        };
-      },
-    };
-    const config = {
+    this.globalConfig = globalConfig;
+    const config_ = {
       get() {
         return {
           unicorn: 20,
@@ -27,11 +33,8 @@ describe('clear config route', () => {
       },
     };
     this.homeRoute = sinon.stub().returns(Promise.resolve());
-    this.router = new Router(sinon.stub(), config);
+    this.router = new Router(sinon.stub(), config_);
     this.router.registerRoute('home', this.homeRoute);
-    await td.replaceEsm('../lib/utils/global-config.js', undefined, this.globalConfig);
-
-    const {clearConfig} = (await import('../lib/routes/clear-config.js'));
 
     this.router.registerRoute('clearConfig', clearConfig);
     this.router.generators = {
@@ -50,7 +53,7 @@ describe('clear config route', () => {
 
   afterEach(function () {
     this.sandbox.restore();
-    td.reset();
+    esmocha.clearAllMocks();
   });
 
   it('allow returning home', function () {
