@@ -76,7 +76,7 @@
     "npm-keyword": "^6.1.0",
     "open": "^10.1.0",
     "package-json": "^9.0.0",
-    "parse-help": "^1.0.0",
+    "parse-help": "^2.0.0",
     "read-pkg-up": "^10.1.0",
     "root-check": "^2.0.0",
     "sort-on": "^6.1.0",
