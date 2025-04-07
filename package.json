@@ -75,7 +75,7 @@
     "meow": "^13.2.0",
     "npm-keyword": "^6.1.0",
     "open": "^10.1.0",
-    "package-json": "^9.0.0",
+    "package-json": "^10.0.1",
     "parse-help": "^2.0.0",
     "read-pkg-up": "^10.1.0",
     "root-check": "^2.0.0",
