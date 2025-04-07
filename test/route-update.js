@@ -1,8 +1,11 @@
-import * as td from 'testdouble';
 import sinon from 'sinon';
 import inquirer from 'inquirer';
+import {esmocha} from 'esmocha';
 import Router from '../lib/router.js';
 import * as helpers from './helpers.js';
+
+const {default: crossSpawn} = await esmocha.mock('cross-spawn');
+const {update} = await import('../lib/routes/update.js');
 
 describe('update route', () => {
   beforeEach(async function () {
@@ -15,15 +18,13 @@ describe('update route', () => {
     this.router.registerRoute('home', this.homeRoute);
 
     this.crossSpawn = helpers.fakeCrossSpawn('close');
-    await td.replaceEsm('cross-spawn', undefined, this.crossSpawn);
-
-    const {update} = await import('../lib/routes/update.js');
+    crossSpawn.mockImplementation(this.crossSpawn);
 
     this.router.registerRoute('update', update);
   });
 
   afterEach(function () {
-    td.reset();
+    esmocha.clearAllMocks();
     this.sandbox.restore();
   });
 
