@@ -1,4 +1,3 @@
-'use strict';
 import * as td from 'testdouble';
 import sinon from 'sinon';
 import inquirer from 'inquirer';
@@ -13,7 +12,6 @@ describe('help route', () => {
     this.open = sinon.stub();
     await td.replaceEsm('open', undefined, this.open);
 
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const {help: helpRoute} = await import('../lib/routes/help.js');
 
     this.router.registerRoute('help', helpRoute);

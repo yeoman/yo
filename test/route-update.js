@@ -1,4 +1,3 @@
-'use strict';
 import * as td from 'testdouble';
 import sinon from 'sinon';
 import inquirer from 'inquirer';
@@ -18,7 +17,6 @@ describe('update route', () => {
     this.crossSpawn = helpers.fakeCrossSpawn('close');
     await td.replaceEsm('cross-spawn', undefined, this.crossSpawn);
 
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const {update} = await import('../lib/routes/update.js');
 
     this.router.registerRoute('update', update);
@@ -32,13 +30,13 @@ describe('update route', () => {
   it('allows updating generators and return user to home screen', function () {
     const generators = ['generator-cat', 'generator-unicorn'];
     this.sandbox.stub(inquirer, 'prompt').returns(
-      Promise.resolve({generators})
+      Promise.resolve({generators}),
     );
     return this.router.navigate('update').then(() => {
       sinon.assert.calledWith(
         this.crossSpawn,
         'npm',
-        ['install', '--global', ...generators]
+        ['install', '--global', ...generators],
       );
       sinon.assert.calledOnce(this.homeRoute);
       sinon.assert.calledOnce(this.env.lookup);

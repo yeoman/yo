@@ -1,4 +1,3 @@
-'use strict';
 import path from 'node:path';
 import assert from 'node:assert';
 import process from 'node:process';
@@ -18,16 +17,15 @@ describe('bin', () => {
     beforeEach(async function () {
       this.origArgv = process.argv;
       this.origExit = process.exit;
-      // eslint-disable-next-line node/no-unsupported-features/es-syntax
       const {createEnv} = await import('yeoman-environment');
       this.env = createEnv();
 
       mockery.enable({
-        warnOnUnregistered: false
+        warnOnUnregistered: false,
       });
 
       mockery.registerMock('yeoman-environment', {
-        createEnv: () => this.env
+        createEnv: () => this.env,
       });
     });
 
@@ -39,14 +37,14 @@ describe('bin', () => {
 
     it('should exit with status 1 if there were errors', function (done) {
       let called = false;
-      process.exit = arg => {
+      process.exit = argument => {
         if (called) {
           // Exit can be called more than once
           return;
         }
 
         called = true;
-        assert(arg, 1, 'exit code should be 1');
+        assert(argument, 1, 'exit code should be 1');
         done();
       };
 
@@ -55,46 +53,45 @@ describe('bin', () => {
       sinon.stub(this.env, 'lookup');
 
       (async () => {
-        // eslint-disable-next-line node/no-unsupported-features/es-syntax
         await import('../lib/cli.js');
       })();
     });
   });
 
-  it('should return the version', cb => {
+  it('should return the version', callback => {
     const cp = execFile('node', [
       path.resolve(__dirname, '..', pkg.bin.yo),
-      '--version'
+      '--version',
     ]);
     const expected = pkg.version;
 
     cp.stdout.on('data', data => {
-      assert.strictEqual(data.toString().replace(/\r\n|\n/g, ''), expected);
-      cb();
+      assert.strictEqual(data.toString().replaceAll(/\r\n|\n/g, ''), expected);
+      callback();
     });
   });
 
-  it('should output available generators when `--generators` flag is supplied', cb => {
+  it('should output available generators when `--generators` flag is supplied', callback => {
     const cp = execFile('node', [path.resolve(__dirname, '..', pkg.bin.yo), '--generators']);
 
     cp.stdout.once('data', data => {
       assert(data.length > 0);
       assert(!/\[/.test(data));
-      cb();
+      callback();
     });
   });
 
-  it('should support the `--local-only` flag', cb => {
+  it('should support the `--local-only` flag', callback => {
     const cp = execFile('node', [
       path.resolve(__dirname, '..', pkg.bin.yo),
       '--generators',
-      '--local-only'
+      '--local-only',
     ]);
 
     cp.stdout.once('data', data => {
       assert(data.length > 0);
       assert(!/\[/.test(data));
-      cb();
+      callback();
     });
   });
 });

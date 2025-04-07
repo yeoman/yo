@@ -1,6 +1,5 @@
-'use strict';
-import path from 'path';
-import assert from 'assert';
+import path from 'node:path';
+import assert from 'node:assert';
 import _ from 'lodash';
 import sinon from 'sinon';
 import * as td from 'testdouble';
@@ -11,18 +10,17 @@ describe('Router', () => {
     await td.replaceEsm('read-pkg-up', {
       readPackageUpSync(options) {
         // Turn `/phoenix/app` into `phoenix-app`
-        const name = options.cwd.split(path.sep).filter(chunk => Boolean(chunk)).join('-');
+        const name = options.cwd.split(path.sep).filter(Boolean).join('-');
         return {
           packageJson: {
             name,
-            version: '0.1.0'
-          }
+            version: '0.1.0',
+          },
         };
-      }
+      },
     });
 
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
-    const Router = (await import('../lib/router.js')).default;
+    const {default: Router} = await import('../lib/router.js');
 
     this.env = await fakeEnv();
     this.env.getGeneratorsMeta = sinon.stub();
@@ -67,20 +65,20 @@ describe('Router', () => {
       this.env.getGeneratorsMeta.returns({
         'xanadu:all': {
           namespace: 'xanadu:all',
-          resolved: path.join('xanadu', 'all', 'index.js')
+          resolved: path.join('xanadu', 'all', 'index.js'),
         },
         'phoenix:app': {
           namespace: 'phoenix:app',
-          resolved: path.join('phoenix', 'app', 'index.js')
+          resolved: path.join('phoenix', 'app', 'index.js'),
         },
         'phoenix:misc': {
           namespace: 'phoenix:misc',
-          resolved: path.join('phoenix', 'misc', 'index.js')
+          resolved: path.join('phoenix', 'misc', 'index.js'),
         },
         'phoenix:sub-app': {
           namespace: 'phoenix:sub-app',
-          resolved: path.join('phoenix', 'sub-app', 'index.js')
-        }
+          resolved: path.join('phoenix', 'sub-app', 'index.js'),
+        },
       });
     });
 

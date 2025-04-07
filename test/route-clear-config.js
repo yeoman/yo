@@ -1,5 +1,4 @@
-'use strict';
-import assert from 'assert';
+import assert from 'node:assert';
 import * as td from 'testdouble';
 import sinon from 'sinon';
 import _ from 'lodash';
@@ -15,24 +14,23 @@ describe('clear config route', () => {
       getAll() {
         return {
           'generator-phoenix': {},
-          'generator-unicorn': {}
+          'generator-unicorn': {},
         };
-      }
+      },
     };
-    const conf = {
+    const config = {
       get() {
         return {
           unicorn: 20,
-          phoenix: 10
+          phoenix: 10,
         };
-      }
+      },
     };
     this.homeRoute = sinon.stub().returns(Promise.resolve());
-    this.router = new Router(sinon.stub(), conf);
+    this.router = new Router(sinon.stub(), config);
     this.router.registerRoute('home', this.homeRoute);
     await td.replaceEsm('../lib/utils/global-config.js', undefined, this.globalConfig);
 
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const {clearConfig} = (await import('../lib/routes/clear-config.js'));
 
     this.router.registerRoute('clearConfig', clearConfig);
@@ -40,13 +38,13 @@ describe('clear config route', () => {
       'generator-unicorn': {
         name: 'generator-unicorn',
         prettyName: 'Unicorn',
-        namespace: 'unicorn:app'
+        namespace: 'unicorn:app',
       },
       'generator-foo': {
         name: 'generator-foo',
         prettyName: 'Foo',
-        namespace: 'foo:app'
-      }
+        namespace: 'foo:app',
+      },
     };
   });
 
@@ -82,8 +80,8 @@ describe('clear config route', () => {
   it('shows generator with global config entry', function () {
     let choices = [];
 
-    this.sandbox.stub(inquirer, 'prompt').callsFake(arg => {
-      ({choices} = arg[0]);
+    this.sandbox.stub(inquirer, 'prompt').callsFake(argument => {
+      ({choices} = argument[0]);
       return Promise.resolve({whatNext: 'foo'});
     });
     return this.router.navigate('clearConfig').then(() => {
@@ -94,8 +92,8 @@ describe('clear config route', () => {
       assert.ok(_.find(choices, {value: 'generator-phoenix'}));
       assert.ok(_.find(choices, {name: 'Unicorn'}));
       assert.ok(
-        _.find(choices, {name: 'phoenix\u001B[31m (not installed anymore)\u001B[39m'}) ||
-        _.find(choices, {name: 'phoenix (not installed anymore)'})
+        _.find(choices, {name: 'phoenix\u001B[31m (not installed anymore)\u001B[39m'})
+        || _.find(choices, {name: 'phoenix (not installed anymore)'}),
       );
     });
   });
