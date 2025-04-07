@@ -4,7 +4,7 @@ import events from 'node:events';
 import {execFileSync} from 'node:child_process';
 import os from 'node:os';
 import _ from 'lodash';
-import Completer from '../lib/completion/completer.cjs';
+import Completer from '../lib/completion/completer.js';
 import completion from '../lib/completion/index.cjs';
 import {getDirname} from '../lib/utils/node-shims.js';
 
