@@ -84,7 +84,7 @@ describe('clear config route', () => {
     let choices = [];
 
     this.sandbox.stub(inquirer, 'prompt').callsFake(argument => {
-      ({choices} = argument[0]);
+      ({choices} = argument);
       return Promise.resolve({whatNext: 'foo'});
     });
     return this.router.navigate('clearConfig').then(() => {

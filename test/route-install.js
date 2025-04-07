@@ -1,4 +1,3 @@
-import assert from 'node:assert';
 import process from 'node:process';
 import {esmocha, expect} from 'esmocha';
 import _ from 'lodash';
@@ -20,6 +19,7 @@ const spawn = await esmocha.mock('cross-spawn', {
 });
 
 esmocha.spyOn(_, 'memoize').mockImplementation(function_ => function_);
+const {default: inputPrompt} = await esmocha.mock('@inquirer/input');
 const {default: inquirer} = await esmocha.mock('inquirer');
 await esmocha.mock('../lib/deny-list.js', {
   default: [
@@ -104,74 +104,53 @@ describe('install route', () => {
         .reply(200, this.pkgData);
     });
 
-    it('filters already installed generators and match search term', function (done) {
+    it('filters already installed generators and match search term', async function () {
       if (process.platform === 'darwin') {
         this.skip();
       }
 
-      let call = 0;
-      inquirer.prompt.mockImplementation(argument => {
-        call++;
-        if (call === 1) {
-          return Promise.resolve({searchTerm: 'unicorn'});
-        }
+      inputPrompt.mockResolvedValueOnce('unicorn');
+      inquirer.prompt.mockResolvedValueOnce({toInstall: 'home'});
 
-        if (call === 2) {
-          const {choices} = argument[0];
-          assert.strictEqual(_.filter(choices, {value: 'generator-foo'}).length, 1);
-          assert.strictEqual(_.filter(choices, {value: 'generator-unicorn-1'}).length, 1);
-          assert.strictEqual(_.filter(choices, {value: 'generator-unicorn'}).length, 0);
-          assert.strictEqual(_.filter(choices, {value: 'generator-unrelated'}).length, 0);
-          done();
-        }
+      await this.router.navigate('install');
 
-        return Promise.resolve({toInstall: 'home'});
-      });
-
-      this.router.navigate('install');
+      expect(inquirer.prompt).toHaveBeenLastCalledWith(expect.objectContaining({
+        choices: expect.arrayContaining([
+          expect.objectContaining({value: 'generator-foo'}),
+          expect.objectContaining({value: 'generator-unicorn-1'}),
+          expect.not.objectContaining({value: 'generator-unicorn'}),
+          expect.not.objectContaining({value: 'generator-unrelated'}),
+        ]),
+      }));
+      expect(inquirer.prompt).toHaveBeenCalledTimes(1);
     });
 
-    it('filters blacklisted generators and match search term', function (done) {
+    it('filters blacklisted generators and match search term', async function () {
       if (process.platform === 'darwin') {
         this.skip();
       }
 
-      let call = 0;
-      inquirer.prompt.mockImplementation(argument => {
-        call++;
-        if (call === 1) {
-          return Promise.resolve({searchTerm: 'blacklist'});
-        }
+      inputPrompt.mockReturnValue('blacklist');
+      inquirer.prompt.mockResolvedValue({toInstall: 'home'});
 
-        if (call === 2) {
-          const {choices} = argument[0];
-          assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-1'}).length, 0);
-          assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-2'}).length, 0);
-          assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-3'}).length, 1);
-          done();
-        }
+      await this.router.navigate('install');
 
-        return Promise.resolve({toInstall: 'home'});
-      });
-
-      this.router.navigate('install');
+      expect(inquirer.prompt).toHaveBeenLastCalledWith(expect.objectContaining({
+        choices: expect.arrayContaining([
+          expect.objectContaining({value: 'generator-blacklist-3'}),
+          expect.not.objectContaining({value: 'generator-blacklist-1'}),
+          expect.not.objectContaining({value: 'generator-blacklist-2'}),
+        ]),
+      }));
     });
 
     it('allow redo the search', async function () {
       let call = 0;
-      inquirer.prompt.mockImplementation(async argument => {
+      inputPrompt.mockResolvedValueOnce('unicorn').mockResolvedValueOnce('unicorn');
+      inquirer.prompt.mockImplementation(async () => {
         call++;
         if (call === 1) {
-          return {searchTerm: 'unicorn'};
-        }
-
-        if (call === 2) {
           return {toInstall: 'install'};
-        }
-
-        if (call === 3) {
-          assert.strictEqual(argument[0].name, 'searchTerm');
-          return {searchTerm: 'unicorn'};
         }
 
         return {toInstall: 'home'};
@@ -181,15 +160,8 @@ describe('install route', () => {
     });
 
     it('allow going back home', function () {
-      let call = 0;
-      inquirer.prompt.mockImplementation(() => {
-        call++;
-        if (call === 1) {
-          return Promise.resolve({searchTerm: 'unicorn'});
-        }
-
-        return Promise.resolve({toInstall: 'home'});
-      });
+      inputPrompt.mockResolvedValueOnce('unicorn');
+      inquirer.prompt.mockImplementation(() => Promise.resolve({toInstall: 'home'}));
 
       return this.router.navigate('install').then(() => {
         expect(this.homeRoute).toHaveBeenCalledTimes(1);
@@ -198,13 +170,10 @@ describe('install route', () => {
 
     it('install a generator', function () {
       let call = 0;
+      inputPrompt.mockResolvedValueOnce('unicorn');
       inquirer.prompt.mockImplementation(() => {
         call++;
         if (call === 1) {
-          return Promise.resolve({searchTerm: 'unicorn'});
-        }
-
-        if (call === 2) {
           return Promise.resolve({toInstall: 'generator-unicorn'});
         }
 
@@ -243,24 +212,18 @@ describe('install route', () => {
     });
 
     it('list options if search have no results', async function () {
-      let call = 0;
-
-      inquirer.prompt.mockImplementation(argument => {
-        call++;
-
-        if (call === 1) {
-          return Promise.resolve({searchTerm: 'foo'});
-        }
-
-        if (call === 2) {
-          const {choices} = argument[0];
-          assert.deepStrictEqual(_.map(choices, 'value'), ['install', 'home']);
-        }
-
-        return Promise.resolve({toInstall: 'home'});
-      });
+      inputPrompt.mockResolvedValueOnce('foo');
+      inquirer.prompt.mockResolvedValueOnce({toInstall: 'home'});
 
       await this.router.navigate('install');
+
+      expect(inquirer.prompt).toHaveBeenCalledTimes(1);
+      expect(inquirer.prompt).toHaveBeenLastCalledWith(expect.objectContaining({
+        choices: [
+          expect.objectContaining({value: 'install'}),
+          expect.objectContaining({value: 'home'}),
+        ],
+      }));
     });
   });
 });
