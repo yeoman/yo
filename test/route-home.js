@@ -1,11 +1,10 @@
-'use strict';
-import assert from 'assert';
+import assert from 'node:assert';
 import _ from 'lodash';
 import sinon from 'sinon';
 import inquirer from 'inquirer';
 import Router from '../lib/router.js';
-import {fakeEnv} from './helpers.js';
 import {home} from '../lib/routes/home.js';
+import {fakeEnv} from './helpers.js';
 
 describe('home route', () => {
   beforeEach(async function () {
@@ -56,7 +55,7 @@ describe('home route', () => {
       namespace: 'unicorn:app',
       appGenerator: true,
       prettyName: 'unicorn',
-      updateAvailable: false
+      updateAvailable: false,
     }];
 
     this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
@@ -74,7 +73,7 @@ describe('home route', () => {
       namespace: 'unicorn:app',
       appGenerator: true,
       prettyName: 'unicorn',
-      updateAvailable: false
+      updateAvailable: false,
     }];
 
     this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
@@ -82,8 +81,8 @@ describe('home route', () => {
       return Promise.resolve({
         whatNext: {
           method: 'run',
-          generator: 'unicorn:app'
-        }
+          generator: 'unicorn:app',
+        },
       });
     });
 
@@ -97,7 +96,7 @@ describe('home route', () => {
       namespace: 'unicorn:app',
       appGenerator: true,
       prettyName: 'unicorn',
-      updateAvailable: true
+      updateAvailable: true,
     }];
 
     this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {

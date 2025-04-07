@@ -1,5 +1,4 @@
-'use strict';
-import assert from 'assert';
+import assert from 'node:assert';
 import _ from 'lodash';
 import inquirer from 'inquirer';
 import nock from 'nock';
@@ -21,7 +20,6 @@ describe('install route', () => {
     this.spawn = helpers.fakeCrossSpawn('close');
     await td.replaceEsm('cross-spawn', undefined, this.spawn);
 
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const {install} = await import('../lib/routes/install.js');
 
     this.router.registerRoute('install', install);
@@ -38,48 +36,48 @@ describe('install route', () => {
       this.packages = [
         {
           name: 'generator-unicorn',
-          description: 'some unicorn'
+          description: 'some unicorn',
         },
         {
           name: 'generator-unrelated',
-          description: 'some description'
+          description: 'some description',
         },
         {
           name: 'generator-unicorn-1',
-          description: 'foo description'
+          description: 'foo description',
         },
         {
           name: 'generator-foo',
-          description: 'description with unicorn word'
+          description: 'description with unicorn word',
         },
         {
           name: 'generator-blacklist-1',
-          description: 'foo description'
+          description: 'foo description',
         },
         {
           name: 'generator-blacklist-2',
-          description: 'foo description'
+          description: 'foo description',
         },
         {
           name: 'generator-blacklist-3',
-          description: 'foo description'
-        }
+          description: 'foo description',
+        },
       ];
 
       this.blacklist = [
         'generator-blacklist-1',
-        'generator-blacklist-2'
+        'generator-blacklist-2',
       ];
 
       this.pkgData = {
         'dist-tags': {
-          latest: '1.0.0'
+          latest: '1.0.0',
         },
         versions: {
           '1.0.0': {
-            name: 'test'
-          }
-        }
+            name: 'test',
+          },
+        },
       };
 
       nock(registryUrl)
@@ -103,14 +101,14 @@ describe('install route', () => {
 
     it('filters already installed generators and match search term', function (done) {
       let call = 0;
-      this.sandbox.stub(inquirer, 'prompt').callsFake(arg => {
+      this.sandbox.stub(inquirer, 'prompt').callsFake(argument => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
         }
 
         if (call === 2) {
-          const {choices} = arg[0];
+          const {choices} = argument[0];
           assert.strictEqual(_.filter(choices, {value: 'generator-foo'}).length, 1);
           assert.strictEqual(_.filter(choices, {value: 'generator-unicorn-1'}).length, 1);
           assert.strictEqual(_.filter(choices, {value: 'generator-unicorn'}).length, 0);
@@ -126,14 +124,14 @@ describe('install route', () => {
 
     it('filters blacklisted generators and match search term', function (done) {
       let call = 0;
-      this.sandbox.stub(inquirer, 'prompt').callsFake(arg => {
+      this.sandbox.stub(inquirer, 'prompt').callsFake(argument => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'blacklist'});
         }
 
         if (call === 2) {
-          const {choices} = arg[0];
+          const {choices} = argument[0];
           assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-1'}).length, 0);
           assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-2'}).length, 0);
           assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-3'}).length, 1);
@@ -148,7 +146,7 @@ describe('install route', () => {
 
     it('allow redo the search', function (done) {
       let call = 0;
-      this.sandbox.stub(inquirer, 'prompt').callsFake(arg => {
+      this.sandbox.stub(inquirer, 'prompt').callsFake(argument => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
@@ -159,7 +157,7 @@ describe('install route', () => {
         }
 
         if (call === 3) {
-          assert.strictEqual(arg[0].name, 'searchTerm');
+          assert.strictEqual(argument[0].name, 'searchTerm');
           return Promise.resolve({searchTerm: 'unicorn'});
         }
 
@@ -219,23 +217,23 @@ describe('install route', () => {
             {
               package: {
                 name: 'generator-unrelated',
-                description: 'some description'
-              }
+                description: 'some description',
+              },
             },
             {
               package: {
                 name: 'generator-unrelevant',
-                description: 'some description'
-              }
-            }
-          ]
+                description: 'some description',
+              },
+            },
+          ],
         });
     });
 
     it('list options if search have no results', function (done) {
       let call = 0;
 
-      this.sandbox.stub(inquirer, 'prompt').callsFake(arg => {
+      this.sandbox.stub(inquirer, 'prompt').callsFake(argument => {
         call++;
 
         if (call === 1) {
@@ -243,7 +241,7 @@ describe('install route', () => {
         }
 
         if (call === 2) {
-          const {choices} = arg[0];
+          const {choices} = argument[0];
           assert.deepStrictEqual(_.map(choices, 'value'), ['install', 'home']);
           done();
         }

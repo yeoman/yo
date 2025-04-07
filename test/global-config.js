@@ -1,5 +1,4 @@
-'use strict';
-import assert from 'assert';
+import assert from 'node:assert';
 import fs from 'node:fs';
 import sinon from 'sinon';
 import globalConfig from '../lib/utils/global-config.js';
