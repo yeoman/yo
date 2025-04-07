@@ -37,7 +37,7 @@
     "postinstall": "yodoctor",
     "postupdate": "yodoctor",
     "pretest": "xo",
-    "test": "c8 esmocha --timeout=30000 --parallel"
+    "test": "c8 esmocha"
   },
   "xo": {
     "overrides": [

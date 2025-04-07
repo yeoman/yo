@@ -6,6 +6,7 @@ import * as helpers from './helpers.js';
 
 const {default: crossSpawn} = await esmocha.mock('cross-spawn');
 const {update} = await import('../lib/routes/update.js');
+esmocha.reset();
 
 describe('update route', () => {
   beforeEach(async function () {

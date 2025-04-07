@@ -17,10 +17,12 @@ const spawn = await esmocha.mock('cross-spawn', {
     }),
   }),
 });
-const {default: inquirer} = await esmocha.mock('inquirer');
-_.memoize = esmocha.fn().mockImplementation(function_ => function_);
 
+esmocha.spyOn(_, 'memoize').mockImplementation(function_ => function_);
+const {default: inquirer} = await esmocha.mock('inquirer');
 const {install} = await import('../lib/routes/install.js');
+esmocha.reset();
+_.memoize.mockRestore();
 
 const registryUrl = registryUrlFactory();
 

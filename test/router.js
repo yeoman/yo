@@ -6,6 +6,8 @@ import sinon from 'sinon';
 import {fakeEnv} from './helpers.js';
 
 const {readPackageUpSync} = await esmocha.mock('read-pkg-up');
+const {default: Router} = await import('../lib/router.js');
+esmocha.reset();
 
 describe('Router', () => {
   beforeEach(async function () {
@@ -19,8 +21,6 @@ describe('Router', () => {
         },
       };
     });
-
-    const {default: Router} = await import('../lib/router.js');
 
     this.env = await fakeEnv();
     this.env.getGeneratorsMeta = sinon.stub();

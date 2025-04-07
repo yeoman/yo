@@ -5,6 +5,7 @@ import Router from '../lib/router.js';
 
 const {default: open} = await esmocha.mock('open');
 const {help: helpRoute} = await import('../lib/routes/help.js');
+esmocha.reset();
 
 describe('help route', () => {
   beforeEach(async function () {

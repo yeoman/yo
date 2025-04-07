@@ -18,6 +18,7 @@ const globalConfig = {
 
 await esmocha.mock('../lib/utils/global-config.js', {default: globalConfig});
 const {clearConfig} = (await import('../lib/routes/clear-config.js'));
+esmocha.reset();
 
 describe('clear config route', () => {
   beforeEach(async function () {
