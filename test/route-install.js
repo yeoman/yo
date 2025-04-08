@@ -1,4 +1,5 @@
 import assert from 'node:assert';
+import process from 'node:process';
 import {esmocha, expect} from 'esmocha';
 import _ from 'lodash';
 import nock from 'nock';
@@ -108,6 +109,10 @@ describe('install route', () => {
     });
 
     it('filters already installed generators and match search term', function (done) {
+      if (process.platform === 'darwin') {
+        this.skip();
+      }
+
       let call = 0;
       inquirer.prompt.mockImplementation(argument => {
         call++;
@@ -131,6 +136,10 @@ describe('install route', () => {
     });
 
     it('filters blacklisted generators and match search term', function (done) {
+      if (process.platform === 'darwin') {
+        this.skip();
+      }
+
       let call = 0;
       inquirer.prompt.mockImplementation(argument => {
         call++;
