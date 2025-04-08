@@ -1,17 +1,17 @@
-'use strict';
-const assert = require('assert');
-const _ = require('lodash');
-const sinon = require('sinon');
-const inquirer = require('inquirer');
-const Router = require('../lib/router');
-const helpers = require('./helpers');
+import assert from 'node:assert';
+import _ from 'lodash';
+import sinon from 'sinon';
+import inquirer from 'inquirer';
+import Router from '../lib/router.js';
+import {home} from '../lib/routes/home.js';
+import {fakeEnv} from './helpers.js';
 
 describe('home route', () => {
   beforeEach(async function () {
     this.sandbox = sinon.createSandbox();
-    this.env = await helpers.fakeEnv();
+    this.env = await fakeEnv();
     this.router = new Router(this.env, this.insight);
-    this.router.registerRoute('home', require('../lib/routes/home'));
+    this.router.registerRoute('home', home);
     this.runRoute = sinon.stub().returns(Promise.resolve());
     this.router.registerRoute('run', this.runRoute);
     this.helpRoute = sinon.stub().returns(Promise.resolve());
@@ -55,7 +55,7 @@ describe('home route', () => {
       namespace: 'unicorn:app',
       appGenerator: true,
       prettyName: 'unicorn',
-      updateAvailable: false
+      updateAvailable: false,
     }];
 
     this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
@@ -73,7 +73,7 @@ describe('home route', () => {
       namespace: 'unicorn:app',
       appGenerator: true,
       prettyName: 'unicorn',
-      updateAvailable: false
+      updateAvailable: false,
     }];
 
     this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
@@ -81,8 +81,8 @@ describe('home route', () => {
       return Promise.resolve({
         whatNext: {
           method: 'run',
-          generator: 'unicorn:app'
-        }
+          generator: 'unicorn:app',
+        },
       });
     });
 
@@ -96,7 +96,7 @@ describe('home route', () => {
       namespace: 'unicorn:app',
       appGenerator: true,
       prettyName: 'unicorn',
-      updateAvailable: true
+      updateAvailable: true,
     }];
 
     this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {

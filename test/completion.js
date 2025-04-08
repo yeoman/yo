@@ -1,12 +1,14 @@
-'use strict';
-const path = require('path');
-const assert = require('assert');
-const events = require('events');
-const {execFile} = require('child_process');
-const {find} = require('lodash');
-const os = require('os');
-const Completer = require('../lib/completion/completer');
-const completion = require('../lib/completion');
+import path from 'node:path';
+import assert from 'node:assert';
+import events from 'node:events';
+import {execFileSync} from 'node:child_process';
+import os from 'node:os';
+import _ from 'lodash';
+import Completer from '../lib/completion/completer.js';
+import completion from '../lib/completion/index.cjs';
+import {getDirname} from '../lib/utils/node-shims.js';
+
+const __dirname = getDirname(import.meta.url);
 
 const help = `
   Usage:
@@ -26,35 +28,30 @@ const help = `
 
 describe('Completion', () => {
   before(async function () {
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const {createEnv} = await import('yeoman-environment');
     this.env = createEnv();
   });
 
   describe('Test completion STDOUT output', () => {
-    (os.platform() === 'win32' ? it.skip : it)('Returns the completion candidates for both options and installed generators', done => {
-      const yocomplete = path.join(__dirname, '../lib/completion/index.js');
-      const yo = path.join(__dirname, '../lib/cli');
+    (os.platform() === 'win32' ? it.skip : it)(
+      'Returns the completion candidates for both options and installed generators',
+      () => {
+        const yocomplete = path.join(__dirname, '../lib/completion/index.cjs');
+        const yo = path.join(__dirname, '../lib/cli');
 
-      let cmd = 'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="$cmd" COMP_CWORD="$cmd"';
-      cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
+        let cmd
+          = 'export cmd="yo" && YO_TEST=true DEBUG="tabtab*" COMP_POINT="4" COMP_LINE="yo" COMP_CWORD="yo"';
+        cmd += `node ${yocomplete} completion -- ${yo} $cmd`;
 
-      execFile('bash', ['-c', cmd], (error, out) => {
-        if (error) {
-          done(error);
-          return;
-        }
-
-        assert.ok(/-f/.test(out));
-        assert.ok(/--force/.test(out));
-        assert.ok(/--version/.test(out));
-        assert.ok(/--no-color/.test(out));
-        assert.ok(/--generators/.test(out));
-        assert.ok(/--local-only/.test(out));
-
-        done();
-      });
-    });
+        const result = execFileSync(cmd, {encoding: 'utf8', shell: true});
+        assert.ok(/-f/.test(result));
+        assert.ok(/--force/.test(result));
+        assert.ok(/--version/.test(result));
+        assert.ok(/--no-color/.test(result));
+        assert.ok(/--generators/.test(result));
+        assert.ok(/--local-only/.test(result));
+      },
+    );
   });
 
   describe('Completion', () => {
@@ -72,12 +69,12 @@ describe('Completion', () => {
       this.env.getGeneratorsMeta = () => ({
         'dummy:app': {
           resolved: '/home/user/.nvm/versions/node/v6.1.0/lib/node_modules/generator-dummy/app/index.js',
-          namespace: 'dummy:app'
+          namespace: 'dummy:app',
         },
         'dummy:yo': {
           resolved: '/home/user/.nvm/versions/node/v6.1.0/lib/node_modules/generator-dummy/yo/index.js',
-          namespace: 'dummy:yo'
-        }
+          namespace: 'dummy:yo',
+        },
       });
 
       this.completer = new Completer(this.env);
@@ -95,7 +92,7 @@ describe('Completion', () => {
         assert.strictEqual(results.length, 6);
         assert.deepStrictEqual(first, {
           name: '--skip-cache',
-          description: 'Do not remember prompt answers                         Default-> false'
+          description: 'Do not remember prompt answers                         Default-> false',
         });
       });
     });
@@ -106,10 +103,10 @@ describe('Completion', () => {
         const results = list.map(this.completer.item('yo!', '--'));
         assert.deepStrictEqual(results, [{
           name: '--foo',
-          description: 'yo!'
+          description: 'yo!',
         }, {
           name: '--bar',
-          description: 'yo!'
+          description: 'yo!',
         }]);
       });
 
@@ -140,7 +137,7 @@ describe('Completion', () => {
             {name: '--no-color',   description: 'Disable colors'},
             {name: '--generators', description: 'Print available generators'},
             {name: '--local-only', description: 'Disable lookup of globally-installed generators'},
-            {name: '-f',           description: 'Overwrite files that already exist'}
+            {name: '-f',           description: 'Overwrite files that already exist'},
           ]);
 
           done();
@@ -156,7 +153,7 @@ describe('Completion', () => {
             return;
           }
 
-          const dummy = find(results, result => result.name === 'dummy:yo');
+          const dummy = _.find(results, result => result.name === 'dummy:yo');
           assert.strictEqual(dummy.name, 'dummy:yo');
           assert.strictEqual(dummy.description, 'yo');
 

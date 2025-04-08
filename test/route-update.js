@@ -1,9 +1,12 @@
-'use strict';
-const proxyquire = require('proxyquire');
-const sinon = require('sinon');
-const inquirer = require('inquirer');
-const Router = require('../lib/router');
-const helpers = require('./helpers');
+import sinon from 'sinon';
+import inquirer from 'inquirer';
+import {esmocha} from 'esmocha';
+import Router from '../lib/router.js';
+import * as helpers from './helpers.js';
+
+const {default: crossSpawn} = await esmocha.mock('cross-spawn');
+const {update} = await import('../lib/routes/update.js');
+esmocha.reset();
 
 describe('update route', () => {
   beforeEach(async function () {
@@ -16,26 +19,26 @@ describe('update route', () => {
     this.router.registerRoute('home', this.homeRoute);
 
     this.crossSpawn = helpers.fakeCrossSpawn('close');
-    const updateRoute = proxyquire('../lib/routes/update', {
-      'cross-spawn': this.crossSpawn
-    });
-    this.router.registerRoute('update', updateRoute);
+    crossSpawn.mockImplementation(this.crossSpawn);
+
+    this.router.registerRoute('update', update);
   });
 
   afterEach(function () {
+    esmocha.clearAllMocks();
     this.sandbox.restore();
   });
 
   it('allows updating generators and return user to home screen', function () {
     const generators = ['generator-cat', 'generator-unicorn'];
     this.sandbox.stub(inquirer, 'prompt').returns(
-      Promise.resolve({generators})
+      Promise.resolve({generators}),
     );
     return this.router.navigate('update').then(() => {
       sinon.assert.calledWith(
         this.crossSpawn,
         'npm',
-        ['install', '--global', ...generators]
+        ['install', '--global', ...generators],
       );
       sinon.assert.calledOnce(this.homeRoute);
       sinon.assert.calledOnce(this.env.lookup);

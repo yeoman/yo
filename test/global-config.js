@@ -1,8 +1,7 @@
-'use strict';
-const assert = require('assert');
-const fs = require('fs');
-const sinon = require('sinon');
-const globalConfig = require('../lib/utils/global-config');
+import assert from 'node:assert';
+import fs from 'node:fs';
+import sinon from 'sinon';
+import globalConfig from '../lib/utils/global-config.js';
 
 describe('global config', () => {
   beforeEach(function () {

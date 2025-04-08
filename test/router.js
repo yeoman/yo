@@ -1,31 +1,34 @@
-'use strict';
-const path = require('path');
-const assert = require('assert');
-const _ = require('lodash');
-const sinon = require('sinon');
-const proxyquire = require('proxyquire');
-const helpers = require('./helpers');
+import assert from 'node:assert';
+import path from 'node:path';
+import {esmocha} from 'esmocha';
+import _ from 'lodash';
+import sinon from 'sinon';
+import {fakeEnv} from './helpers.js';
 
-const Router = proxyquire('../lib/router', {
-  'read-pkg-up': {
-    sync(options) {
-      // Turn `/phoenix/app` into `phoenix-app`
-      const name = options.cwd.split(path.sep).filter(chunk => Boolean(chunk)).join('-');
-      return {
-        packageJson: {
-          name,
-          version: '0.1.0'
-        }
-      };
-    }
-  }
-});
+const {readPackageUpSync} = await esmocha.mock('read-pkg-up');
+const {default: Router} = await import('../lib/router.js');
+esmocha.reset();
 
 describe('Router', () => {
   beforeEach(async function () {
-    this.env = await helpers.fakeEnv();
+    readPackageUpSync.mockImplementation(options => {
+      // Turn `/phoenix/app` into `phoenix-app`
+      const name = options.cwd.split(path.sep).filter(Boolean).join('-');
+      return {
+        packageJson: {
+          name,
+          version: '0.1.0',
+        },
+      };
+    });
+
+    this.env = await fakeEnv();
     this.env.getGeneratorsMeta = sinon.stub();
     this.router = new Router(this.env);
+  });
+
+  afterEach(() => {
+    esmocha.clearAllMocks();
   });
 
   describe('#registerRoute()', () => {
@@ -62,20 +65,20 @@ describe('Router', () => {
       this.env.getGeneratorsMeta.returns({
         'xanadu:all': {
           namespace: 'xanadu:all',
-          resolved: path.join('xanadu', 'all', 'index.js')
+          resolved: path.join('xanadu', 'all', 'index.js'),
         },
         'phoenix:app': {
           namespace: 'phoenix:app',
-          resolved: path.join('phoenix', 'app', 'index.js')
+          resolved: path.join('phoenix', 'app', 'index.js'),
         },
         'phoenix:misc': {
           namespace: 'phoenix:misc',
-          resolved: path.join('phoenix', 'misc', 'index.js')
+          resolved: path.join('phoenix', 'misc', 'index.js'),
         },
         'phoenix:sub-app': {
           namespace: 'phoenix:sub-app',
-          resolved: path.join('phoenix', 'sub-app', 'index.js')
-        }
+          resolved: path.join('phoenix', 'sub-app', 'index.js'),
+        },
       });
     });
 

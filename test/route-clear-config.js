@@ -1,56 +1,59 @@
-'use strict';
-const assert = require('assert');
-const proxyquire = require('proxyquire');
-const sinon = require('sinon');
-const _ = require('lodash');
-const inquirer = require('inquirer');
-const Router = require('../lib/router');
+import assert from 'node:assert';
+import {esmocha} from 'esmocha';
+import sinon from 'sinon';
+import _ from 'lodash';
+import inquirer from 'inquirer';
+import Router from '../lib/router.js';
+
+const globalConfig = {
+  remove: sinon.stub(),
+  removeAll: sinon.stub(),
+  getAll() {
+    return {
+      'generator-phoenix': {},
+      'generator-unicorn': {},
+    };
+  },
+};
+
+await esmocha.mock('../lib/utils/global-config.js', {default: globalConfig});
+const {clearConfig} = (await import('../lib/routes/clear-config.js'));
+esmocha.reset();
 
 describe('clear config route', () => {
-  beforeEach(function () {
+  beforeEach(async function () {
     this.sandbox = sinon.createSandbox();
-    this.globalConfig = {
-      remove: sinon.stub(),
-      removeAll: sinon.stub(),
-      getAll() {
-        return {
-          'generator-phoenix': {},
-          'generator-unicorn': {}
-        };
-      }
-    };
-    const conf = {
+    this.globalConfig = globalConfig;
+    const config_ = {
       get() {
         return {
           unicorn: 20,
-          phoenix: 10
+          phoenix: 10,
         };
-      }
+      },
     };
     this.homeRoute = sinon.stub().returns(Promise.resolve());
-    this.router = new Router(sinon.stub(), conf);
+    this.router = new Router(sinon.stub(), config_);
     this.router.registerRoute('home', this.homeRoute);
-    const clearConfig = proxyquire('../lib/routes/clear-config', {
-      '../utils/global-config': this.globalConfig
-    });
 
     this.router.registerRoute('clearConfig', clearConfig);
     this.router.generators = {
       'generator-unicorn': {
         name: 'generator-unicorn',
         prettyName: 'Unicorn',
-        namespace: 'unicorn:app'
+        namespace: 'unicorn:app',
       },
       'generator-foo': {
         name: 'generator-foo',
         prettyName: 'Foo',
-        namespace: 'foo:app'
-      }
+        namespace: 'foo:app',
+      },
     };
   });
 
   afterEach(function () {
     this.sandbox.restore();
+    esmocha.clearAllMocks();
   });
 
   it('allow returning home', function () {
@@ -62,7 +65,7 @@ describe('clear config route', () => {
 
   it('allows clearing a generator and return user to home screen', function () {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'foo'}));
-    this.router.navigate('clearConfig').then(() => {
+    return this.router.navigate('clearConfig').then(() => {
       sinon.assert.calledOnce(this.globalConfig.remove);
       sinon.assert.calledWith(this.globalConfig.remove, 'foo');
       sinon.assert.calledOnce(this.homeRoute);
@@ -80,8 +83,8 @@ describe('clear config route', () => {
   it('shows generator with global config entry', function () {
     let choices = [];
 
-    this.sandbox.stub(inquirer, 'prompt').callsFake(arg => {
-      ({choices} = arg[0]);
+    this.sandbox.stub(inquirer, 'prompt').callsFake(argument => {
+      ({choices} = argument[0]);
       return Promise.resolve({whatNext: 'foo'});
     });
     return this.router.navigate('clearConfig').then(() => {
@@ -92,8 +95,8 @@ describe('clear config route', () => {
       assert.ok(_.find(choices, {value: 'generator-phoenix'}));
       assert.ok(_.find(choices, {name: 'Unicorn'}));
       assert.ok(
-        _.find(choices, {name: 'phoenix\u001B[31m (not installed anymore)\u001B[39m'}) ||
-        _.find(choices, {name: 'phoenix (not installed anymore)'})
+        _.find(choices, {name: 'phoenix\u001B[31m (not installed anymore)\u001B[39m'})
+        || _.find(choices, {name: 'phoenix (not installed anymore)'}),
       );
     });
   });

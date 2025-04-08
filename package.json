@@ -2,28 +2,6 @@
   "name": "yo",
   "version": "5.1.0",
   "description": "CLI tool for running Yeoman generators",
-  "license": "BSD-2-Clause",
-  "repository": "yeoman/yo",
-  "homepage": "http://yeoman.io",
-  "author": "Yeoman",
-  "main": "lib",
-  "bin": {
-    "yo": "lib/cli.js",
-    "yo-complete": "lib/completion/index.js"
-  },
-  "engines": {
-    "node": "^18.17.0 || >=20.5.0"
-  },
-  "scripts": {
-    "postinstall": "yodoctor",
-    "postupdate": "yodoctor",
-    "pretest": "xo",
-    "test": "nyc mocha --timeout=30000",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
-  },
-  "files": [
-    "lib"
-  ],
   "keywords": [
     "cli-app",
     "cli",
@@ -41,64 +19,27 @@
     "app",
     "boilerplate"
   ],
-  "dependencies": {
-    "@yeoman/types": "^1.5.0",
-    "async": "^3.2.2",
-    "chalk": "^4.1.2",
-    "cli-list": "^1.0.0",
-    "configstore": "^5.0.1",
-    "cross-spawn": "^7.0.3",
-    "figures": "^3.2.0",
-    "fullname": "^4.0.1",
-    "global-agent": "^3.0.0",
-    "global-tunnel-ng": "^2.7.1",
-    "got": "^11.8.6",
-    "humanize-string": "^2.1.0",
-    "inquirer": "^8.2.0",
-    "lodash": "^4.17.15",
-    "meow": "^5.0.0",
-    "npm-keyword": "^6.1.0",
-    "open": "^8.4.0",
-    "package-json": "^7.0.0",
-    "parse-help": "^1.0.0",
-    "read-pkg-up": "^7.0.1",
-    "root-check": "^1.0.0",
-    "sort-on": "^4.1.1",
-    "string-length": "^4.0.2",
-    "tabtab": "^1.3.2",
-    "titleize": "^2.1.0",
-    "update-notifier": "^5.1.0",
-    "yeoman-character": "^1.0.0",
-    "yeoman-doctor": "^5.0.0",
-    "yeoman-environment": "^4.4.3",
-    "yosay": "^2.0.2"
+  "homepage": "http://yeoman.io",
+  "repository": "yeoman/yo",
+  "license": "BSD-2-Clause",
+  "author": "Yeoman",
+  "type": "module",
+  "main": "lib",
+  "bin": {
+    "yo": "lib/cli.js",
+    "yo-complete": "lib/completion/index.cjs"
   },
-  "devDependencies": {
-    "coveralls": "^3.0.2",
-    "mocha": "^11.0.1",
-    "mockery": "^2.0.0",
-    "nock": "^13.2.1",
-    "nyc": "^17.1.0",
-    "proxyquire": "^2.0.1",
-    "registry-url": "^5.1.0",
-    "sinon": "^19.0.2",
-    "xo": "0.38.0"
-  },
-  "resolutions": {
-    "natives": "1.1.3"
-  },
-  "tabtab": {
-    "yo": [
-      "-f",
-      "--force",
-      "--version",
-      "--no-color",
-      "--generators",
-      "--local-only"
-    ]
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "coverage": "c8 report --reporter=text-lcov | coveralls",
+    "postinstall": "yodoctor",
+    "postupdate": "yodoctor",
+    "pretest": "xo",
+    "test": "c8 esmocha"
   },
   "xo": {
-    "space": true,
     "overrides": [
       {
         "files": "test/**",
@@ -111,6 +52,66 @@
     "rules": {
       "promise/prefer-await-to-then": 0,
       "unicorn/no-array-reduce": "off"
-    }
+    },
+    "space": true
+  },
+  "resolutions": {
+    "natives": "1.1.3"
+  },
+  "dependencies": {
+    "@yeoman/types": "^1.5.0",
+    "async": "^3.2.2",
+    "chalk": "^5.4.1",
+    "cli-list": "^1.0.0",
+    "configstore": "^7.0.0",
+    "cross-spawn": "^7.0.3",
+    "figures": "^6.1.0",
+    "fullname": "^5.0.0",
+    "global-agent": "^3.0.0",
+    "got": "^14.4.7",
+    "humanize-string": "^3.0.0",
+    "inquirer": "^8.2.0",
+    "lodash": "^4.17.15",
+    "meow": "^13.2.0",
+    "npm-keyword": "^6.1.0",
+    "open": "^10.1.0",
+    "package-json": "^10.0.1",
+    "parse-help": "^2.0.0",
+    "read-pkg-up": "^10.1.0",
+    "root-check": "^2.0.0",
+    "sort-on": "^6.1.0",
+    "string-length": "^6.0.0",
+    "tabtab": "^1.3.2",
+    "titleize": "^4.0.0",
+    "update-notifier": "^7.3.1",
+    "yeoman-character": "^2.0.0",
+    "yeoman-doctor": "^5.0.0",
+    "yeoman-environment": "^4.4.3",
+    "yosay": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "c8": "^10.1.3",
+    "coveralls": "^3.0.2",
+    "esmocha": "^3.0.0",
+    "mocha": "^11.0.1",
+    "mockery": "^2.0.0",
+    "nock": "^14.0.3",
+    "registry-url": "^7.0.0",
+    "sinon": "^20.0.0",
+    "xo": "0.60.0"
+  },
+  "engines": {
+    "node": "^18.17.0 || >=20.5.0"
+  },
+  "tabtab": {
+    "yo": [
+      "-f",
+      "--force",
+      "--version",
+      "--no-color",
+      "--generators",
+      "--local-only"
+    ]
   }
 }

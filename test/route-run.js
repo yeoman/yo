@@ -1,35 +1,34 @@
-'use strict';
-const assert = require('assert');
-const fs = require('fs');
-const sinon = require('sinon');
-const Configstore = require('configstore');
-const Router = require('../lib/router');
-const runRoute = require('../lib/routes/run');
-const helpers = require('./helpers');
+import assert from 'node:assert';
+import fs from 'node:fs';
+import sinon from 'sinon';
+import Configstore from 'configstore';
+import Router from '../lib/router.js';
+import {run as runRoute} from '../lib/routes/run.js';
+import {fakeEnv} from './helpers.js';
 
-const conf = new Configstore('yoyo-test-purposes', {
-  generatorRunCount: {}
+const config = new Configstore('yoyo-test-purposes', {
+  generatorRunCount: {},
 });
 
 describe('run route', () => {
   beforeEach(async function () {
-    this.env = await helpers.fakeEnv();
-    this.router = new Router(this.env, conf);
+    this.env = await fakeEnv();
+    this.router = new Router(this.env, config);
     this.router.registerRoute('run', runRoute);
   });
 
   afterEach(() => {
-    fs.unlinkSync(conf.path);
+    fs.unlinkSync(config.path);
   });
 
   it('run a generator', async function () {
-    assert.strictEqual(conf.get('generatorRunCount').foo, undefined);
+    assert.strictEqual(config.get('generatorRunCount').foo, undefined);
     await this.router.navigate('run', 'foo:app');
 
-    assert.strictEqual(conf.get('generatorRunCount').foo, 1);
+    assert.strictEqual(config.get('generatorRunCount').foo, 1);
     sinon.assert.calledWith(this.env.run, 'foo:app');
 
     await this.router.navigate('run', 'foo:app');
-    assert.strictEqual(conf.get('generatorRunCount').foo, 2);
+    assert.strictEqual(config.get('generatorRunCount').foo, 2);
   });
 });
