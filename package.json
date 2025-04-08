@@ -68,7 +68,6 @@
     "figures": "^6.1.0",
     "fullname": "^5.0.0",
     "global-agent": "^3.0.0",
-    "got": "^14.4.7",
     "humanize-string": "^3.0.0",
     "inquirer": "^8.2.0",
     "lodash": "^4.17.15",

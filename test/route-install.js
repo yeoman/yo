@@ -21,6 +21,12 @@ const spawn = await esmocha.mock('cross-spawn', {
 
 esmocha.spyOn(_, 'memoize').mockImplementation(function_ => function_);
 const {default: inquirer} = await esmocha.mock('inquirer');
+await esmocha.mock('../lib/deny-list.js', {
+  default: [
+    'generator-blacklist-1',
+    'generator-blacklist-2',
+  ],
+});
 const {install} = await import('../lib/routes/install.js');
 esmocha.reset();
 _.memoize.mockRestore();
@@ -76,11 +82,6 @@ describe('install route', () => {
         },
       ];
 
-      this.blacklist = [
-        'generator-blacklist-1',
-        'generator-blacklist-2',
-      ];
-
       this.pkgData = {
         'dist-tags': {
           latest: '1.0.0',
@@ -101,11 +102,6 @@ describe('install route', () => {
         .get('/pkg')
         .times(4)
         .reply(200, this.pkgData);
-
-      nock('http://yeoman.io')
-        .get('/blacklist.json')
-        .times(2)
-        .reply(200, this.blacklist);
     });
 
     it('filters already installed generators and match search term', function (done) {
