@@ -69,7 +69,7 @@
     "fullname": "^5.0.0",
     "global-agent": "^3.0.0",
     "humanize-string": "^3.0.0",
-    "inquirer": "^8.2.0",
+    "inquirer": "^12.5.2",
     "lodash": "^4.17.15",
     "meow": "^13.2.0",
     "npm-keyword": "^8.0.0",
