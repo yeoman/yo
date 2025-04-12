@@ -104,12 +104,13 @@ describe('install route', () => {
         .reply(200, this.pkgData);
     });
 
-    it('filters already installed generators and match search term', function (done) {
+    it('filters already installed generators and match search term', async function () {
       if (process.platform === 'darwin') {
         this.skip();
       }
 
       let call = 0;
+      let choices;
       inquirer.prompt.mockImplementation(argument => {
         call++;
         if (call === 1) {
@@ -117,26 +118,27 @@ describe('install route', () => {
         }
 
         if (call === 2) {
-          const {choices} = argument[0];
-          assert.strictEqual(_.filter(choices, {value: 'generator-foo'}).length, 1);
-          assert.strictEqual(_.filter(choices, {value: 'generator-unicorn-1'}).length, 1);
-          assert.strictEqual(_.filter(choices, {value: 'generator-unicorn'}).length, 0);
-          assert.strictEqual(_.filter(choices, {value: 'generator-unrelated'}).length, 0);
-          done();
+          choices = argument[0].choices;
         }
 
         return Promise.resolve({toInstall: 'home'});
       });
 
-      this.router.navigate('install');
+      await this.router.navigate('install');
+
+      assert.strictEqual(_.filter(choices, {value: 'generator-foo'}).length, 1);
+      assert.strictEqual(_.filter(choices, {value: 'generator-unicorn-1'}).length, 1);
+      assert.strictEqual(_.filter(choices, {value: 'generator-unicorn'}).length, 0);
+      assert.strictEqual(_.filter(choices, {value: 'generator-unrelated'}).length, 0);
     });
 
-    it('filters blacklisted generators and match search term', function (done) {
+    it('filters blacklisted generators and match search term', async function () {
       if (process.platform === 'darwin') {
         this.skip();
       }
 
       let call = 0;
+      let choices;
       inquirer.prompt.mockImplementation(argument => {
         call++;
         if (call === 1) {
@@ -144,17 +146,17 @@ describe('install route', () => {
         }
 
         if (call === 2) {
-          const {choices} = argument[0];
-          assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-1'}).length, 0);
-          assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-2'}).length, 0);
-          assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-3'}).length, 1);
-          done();
+          choices = argument[0].choices;
         }
 
         return Promise.resolve({toInstall: 'home'});
       });
 
-      this.router.navigate('install');
+      await this.router.navigate('install');
+
+      assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-1'}).length, 0);
+      assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-2'}).length, 0);
+      assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-3'}).length, 1);
     });
 
     it('allow redo the search', async function () {
@@ -180,7 +182,7 @@ describe('install route', () => {
       await this.router.navigate('install');
     });
 
-    it('allow going back home', function () {
+    it('allow going back home', async function () {
       let call = 0;
       inquirer.prompt.mockImplementation(() => {
         call++;
@@ -191,12 +193,12 @@ describe('install route', () => {
         return Promise.resolve({toInstall: 'home'});
       });
 
-      return this.router.navigate('install').then(() => {
-        expect(this.homeRoute).toHaveBeenCalledTimes(1);
-      });
+      await this.router.navigate('install');
+
+      expect(this.homeRoute).toHaveBeenCalledTimes(1);
     });
 
-    it('install a generator', function () {
+    it('install a generator', async function () {
       let call = 0;
       inquirer.prompt.mockImplementation(() => {
         call++;
@@ -211,11 +213,11 @@ describe('install route', () => {
         return Promise.resolve({toInstall: 'home'});
       });
 
-      return this.router.navigate('install').then(() => {
-        expect(spawn.default).toHaveBeenCalledTimes(1);
-        expect(spawn.default).toHaveBeenCalledWith('npm', ['install', '--global', 'generator-unicorn'], {stdio: 'inherit'});
-        expect(this.homeRoute).toHaveBeenCalledTimes(1);
-      });
+      await this.router.navigate('install');
+
+      expect(spawn.default).toHaveBeenCalledTimes(1);
+      expect(spawn.default).toHaveBeenCalledWith('npm', ['install', '--global', 'generator-unicorn'], {stdio: 'inherit'});
+      expect(this.homeRoute).toHaveBeenCalledTimes(1);
     });
   });
 

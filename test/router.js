@@ -49,8 +49,8 @@ describe('Router', () => {
       sinon.assert.calledOnce(this.route);
     });
 
-    it('call a route passing arguments', function () {
-      this.router.navigate('foo', 'dummy');
+    it('call a route passing arguments', async function () {
+      await this.router.navigate('foo', 'dummy');
       sinon.assert.calledWith(this.route, this.router, 'dummy');
       sinon.assert.calledOnce(this.route);
     });
