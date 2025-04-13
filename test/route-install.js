@@ -1,6 +1,7 @@
 import assert from 'node:assert';
 import process from 'node:process';
 import {esmocha, expect} from 'esmocha';
+import {TestAdapter} from '@yeoman/adapter/testing';
 import _ from 'lodash';
 import nock from 'nock';
 import registryUrlFactory from 'registry-url';
@@ -20,7 +21,6 @@ const spawn = await esmocha.mock('cross-spawn', {
 });
 
 esmocha.spyOn(_, 'memoize').mockImplementation(function_ => function_);
-const {default: inquirer} = await esmocha.mock('inquirer');
 await esmocha.mock('../lib/deny-list.js', {
   default: [
     'generator-blacklist-1',
@@ -34,10 +34,14 @@ _.memoize.mockRestore();
 const registryUrl = registryUrlFactory();
 
 describe('install route', () => {
+  /** @type {TestAdapter} */
+  let adapter;
+
   beforeEach(async function () {
     this.env = await helpers.fakeEnv();
     this.homeRoute = esmocha.fn().mockResolvedValue();
-    this.router = new Router(this.env);
+    adapter = new TestAdapter();
+    this.router = new Router({adapter, env: this.env});
     this.router.registerRoute('home', this.homeRoute);
 
     this.router.registerRoute('install', install);
@@ -111,7 +115,7 @@ describe('install route', () => {
 
       let call = 0;
       let choices;
-      inquirer.prompt.mockImplementation(argument => {
+      esmocha.spyOn(adapter, 'prompt').mockImplementation(argument => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
@@ -139,7 +143,7 @@ describe('install route', () => {
 
       let call = 0;
       let choices;
-      inquirer.prompt.mockImplementation(argument => {
+      esmocha.spyOn(adapter, 'prompt').mockImplementation(argument => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'blacklist'});
@@ -161,7 +165,7 @@ describe('install route', () => {
 
     it('allow redo the search', async function () {
       let call = 0;
-      inquirer.prompt.mockImplementation(async argument => {
+      esmocha.spyOn(adapter, 'prompt').mockImplementation(async argument => {
         call++;
         if (call === 1) {
           return {searchTerm: 'unicorn'};
@@ -184,7 +188,7 @@ describe('install route', () => {
 
     it('allow going back home', async function () {
       let call = 0;
-      inquirer.prompt.mockImplementation(() => {
+      esmocha.spyOn(adapter, 'prompt').mockImplementation(() => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
@@ -200,7 +204,7 @@ describe('install route', () => {
 
     it('install a generator', async function () {
       let call = 0;
-      inquirer.prompt.mockImplementation(() => {
+      esmocha.spyOn(adapter, 'prompt').mockImplementation(() => {
         call++;
         if (call === 1) {
           return Promise.resolve({searchTerm: 'unicorn'});
@@ -247,7 +251,7 @@ describe('install route', () => {
     it('list options if search have no results', async function () {
       let call = 0;
 
-      inquirer.prompt.mockImplementation(argument => {
+      esmocha.spyOn(adapter, 'prompt').mockImplementation(argument => {
         call++;
 
         if (call === 1) {

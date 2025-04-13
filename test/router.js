@@ -24,7 +24,7 @@ describe('Router', () => {
 
     this.env = await fakeEnv();
     this.env.getGeneratorsMeta = sinon.stub();
-    this.router = new Router(this.env);
+    this.router = new Router({env: this.env});
   });
 
   afterEach(() => {

@@ -1,8 +1,8 @@
 import assert from 'node:assert';
 import {esmocha} from 'esmocha';
+import {TestAdapter} from '@yeoman/adapter/testing';
 import sinon from 'sinon';
 import _ from 'lodash';
-import inquirer from 'inquirer';
 import Router from '../lib/router.js';
 
 const globalConfig = {
@@ -21,10 +21,13 @@ const {clearConfig} = (await import('../lib/routes/clear-config.js'));
 esmocha.reset();
 
 describe('clear config route', () => {
+  /** @type {TestAdapter} */
+  let adapter;
+
   beforeEach(async function () {
     this.sandbox = sinon.createSandbox();
     this.globalConfig = globalConfig;
-    const config_ = {
+    const config = {
       get() {
         return {
           unicorn: 20,
@@ -33,7 +36,8 @@ describe('clear config route', () => {
       },
     };
     this.homeRoute = sinon.stub().returns(Promise.resolve());
-    this.router = new Router(sinon.stub(), config_);
+    adapter = new TestAdapter();
+    this.router = new Router({adapter, env: sinon.stub(), config});
     this.router.registerRoute('home', this.homeRoute);
 
     this.router.registerRoute('clearConfig', clearConfig);
@@ -57,7 +61,7 @@ describe('clear config route', () => {
   });
 
   it('allow returning home', async function () {
-    this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'home'}));
+    this.sandbox.stub(adapter, 'prompt').returns(Promise.resolve({whatNext: 'home'}));
 
     await this.router.navigate('clearConfig');
 
@@ -65,7 +69,7 @@ describe('clear config route', () => {
   });
 
   it('allows clearing a generator and return user to home screen', async function () {
-    this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'foo'}));
+    this.sandbox.stub(adapter, 'prompt').returns(Promise.resolve({whatNext: 'foo'}));
 
     await this.router.navigate('clearConfig');
 
@@ -75,7 +79,7 @@ describe('clear config route', () => {
   });
 
   it('allows clearing all generators and return user to home screen', async function () {
-    this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: '*'}));
+    this.sandbox.stub(adapter, 'prompt').returns(Promise.resolve({whatNext: '*'}));
 
     await this.router.navigate('clearConfig');
 
@@ -86,7 +90,7 @@ describe('clear config route', () => {
   it('shows generator with global config entry', async function () {
     let choices = [];
 
-    this.sandbox.stub(inquirer, 'prompt').callsFake(argument => {
+    this.sandbox.stub(adapter, 'prompt').callsFake(argument => {
       ({choices} = argument[0]);
       return Promise.resolve({whatNext: 'foo'});
     });

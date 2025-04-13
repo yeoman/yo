@@ -1,16 +1,20 @@
 import assert from 'node:assert';
+import {TestAdapter} from '@yeoman/adapter/testing';
 import _ from 'lodash';
 import sinon from 'sinon';
-import inquirer from 'inquirer';
 import Router from '../lib/router.js';
 import {home} from '../lib/routes/home.js';
 import {fakeEnv} from './helpers.js';
 
 describe('home route', () => {
+  /** @type {TestAdapter} */
+  let adapter;
+
   beforeEach(async function () {
     this.sandbox = sinon.createSandbox();
     this.env = await fakeEnv();
-    this.router = new Router(this.env, this.insight);
+    adapter = new TestAdapter();
+    this.router = new Router({adapter, env: this.env});
     this.router.registerRoute('home', home);
     this.runRoute = sinon.stub().returns(Promise.resolve());
     this.router.registerRoute('run', this.runRoute);
@@ -27,14 +31,14 @@ describe('home route', () => {
   });
 
   it('allow going to help', async function () {
-    this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'help'}));
+    this.sandbox.stub(adapter, 'prompt').returns(Promise.resolve({whatNext: 'help'}));
     await this.router.navigate('home').then(() => {
       sinon.assert.calledOnce(this.helpRoute);
     });
   });
 
   it('allow going to install', async function () {
-    this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'install'}));
+    this.sandbox.stub(adapter, 'prompt').returns(Promise.resolve({whatNext: 'install'}));
     await this.router.navigate('home').then(() => {
       sinon.assert.calledOnce(this.installRoute);
     });
@@ -42,7 +46,7 @@ describe('home route', () => {
 
   it('does not display update options if no generators is installed', async function () {
     this.router.generator = [];
-    this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
+    this.sandbox.stub(adapter, 'prompt').callsFake(prompts => {
       assert.strictEqual(_.map(prompts[0].choices, 'value').includes('update'), false);
       return Promise.resolve({whatNext: 'exit'});
     });
@@ -58,7 +62,7 @@ describe('home route', () => {
       updateAvailable: false,
     }];
 
-    this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
+    this.sandbox.stub(adapter, 'prompt').callsFake(prompts => {
       assert(_.map(prompts[0].choices, 'value').includes('update'));
       return Promise.resolve({whatNext: 'update'});
     });
@@ -76,7 +80,7 @@ describe('home route', () => {
       updateAvailable: false,
     }];
 
-    this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
+    this.sandbox.stub(adapter, 'prompt').callsFake(prompts => {
       assert.strictEqual(prompts[0].choices[1].value.generator, 'unicorn:app');
       return Promise.resolve({
         whatNext: {
@@ -99,7 +103,7 @@ describe('home route', () => {
       updateAvailable: true,
     }];
 
-    this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
+    this.sandbox.stub(adapter, 'prompt').callsFake(prompts => {
       assert(prompts[0].choices[1].name.includes('♥ Update Available!'));
       return Promise.resolve({whatNext: 'exit'});
     });

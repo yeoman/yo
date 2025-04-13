@@ -1,5 +1,6 @@
 import assert from 'node:assert';
 import fs from 'node:fs';
+import {TestAdapter} from '@yeoman/adapter/testing';
 import sinon from 'sinon';
 import Configstore from 'configstore';
 import Router from '../lib/router.js';
@@ -11,9 +12,13 @@ const config = new Configstore('yoyo-test-purposes', {
 });
 
 describe('run route', () => {
+  /** @type {TestAdapter} */
+  let adapter;
+
   beforeEach(async function () {
     this.env = await fakeEnv();
-    this.router = new Router(this.env, config);
+    adapter = new TestAdapter();
+    this.router = new Router({adapter, env: this.env, config});
     this.router.registerRoute('run', runRoute);
   });
 
