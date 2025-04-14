@@ -29,19 +29,20 @@ describe('update route', () => {
     this.sandbox.restore();
   });
 
-  it('allows updating generators and return user to home screen', function () {
+  it('allows updating generators and return user to home screen', async function () {
     const generators = ['generator-cat', 'generator-unicorn'];
     this.sandbox.stub(inquirer, 'prompt').returns(
       Promise.resolve({generators}),
     );
-    return this.router.navigate('update').then(() => {
-      sinon.assert.calledWith(
-        this.crossSpawn,
-        'npm',
-        ['install', '--global', ...generators],
-      );
-      sinon.assert.calledOnce(this.homeRoute);
-      sinon.assert.calledOnce(this.env.lookup);
-    });
+
+    await this.router.navigate('update');
+
+    sinon.assert.calledWith(
+      this.crossSpawn,
+      'npm',
+      ['install', '--global', ...generators],
+    );
+    sinon.assert.calledOnce(this.homeRoute);
+    sinon.assert.calledOnce(this.env.lookup);
   });
 });

@@ -26,31 +26,31 @@ describe('home route', () => {
     this.sandbox.restore();
   });
 
-  it('allow going to help', function () {
+  it('allow going to help', async function () {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'help'}));
-    return this.router.navigate('home').then(() => {
+    await this.router.navigate('home').then(() => {
       sinon.assert.calledOnce(this.helpRoute);
     });
   });
 
-  it('allow going to install', function () {
+  it('allow going to install', async function () {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'install'}));
-    return this.router.navigate('home').then(() => {
+    await this.router.navigate('home').then(() => {
       sinon.assert.calledOnce(this.installRoute);
     });
   });
 
-  it('does not display update options if no generators is installed', function () {
+  it('does not display update options if no generators is installed', async function () {
     this.router.generator = [];
     this.sandbox.stub(inquirer, 'prompt').callsFake(prompts => {
       assert.strictEqual(_.map(prompts[0].choices, 'value').includes('update'), false);
       return Promise.resolve({whatNext: 'exit'});
     });
 
-    return this.router.navigate('home');
+    await this.router.navigate('home');
   });
 
-  it('show update menu option if there is installed generators', function () {
+  it('show update menu option if there is installed generators', async function () {
     this.router.generators = [{
       namespace: 'unicorn:app',
       appGenerator: true,
@@ -63,12 +63,12 @@ describe('home route', () => {
       return Promise.resolve({whatNext: 'update'});
     });
 
-    return this.router.navigate('home').then(() => {
+    await this.router.navigate('home').then(() => {
       sinon.assert.calledOnce(this.updateRoute);
     });
   });
 
-  it('list runnable generators', function () {
+  it('list runnable generators', async function () {
     this.router.generators = [{
       namespace: 'unicorn:app',
       appGenerator: true,
@@ -86,12 +86,12 @@ describe('home route', () => {
       });
     });
 
-    return this.router.navigate('home').then(() => {
+    await this.router.navigate('home').then(() => {
       sinon.assert.calledWith(this.runRoute, this.router, 'unicorn:app');
     });
   });
 
-  it('show update available message behind generator name', function () {
+  it('show update available message behind generator name', async function () {
     this.router.generators = [{
       namespace: 'unicorn:app',
       appGenerator: true,
@@ -104,6 +104,6 @@ describe('home route', () => {
       return Promise.resolve({whatNext: 'exit'});
     });
 
-    return this.router.navigate('home');
+    await this.router.navigate('home');
   });
 });

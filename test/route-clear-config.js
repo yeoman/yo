@@ -56,48 +56,52 @@ describe('clear config route', () => {
     esmocha.clearAllMocks();
   });
 
-  it('allow returning home', function () {
+  it('allow returning home', async function () {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'home'}));
-    return this.router.navigate('clearConfig').then(() => {
-      sinon.assert.calledOnce(this.homeRoute);
-    });
+
+    await this.router.navigate('clearConfig');
+
+    sinon.assert.calledOnce(this.homeRoute);
   });
 
-  it('allows clearing a generator and return user to home screen', function () {
+  it('allows clearing a generator and return user to home screen', async function () {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: 'foo'}));
-    return this.router.navigate('clearConfig').then(() => {
-      sinon.assert.calledOnce(this.globalConfig.remove);
-      sinon.assert.calledWith(this.globalConfig.remove, 'foo');
-      sinon.assert.calledOnce(this.homeRoute);
-    });
+
+    await this.router.navigate('clearConfig');
+
+    sinon.assert.calledOnce(this.globalConfig.remove);
+    sinon.assert.calledWith(this.globalConfig.remove, 'foo');
+    sinon.assert.calledOnce(this.homeRoute);
   });
 
-  it('allows clearing all generators and return user to home screen', function () {
+  it('allows clearing all generators and return user to home screen', async function () {
     this.sandbox.stub(inquirer, 'prompt').returns(Promise.resolve({whatNext: '*'}));
-    return this.router.navigate('clearConfig').then(() => {
-      sinon.assert.calledOnce(this.globalConfig.removeAll);
-      sinon.assert.calledOnce(this.homeRoute);
-    });
+
+    await this.router.navigate('clearConfig');
+
+    sinon.assert.calledOnce(this.globalConfig.removeAll);
+    sinon.assert.calledOnce(this.homeRoute);
   });
 
-  it('shows generator with global config entry', function () {
+  it('shows generator with global config entry', async function () {
     let choices = [];
 
     this.sandbox.stub(inquirer, 'prompt').callsFake(argument => {
       ({choices} = argument[0]);
       return Promise.resolve({whatNext: 'foo'});
     });
-    return this.router.navigate('clearConfig').then(() => {
-      // Clear all generators entry is present
-      assert.ok(_.find(choices, {value: '*'}));
 
-      assert.ok(_.find(choices, {value: 'generator-unicorn'}));
-      assert.ok(_.find(choices, {value: 'generator-phoenix'}));
-      assert.ok(_.find(choices, {name: 'Unicorn'}));
-      assert.ok(
-        _.find(choices, {name: 'phoenix\u001B[31m (not installed anymore)\u001B[39m'})
-        || _.find(choices, {name: 'phoenix (not installed anymore)'}),
-      );
-    });
+    await this.router.navigate('clearConfig');
+
+    // Clear all generators entry is present
+    assert.ok(_.find(choices, {value: '*'}));
+
+    assert.ok(_.find(choices, {value: 'generator-unicorn'}));
+    assert.ok(_.find(choices, {value: 'generator-phoenix'}));
+    assert.ok(_.find(choices, {name: 'Unicorn'}));
+    assert.ok(
+      _.find(choices, {name: 'phoenix\u001B[31m (not installed anymore)\u001B[39m'})
+      || _.find(choices, {name: 'phoenix (not installed anymore)'}),
+    );
   });
 });
