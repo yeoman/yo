@@ -88,15 +88,11 @@ describe('clear config route', () => {
   });
 
   it('shows generator with global config entry', async function () {
-    let choices = [];
-
-    this.sandbox.stub(adapter, 'prompt').callsFake(argument => {
-      ({choices} = argument[0]);
-      return Promise.resolve({whatNext: 'foo'});
-    });
+    adapter.addAnswers({whatNext: 'foo'});
 
     await this.router.navigate('clearConfig');
 
+    const {choices} = adapter.calls[0].question;
     // Clear all generators entry is present
     assert.ok(_.find(choices, {value: '*'}));
 

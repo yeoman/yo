@@ -59,8 +59,8 @@
     "natives": "1.1.3"
   },
   "dependencies": {
-    "@yeoman/adapter": "^2.0.0",
-    "@yeoman/types": "^1.5.0",
+    "@yeoman/adapter": "^2.1.1",
+    "@yeoman/types": "^1.6.0",
     "chalk": "^5.4.1",
     "cli-list": "^1.0.0",
     "configstore": "^7.0.0",

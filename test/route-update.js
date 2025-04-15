@@ -13,8 +13,6 @@ describe('update route', () => {
   let adapter;
 
   beforeEach(async function () {
-    this.sandbox = sinon.createSandbox();
-
     this.env = await helpers.fakeEnv();
 
     this.homeRoute = sinon.stub().returns(Promise.resolve());
@@ -28,16 +26,13 @@ describe('update route', () => {
     this.router.registerRoute('update', update);
   });
 
-  afterEach(function () {
+  afterEach(() => {
     esmocha.clearAllMocks();
-    this.sandbox.restore();
   });
 
   it('allows updating generators and return user to home screen', async function () {
     const generators = ['generator-cat', 'generator-unicorn'];
-    this.sandbox.stub(adapter, 'prompt').returns(
-      Promise.resolve({generators}),
-    );
+    adapter.addAnswers({generators});
 
     await this.router.navigate('update');
 

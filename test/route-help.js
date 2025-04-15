@@ -12,7 +12,6 @@ describe('help route', () => {
   let adapter;
 
   beforeEach(async function () {
-    this.sandbox = sinon.createSandbox();
     this.homeRoute = sinon.stub().returns(Promise.resolve());
     adapter = new TestAdapter();
     this.router = new Router({adapter, env: sinon.stub()});
@@ -21,24 +20,25 @@ describe('help route', () => {
     this.router.registerRoute('help', helpRoute);
   });
 
-  afterEach(function () {
-    this.sandbox.restore();
+  afterEach(() => {
     esmocha.clearAllMocks();
   });
 
   it('allow returning home', async function () {
-    this.sandbox.stub(adapter, 'prompt').returns(Promise.resolve({whereTo: 'home'}));
-    await this.router.navigate('help').then(() => {
-      sinon.assert.calledOnce(this.homeRoute);
-    });
+    adapter.addAnswers({whereTo: 'home'});
+
+    await this.router.navigate('help');
+
+    sinon.assert.calledOnce(this.homeRoute);
   });
 
   it('open urls in browsers', async function () {
     const url = 'http://yeoman.io';
-    this.sandbox.stub(adapter, 'prompt').returns(Promise.resolve({whereTo: url}));
-    await this.router.navigate('help').then(() => {
-      expect(open).toHaveBeenCalledTimes(1);
-      expect(open).toHaveBeenCalledWith(url);
-    });
+    adapter.addAnswers({whereTo: url});
+
+    await this.router.navigate('help');
+
+    expect(open).toHaveBeenCalledTimes(1);
+    expect(open).toHaveBeenCalledWith(url);
   });
 });
