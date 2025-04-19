@@ -11,7 +11,6 @@ describe('home route', () => {
   let adapter;
 
   beforeEach(async function () {
-    this.sandbox = sinon.createSandbox();
     this.env = await fakeEnv();
     adapter = new TestAdapter();
     this.router = new Router({adapter, env: this.env});
@@ -26,32 +25,29 @@ describe('home route', () => {
     this.router.registerRoute('update', this.updateRoute);
   });
 
-  afterEach(function () {
-    this.sandbox.restore();
-  });
-
   it('allow going to help', async function () {
-    this.sandbox.stub(adapter, 'prompt').returns(Promise.resolve({whatNext: 'help'}));
-    await this.router.navigate('home').then(() => {
-      sinon.assert.calledOnce(this.helpRoute);
-    });
+    adapter.addAnswers({whatNext: 'help'});
+
+    await this.router.navigate('home');
+
+    sinon.assert.calledOnce(this.helpRoute);
   });
 
   it('allow going to install', async function () {
-    this.sandbox.stub(adapter, 'prompt').returns(Promise.resolve({whatNext: 'install'}));
-    await this.router.navigate('home').then(() => {
-      sinon.assert.calledOnce(this.installRoute);
-    });
+    adapter.addAnswers({whatNext: 'install'});
+
+    await this.router.navigate('home');
+
+    sinon.assert.calledOnce(this.installRoute);
   });
 
   it('does not display update options if no generators is installed', async function () {
     this.router.generator = [];
-    this.sandbox.stub(adapter, 'prompt').callsFake(prompts => {
-      assert.strictEqual(_.map(prompts[0].choices, 'value').includes('update'), false);
-      return Promise.resolve({whatNext: 'exit'});
-    });
+    adapter.addAnswers({whatNext: 'exit'});
 
     await this.router.navigate('home');
+
+    assert.strictEqual(_.map(adapter.calls[0].question.choices, 'value').includes('update'), false);
   });
 
   it('show update menu option if there is installed generators', async function () {
@@ -62,14 +58,12 @@ describe('home route', () => {
       updateAvailable: false,
     }];
 
-    this.sandbox.stub(adapter, 'prompt').callsFake(prompts => {
-      assert(_.map(prompts[0].choices, 'value').includes('update'));
-      return Promise.resolve({whatNext: 'update'});
-    });
+    adapter.addAnswers({whatNext: 'update'});
 
-    await this.router.navigate('home').then(() => {
-      sinon.assert.calledOnce(this.updateRoute);
-    });
+    await this.router.navigate('home');
+
+    assert(_.map(adapter.calls[0].question.choices, 'value').includes('update'));
+    sinon.assert.calledOnce(this.updateRoute);
   });
 
   it('list runnable generators', async function () {
@@ -80,19 +74,17 @@ describe('home route', () => {
       updateAvailable: false,
     }];
 
-    this.sandbox.stub(adapter, 'prompt').callsFake(prompts => {
-      assert.strictEqual(prompts[0].choices[1].value.generator, 'unicorn:app');
-      return Promise.resolve({
-        whatNext: {
-          method: 'run',
-          generator: 'unicorn:app',
-        },
-      });
+    adapter.addAnswers({
+      whatNext: {
+        method: 'run',
+        generator: 'unicorn:app',
+      },
     });
 
-    await this.router.navigate('home').then(() => {
-      sinon.assert.calledWith(this.runRoute, this.router, 'unicorn:app');
-    });
+    await this.router.navigate('home');
+
+    assert.strictEqual(adapter.calls[0].question.choices[1].value.generator, 'unicorn:app');
+    sinon.assert.calledWith(this.runRoute, this.router, 'unicorn:app');
   });
 
   it('show update available message behind generator name', async function () {
@@ -103,11 +95,10 @@ describe('home route', () => {
       updateAvailable: true,
     }];
 
-    this.sandbox.stub(adapter, 'prompt').callsFake(prompts => {
-      assert(prompts[0].choices[1].name.includes('♥ Update Available!'));
-      return Promise.resolve({whatNext: 'exit'});
-    });
+    adapter.addAnswers({whatNext: 'exit'});
 
     await this.router.navigate('home');
+
+    assert(adapter.calls[0].question.choices[1].name.includes('♥ Update Available!'));
   });
 });

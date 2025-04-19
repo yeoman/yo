@@ -1,5 +1,4 @@
 import assert from 'node:assert';
-import process from 'node:process';
 import {esmocha, expect} from 'esmocha';
 import {TestAdapter} from '@yeoman/adapter/testing';
 import _ from 'lodash';
@@ -7,6 +6,17 @@ import nock from 'nock';
 import registryUrlFactory from 'registry-url';
 import Router from '../lib/router.js';
 import * as helpers from './helpers.js';
+
+const orderedAnswers = ({toInstall, searchTerm}) => ({
+  _searchTerm: searchTerm,
+  get searchTerm() {
+    return this._searchTerm.shift();
+  },
+  _toInstall: toInstall,
+  get toInstall() {
+    return this._toInstall.shift();
+  },
+});
 
 const spawn = await esmocha.mock('cross-spawn', {
   default: esmocha.fn().mockReturnValue({
@@ -109,93 +119,41 @@ describe('install route', () => {
     });
 
     it('filters already installed generators and match search term', async function () {
-      if (process.platform === 'darwin') {
-        this.skip();
-      }
-
-      let call = 0;
-      let choices;
-      esmocha.spyOn(adapter, 'prompt').mockImplementation(argument => {
-        call++;
-        if (call === 1) {
-          return Promise.resolve({searchTerm: 'unicorn'});
-        }
-
-        if (call === 2) {
-          choices = argument[0].choices;
-        }
-
-        return Promise.resolve({toInstall: 'home'});
-      });
+      adapter.addAnswers(orderedAnswers({searchTerm: ['unicorn'], toInstall: ['home']}));
 
       await this.router.navigate('install');
 
-      assert.strictEqual(_.filter(choices, {value: 'generator-foo'}).length, 1);
-      assert.strictEqual(_.filter(choices, {value: 'generator-unicorn-1'}).length, 1);
-      assert.strictEqual(_.filter(choices, {value: 'generator-unicorn'}).length, 0);
-      assert.strictEqual(_.filter(choices, {value: 'generator-unrelated'}).length, 0);
+      expect(adapter.calls).toHaveLength(2);
+      const {choices} = adapter.calls[1].question;
+      expect(choices).toMatchObject(expect.arrayContaining([
+        expect.objectContaining({value: 'generator-foo'}),
+        expect.objectContaining({value: 'generator-unicorn-1'}),
+      ]));
+      expect(choices).toMatchObject(expect.not.arrayContaining([expect.objectContaining({value: 'generator-unicorn'})]));
+      expect(choices).toMatchObject(expect.not.arrayContaining([expect.objectContaining({value: 'generator-unrelated'})]));
     });
 
     it('filters blacklisted generators and match search term', async function () {
-      if (process.platform === 'darwin') {
-        this.skip();
-      }
-
-      let call = 0;
-      let choices;
-      esmocha.spyOn(adapter, 'prompt').mockImplementation(argument => {
-        call++;
-        if (call === 1) {
-          return Promise.resolve({searchTerm: 'blacklist'});
-        }
-
-        if (call === 2) {
-          choices = argument[0].choices;
-        }
-
-        return Promise.resolve({toInstall: 'home'});
-      });
+      adapter.addAnswers(orderedAnswers({searchTerm: ['blacklist'], toInstall: ['home']}));
 
       await this.router.navigate('install');
 
+      const {choices} = adapter.calls[1].question;
       assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-1'}).length, 0);
       assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-2'}).length, 0);
       assert.strictEqual(_.filter(choices, {value: 'generator-blacklist-3'}).length, 1);
     });
 
     it('allow redo the search', async function () {
-      let call = 0;
-      esmocha.spyOn(adapter, 'prompt').mockImplementation(async argument => {
-        call++;
-        if (call === 1) {
-          return {searchTerm: 'unicorn'};
-        }
-
-        if (call === 2) {
-          return {toInstall: 'install'};
-        }
-
-        if (call === 3) {
-          assert.strictEqual(argument[0].name, 'searchTerm');
-          return {searchTerm: 'unicorn'};
-        }
-
-        return {toInstall: 'home'};
-      });
+      adapter.addAnswers(orderedAnswers({searchTerm: ['unicorn', 'unicorn'], toInstall: ['install', 'home']}));
 
       await this.router.navigate('install');
+
+      expect(adapter.calls[2].question.name).toBe('searchTerm');
     });
 
     it('allow going back home', async function () {
-      let call = 0;
-      esmocha.spyOn(adapter, 'prompt').mockImplementation(() => {
-        call++;
-        if (call === 1) {
-          return Promise.resolve({searchTerm: 'unicorn'});
-        }
-
-        return Promise.resolve({toInstall: 'home'});
-      });
+      adapter.addAnswers(orderedAnswers({searchTerm: ['unicorn'], toInstall: ['home']}));
 
       await this.router.navigate('install');
 
@@ -203,19 +161,7 @@ describe('install route', () => {
     });
 
     it('install a generator', async function () {
-      let call = 0;
-      esmocha.spyOn(adapter, 'prompt').mockImplementation(() => {
-        call++;
-        if (call === 1) {
-          return Promise.resolve({searchTerm: 'unicorn'});
-        }
-
-        if (call === 2) {
-          return Promise.resolve({toInstall: 'generator-unicorn'});
-        }
-
-        return Promise.resolve({toInstall: 'home'});
-      });
+      adapter.addAnswers(orderedAnswers({searchTerm: ['unicorn'], toInstall: ['generator-unicorn', 'home']}));
 
       await this.router.navigate('install');
 
@@ -249,24 +195,12 @@ describe('install route', () => {
     });
 
     it('list options if search have no results', async function () {
-      let call = 0;
-
-      esmocha.spyOn(adapter, 'prompt').mockImplementation(argument => {
-        call++;
-
-        if (call === 1) {
-          return Promise.resolve({searchTerm: 'foo'});
-        }
-
-        if (call === 2) {
-          const {choices} = argument[0];
-          assert.deepStrictEqual(_.map(choices, 'value'), ['install', 'home']);
-        }
-
-        return Promise.resolve({toInstall: 'home'});
-      });
+      adapter.addAnswers(orderedAnswers({searchTerm: ['foo'], toInstall: ['home']}));
 
       await this.router.navigate('install');
+
+      const {choices} = adapter.calls[1].question;
+      assert.deepStrictEqual(_.map(choices, 'value'), ['install', 'home']);
     });
   });
 });
