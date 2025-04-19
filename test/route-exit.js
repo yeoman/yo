@@ -4,7 +4,7 @@ import {exit} from '../lib/routes/exit.js';
 
 describe('exit route', () => {
   beforeEach(function () {
-    this.router = new Router(sinon.stub());
+    this.router = new Router({env: sinon.stub()});
     this.router.registerRoute('exit', exit);
   });
 });
