@@ -132,12 +132,12 @@ describe('Completion', () => {
 
           /* eslint no-multi-spaces: 0 */
           assert.deepStrictEqual(results, [
-            {name: '--force',      description: 'Overwrite files that already exist'},
-            {name: '--version',    description: 'Print version'},
-            {name: '--no-color',   description: 'Disable colors'},
+            {name: '--force', description: 'Overwrite files that already exist'},
+            {name: '--version', description: 'Print version'},
+            {name: '--no-color', description: 'Disable colors'},
             {name: '--generators', description: 'Print available generators'},
             {name: '--local-only', description: 'Disable lookup of globally-installed generators'},
-            {name: '-f',           description: 'Overwrite files that already exist'},
+            {name: '-f', description: 'Overwrite files that already exist'},
           ]);
 
           done();
