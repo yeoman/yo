@@ -62,7 +62,7 @@ describe('home route', () => {
 
     await this.router.navigate('home');
 
-    assert(_.map(adapter.calls[0].question.choices, 'value').includes('update'));
+    assert.ok(_.map(adapter.calls[0].question.choices, 'value').includes('update'));
     sinon.assert.calledOnce(this.updateRoute);
   });
 
@@ -99,6 +99,6 @@ describe('home route', () => {
 
     await this.router.navigate('home');
 
-    assert(adapter.calls[0].question.choices[1].name.includes('♥ Update Available!'));
+    assert.ok(adapter.calls[0].question.choices[1].name.includes('♥ Update Available!'));
   });
 });

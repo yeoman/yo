@@ -44,7 +44,7 @@ describe('bin', () => {
         }
 
         called = true;
-        assert(argument, 1, 'exit code should be 1');
+        assert.ok(argument, 1, 'exit code should be 1');
         done();
       };
 
@@ -75,8 +75,8 @@ describe('bin', () => {
     const cp = execFile('node', [path.resolve(__dirname, '..', pkg.bin.yo), '--generators']);
 
     cp.stdout.once('data', data => {
-      assert(data.length > 0);
-      assert(!/\[/.test(data));
+      assert.ok(data.length > 0);
+      assert.ok(!/\[/.test(data));
       callback();
     });
   });
@@ -89,8 +89,8 @@ describe('bin', () => {
     ]);
 
     cp.stdout.once('data', data => {
-      assert(data.length > 0);
-      assert(!/\[/.test(data));
+      assert.ok(data.length > 0);
+      assert.ok(!/\[/.test(data));
       callback();
     });
   });

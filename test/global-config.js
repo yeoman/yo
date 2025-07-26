@@ -29,13 +29,13 @@ describe('global config', () => {
     it('when config is present', function () {
       this.sandbox.stub(fs, 'existsSync').returns(true);
       this.sandbox.stub(fs, 'readFileSync').returns('{"foo": "bar"}');
-      assert(globalConfig.hasContent());
+      assert.ok(globalConfig.hasContent());
     });
 
     it('when config is not present', function () {
       this.sandbox.stub(fs, 'existsSync').returns(true);
       this.sandbox.stub(fs, 'readFileSync').returns('{}');
-      assert(!globalConfig.hasContent());
+      assert.ok(!globalConfig.hasContent());
     });
   });
 
