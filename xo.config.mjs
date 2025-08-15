@@ -8,7 +8,6 @@ const xoConfig = [
     rules: {
       'promise/prefer-await-to-then': 0,
       'unicorn/no-array-reduce': 'off',
-      '@stylistic/indent-binary-ops': ['error', 2],
     },
   },
   {
