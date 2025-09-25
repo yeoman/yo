@@ -55,7 +55,7 @@
     "humanize-string": "^3.0.0",
     "inquirer": "^12.5.2",
     "lodash": "^4.17.15",
-    "meow": "^13.2.0",
+    "meow": "^14.0.0",
     "npm-keyword": "^8.0.0",
     "open": "^10.1.0",
     "package-json": "^10.0.1",
