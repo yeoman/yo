@@ -5,7 +5,7 @@ import _ from 'lodash';
 import sinon from 'sinon';
 import {fakeEnv} from './helpers.js';
 
-const {readPackageUpSync} = await esmocha.mock('read-pkg-up');
+const {readPackageUpSync} = await esmocha.mock('read-package-up');
 const {default: Router} = await import('../lib/router.js');
 esmocha.reset();
 
