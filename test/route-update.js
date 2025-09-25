@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import Router from '../lib/router.js';
 import * as helpers from './helpers.js';
 
-const {default: crossSpawn} = await esmocha.mock('cross-spawn');
+const {default: crossSpawn} = await esmocha.mock('cross-spawn', {default: esmocha.fn()});
 const {update} = await import('../lib/routes/update.js');
 esmocha.reset();
 
