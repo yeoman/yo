@@ -21,12 +21,6 @@ Run local generators:
 
   $ yo ./path/to/some/generator
 
-Completion:
-
-  To enable shell completion for the yo command, try running
-
-  $ yo completion
-
 Troubleshooting:
 
   For any issues, try running
