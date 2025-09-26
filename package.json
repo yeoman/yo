@@ -26,8 +26,7 @@
   "type": "module",
   "main": "lib",
   "bin": {
-    "yo": "lib/cli.js",
-    "yo-complete": "lib/completion/index.cjs"
+    "yo": "lib/cli.js"
   },
   "files": [
     "lib"
@@ -63,7 +62,6 @@
     "root-check": "^2.0.0",
     "sort-on": "^6.1.1",
     "string-length": "^6.0.0",
-    "tabtab": "^1.3.2",
     "titleize": "^4.0.0",
     "update-notifier": "^7.3.1",
     "yeoman-character": "^2.0.0",
@@ -83,15 +81,5 @@
   },
   "engines": {
     "node": "^20.17.0 || >=22.9.0"
-  },
-  "tabtab": {
-    "yo": [
-      "-f",
-      "--force",
-      "--version",
-      "--no-color",
-      "--generators",
-      "--local-only"
-    ]
   }
 }
