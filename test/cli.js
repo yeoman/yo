@@ -2,7 +2,6 @@ import path from 'node:path';
 import assert from 'node:assert';
 import process from 'node:process';
 import {execFile} from 'node:child_process';
-import mockery from 'mockery';
 import sinon from 'sinon';
 import pkg from '../lib/utils/project-package.js';
 import {getDirname} from '../lib/utils/node-shims.js';
@@ -19,18 +18,9 @@ describe('bin', () => {
       this.origExit = process.exit;
       const {createEnv} = await import('yeoman-environment');
       this.env = createEnv();
-
-      mockery.enable({
-        warnOnUnregistered: false,
-      });
-
-      mockery.registerMock('yeoman-environment', {
-        createEnv: () => this.env,
-      });
     });
 
     afterEach(function () {
-      mockery.disable();
       process.argv = this.origArgv;
       process.exit = this.origExit;
     });
