@@ -56,7 +56,10 @@ describe('Router', () => {
     });
 
     it('throws on invalid route name', function () {
-      assert.throws(this.router.navigate.bind(this.route, 'invalid route name'));
+      assert.rejects(
+        this.router.navigate.bind(this.router, 'invalid route name'),
+        'No routes called: invalid route name',
+      );
     });
   });
 
