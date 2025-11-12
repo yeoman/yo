@@ -58,7 +58,7 @@
     "open": "^10.2.0",
     "package-json": "^10.0.1",
     "parse-help": "^2.0.0",
-    "read-package-up": "^11.0.0",
+    "read-package-up": "^12.0.0",
     "root-check": "^2.0.0",
     "sort-on": "^7.0.0",
     "string-length": "^6.0.0",
