@@ -46,7 +46,7 @@
     "@yeoman/types": "^1.8.0",
     "chalk": "^5.6.2",
     "cli-list": "^1.0.0",
-    "configstore": "^7.1.0",
+    "configstore": "^8.0.0",
     "cross-spawn": "^7.0.6",
     "figures": "^6.1.0",
     "fullname": "^5.0.0",
