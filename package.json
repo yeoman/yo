@@ -61,7 +61,7 @@
     "read-package-up": "^12.0.0",
     "root-check": "^2.0.0",
     "sort-on": "^7.0.0",
-    "string-length": "^6.0.0",
+    "string-length": "^7.0.1",
     "titleize": "^4.0.0",
     "update-notifier": "^7.3.1",
     "yeoman-character": "^2.0.0",
