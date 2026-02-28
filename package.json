@@ -50,7 +50,7 @@
     "cross-spawn": "^7.0.6",
     "figures": "^6.1.0",
     "fullname": "^5.0.0",
-    "global-agent": "^3.0.0",
+    "global-agent": "^4.1.2",
     "humanize-string": "^3.1.0",
     "lodash": "^4.17.23",
     "meow": "^14.1.0",
