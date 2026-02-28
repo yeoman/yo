@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@yeoman/adapter": "^4.0.2",
-    "@yeoman/types": "^1.8.0",
+    "@yeoman/types": "^1.10.3",
     "chalk": "^5.6.2",
     "cli-list": "^1.0.0",
     "configstore": "^8.0.0",
@@ -52,8 +52,8 @@
     "fullname": "^5.0.0",
     "global-agent": "^3.0.0",
     "humanize-string": "^3.1.0",
-    "lodash": "^4.17.21",
-    "meow": "^14.0.0",
+    "lodash": "^4.17.23",
+    "meow": "^14.1.0",
     "npm-keyword": "^8.0.0",
     "open": "^11.0.0",
     "package-json": "^10.0.1",
@@ -77,8 +77,8 @@
     "globals": "^17.3.0",
     "nock": "^15.0.0",
     "registry-url": "^7.2.0",
-    "sinon": "^21.0.0",
-    "xo": "^1.2.2"
+    "sinon": "^21.0.1",
+    "xo": "^1.2.3"
   },
   "engines": {
     "node": "^20.17.0 || >=22.9.0"
