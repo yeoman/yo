@@ -1,0 +1,55 @@
+name: Create Release Version PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Version bump type'
+        required: true
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-release-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Bump package version
+        id: bump
+        run: |
+          old_version=$(node -p "require('./package.json').version")
+          npm version "${{ github.event.inputs.release_type }}" --no-git-tag-version
+          new_version=$(node -p "require('./package.json').version")
+
+          echo "old_version=$old_version" >> "$GITHUB_OUTPUT"
+          echo "new_version=$new_version" >> "$GITHUB_OUTPUT"
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: chore/release-v${{ steps.bump.outputs.new_version }}
+          commit-message: 'chore(release): bump version to v${{ steps.bump.outputs.new_version }}'
+          title: 'chore(release): bump version to v${{ steps.bump.outputs.new_version }}'
+          body: |
+            Automated release version bump.
+
+            - Previous version: `${{ steps.bump.outputs.old_version }}`
+            - New version: `${{ steps.bump.outputs.new_version }}`
+            - Bump type: `${{ github.event.inputs.release_type }}`
+          labels: release
