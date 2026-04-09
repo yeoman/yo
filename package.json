@@ -1,6 +1,6 @@
 {
   "name": "yo",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "CLI tool for running Yeoman generators",
   "keywords": [
     "cli-app",
