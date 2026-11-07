@@ -2,11 +2,13 @@ import path from 'node:path';
 import assert from 'node:assert';
 import process from 'node:process';
 import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
 import sinon from 'sinon';
 import pkg from '../lib/utils/project-package.js';
 import {getDirname} from '../lib/utils/node-shims.js';
 
 const __dirname = getDirname(import.meta.url);
+const execFileAsync = promisify(execFile);
 
 // Disable update-notifier
 process.env.NODE_ENV = 'test';
@@ -47,6 +49,22 @@ describe('bin', () => {
       })();
     });
   });
+
+  const missingPaths = ['./does/not/exist.js', '../test/does/not/exist.js'];
+  const relativePaths = new Set([...missingPaths, ...missingPaths.map(file => file.replaceAll('/', path.sep))]);
+  for (const generatorPath of relativePaths) {
+    it('should report a missing local generator at ' + generatorPath, async () => {
+      await assert.rejects(
+        execFileAsync(process.execPath, [path.resolve(__dirname, '..', pkg.bin.yo), generatorPath, '--local-only'], {cwd: __dirname}),
+        error => {
+          assert.strictEqual(error.code, 1);
+          assert.ok(error.stderr.includes('The local generator "' + generatorPath + '" does not exist.'), error.stderr);
+          assert.doesNotMatch(error.stderr, /npm install undefined/);
+          return true;
+        },
+      );
+    });
+  }
 
   it('should return the version', callback => {
     const cp = execFile('node', [
