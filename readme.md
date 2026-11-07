@@ -49,6 +49,36 @@ yo ./path/to/local/generator
 - `--local-only` - Disable lookup of globally-installed generators.
 
 
+## Version compatibility
+
+- `yo` is the command-line interface.
+- `yeoman-environment` discovers, loads, and runs generators.
+- `yeoman-generator` provides the base class and helpers for writing generators.
+
+The table shows the Node.js engine and `yeoman-environment` dependency ranges declared in the [published `yo` manifests](https://registry.npmjs.org/yo). Individual generators can have additional requirements.
+
+| `yo` release | Node.js (`engines.node`) | `yeoman-environment` dependency |
+| --- | --- | --- |
+| 3.0.0, 3.1.0, 3.1.1 | `>=8` | `^2.4.0` |
+| 4.0.0 | `>=12.10.0` | `~3.2.0` |
+| 4.1.0 | `>=12.10.0` | `~3.3.0` |
+| 4.2.0 | `>=12.10.0` | `~3.4.0` |
+| 4.3.0, 4.3.1 | `>=12.10.0` | `^3.5.1` |
+| 5.0.0 | `^18.17.0 \|\| >=20.5.0` | `^4.0.0` |
+| 5.1.0 | `^18.17.0 \|\| >=20.5.0` | `^4.4.3` |
+| 6.0.0 | `^20.17.0 \|\| >=22.9.0` | `^5.0.0` |
+| 7.0.0 | `^20.17.0 \|\| >=22.9.0` | `^6.0.0` |
+| 7.0.1 | `^20.17.0 \|\| >=22.9.0` | `^6.0.1` |
+
+To check a specific generator release, inspect its Node.js engine and the ranges in its dependencies and peer dependencies.
+
+```sh
+npm view generator-webapp@3.0.1 engines dependencies peerDependencies
+```
+
+Replace `generator-webapp@3.0.1` with the package and version you plan to use. Look for `yeoman-generator` and `yeoman-environment` in the output. If the generator depends on `yeoman-generator`, check that package's Node.js and environment requirements too.
+
+
 ## Troubleshooting
 
 Running `yo doctor` command can help you troubleshoot common issues.
